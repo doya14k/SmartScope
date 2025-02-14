@@ -33,9 +33,18 @@ class ChannelEnable extends StatefulWidget {
 class _ChannelEnableState extends State<ChannelEnable> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: SizedBox(
-        height: 115,
+    return Container(
+      height:
+          (5 +
+              ActivateChannelFont_Size +
+              CH_Enable_sizedBoxHeight +
+              CH_Enable_height +
+              CH_Enable_sizedBoxHeight +
+              CH_Enable_height +
+              5 +
+              15),
+      child: Card(
+        color: ChannelEnableBackgroundColor,
         child: Container(
           margin: EdgeInsets.all(5.0),
           child: Column(
@@ -46,11 +55,20 @@ class _ChannelEnableState extends State<ChannelEnable> {
                 style: TextStyle(
                   fontFamily: 'PrimaryFont',
                   fontWeight: FontWeight.bold,
+                  fontSize: ActivateChannelFont_Size,
                 ),
               ),
-              SizedBox(height: 10.0),
+              SizedBox(height: CH_Enable_sizedBoxHeight),
+              // .-----------------.
+              // |  ____ _   _   _ |
+              // | / ___| | | | / ||
+              // || |   | |_| | | ||
+              // || |___|  _  | | ||
+              // | \____|_| |_| |_||
+              // '-----------------'
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
+                  fixedSize: Size(CH_Enable_width, CH_Enable_height),
                   backgroundColor: isCH1_activated ? ch1Color : clear,
                 ),
                 onPressed: () {
@@ -63,14 +81,23 @@ class _ChannelEnableState extends State<ChannelEnable> {
                   style: TextStyle(
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: isCH1_activated ? Colors.black : ch1Color,
+                    fontSize: ActivateChannelFontSize,
+                    color:
+                        isCH1_activated ? ChannelSelected_fontColor : ch1Color,
                   ),
                 ),
               ),
-              SizedBox(height: 5.0),
+              SizedBox(height: CH_Enable_sizedBoxHeight),
+              // .---------------------.
+              // |  ____ _   _   ____  |
+              // | / ___| | | | |___ \ |
+              // || |   | |_| |   __) ||
+              // || |___|  _  |  / __/ |
+              // | \____|_| |_| |_____||
+              // '---------------------'
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
+                  fixedSize: Size(CH_Enable_width, CH_Enable_height),
                   backgroundColor: isCH2_activated ? ch2Color : clear,
                 ),
                 onPressed: () {
@@ -83,8 +110,9 @@ class _ChannelEnableState extends State<ChannelEnable> {
                   style: TextStyle(
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: isCH2_activated ? Colors.black : ch2Color,
+                    fontSize: ActivateChannelFontSize,
+                    color:
+                        isCH2_activated ? ChannelSelected_fontColor : ch2Color,
                   ),
                 ),
               ),

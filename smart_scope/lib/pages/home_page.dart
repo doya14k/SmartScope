@@ -5,8 +5,6 @@ import 'settings_pages/settings_widgets/definitions.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  final int MonitorSizePercentage = 62;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,10 +40,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: (100 - MonitorSizePercentage),
-            child: Container(child: SettingsMenu()),
-          ),
+          Expanded(flex: (100 - MonitorSizePercentage), child: SettingsMenu()),
         ],
       ),
     );
