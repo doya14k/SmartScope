@@ -11,6 +11,7 @@ class SignalPage extends StatefulWidget {
 }
 
 class _SignalPageState extends State<SignalPage> {
+
   void updateSlider(double delta) {
     setState(() {
       currentsliderValue = (currentsliderValue - delta / 100).clamp(0.0, 100.0);
@@ -48,7 +49,7 @@ class _SignalPageState extends State<SignalPage> {
                 quarterTurns: -1,
                 child: Slider(
                   value: currentsliderValue,
-                  min: 0.0,
+                  min: 1.0,
                   max: 100.0,
                   divisions: 100,
                   onChanged: (double value) {

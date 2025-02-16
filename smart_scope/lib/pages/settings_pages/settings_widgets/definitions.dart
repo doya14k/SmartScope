@@ -26,9 +26,18 @@ double CH_Enable_height = 50;
 double CH_Enable_sizedBoxHeight = 10.0;
 double ActivateChannelFont_Size = 15;
 
-int MonitorSizePercentage = 62;
+int MonitorSizePercentage = 70;
 
 // Monitoring Chart Widget Parameters
 Color CharBackgroundColor = Colors.black;
 
 double currentsliderValue = 6;
+double timeValue = 10;
+
+// Grid Values
+double NOF_xGrids = 12;
+double NOF_yGrids = 8;
+Color BaseLineColor = Color.fromRGBO(255, 255, 255, 0.75);
+Color GridLineColor = Color.fromRGBO(255, 255, 255, 0.35);
+
+
