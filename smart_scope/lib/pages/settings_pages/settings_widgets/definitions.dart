@@ -27,3 +27,8 @@ double CH_Enable_sizedBoxHeight = 10.0;
 double ActivateChannelFont_Size = 15;
 
 int MonitorSizePercentage = 62;
+
+// Monitoring Chart Widget Parameters
+Color CharBackgroundColor = Colors.black;
+
+double currentsliderValue = 6;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_scope/pages/monitoring_page.dart';
 import 'settings_pages/signal_page.dart';
 import 'settings_pages/settings_widgets/definitions.dart';
 
@@ -27,12 +28,7 @@ class HomePage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Image.asset(
-                            'images/oscilloscope_signal.jpg',
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ],
+                        children: [MonitoringPage()],
                       ),
                     ),
                   ],

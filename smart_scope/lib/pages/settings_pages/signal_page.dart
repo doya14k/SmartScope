@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'settings_widgets/channel_enable.dart';
+import 'settings_widgets/definitions.dart';
 
 class SignalPage extends StatefulWidget {
   const SignalPage({super.key});
@@ -10,8 +11,6 @@ class SignalPage extends StatefulWidget {
 }
 
 class _SignalPageState extends State<SignalPage> {
-  double currentsliderValue = 0;
-
   void updateSlider(double delta) {
     setState(() {
       currentsliderValue = (currentsliderValue - delta / 100).clamp(0.0, 100.0);
@@ -31,7 +30,6 @@ class _SignalPageState extends State<SignalPage> {
           icon: Icon(Icons.settings),
           hoverColor: Colors.blue,
         ),
-
         // ElevatedButton(onPressed: () {}, child: Text("Elevated")),
         // OutlinedButton(onPressed: () {}, child: Text("Outlined")),
         Center(
