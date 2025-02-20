@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'settings_pages/settings_widgets/definitions.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:provider/provider.dart';
 
 List<FlSpot> generateSineWave({
   double numPoints = 300,
@@ -50,14 +51,14 @@ class _MonitoringPageState extends State<MonitoringPage> {
                       FlClipData.all(), // Ensures that the line stays in the Chart
                   baselineX: 0.0,
                   baselineY: 0.0,
-                  maxY: currentsliderValue,
-                  minY: -currentsliderValue,
-                  maxX: timeValue,
-                  minX: -timeValue,
+                  maxY: Provider.of<AppState>(context).currentsliderValue,
+                  minY: -Provider.of<AppState>(context).currentsliderValue,
+                  maxX: Provider.of<AppState>(context).timeValue,
+                  minX: -Provider.of<AppState>(context).timeValue,
                   // Grid Data
                   gridData: FlGridData(
-                    horizontalInterval: ((2 * currentsliderValue) / NOF_yGrids),
-                    verticalInterval: ((2 * timeValue) / NOF_xGrids),
+                    horizontalInterval: ((2 * Provider.of<AppState>(context).currentsliderValue) / NOF_yGrids),
+                    verticalInterval: ((2 * Provider.of<AppState>(context).timeValue) / NOF_xGrids),
                     getDrawingHorizontalLine:
                         (value) => FlLine(
                           color: GridLineColor,

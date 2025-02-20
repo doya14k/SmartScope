@@ -31,13 +31,33 @@ int MonitorSizePercentage = 70;
 // Monitoring Chart Widget Parameters
 Color CharBackgroundColor = Colors.black;
 
-double currentsliderValue = 6;
-double timeValue = 10;
-
 // Grid Values
 double NOF_xGrids = 12;
 double NOF_yGrids = 8;
 Color BaseLineColor = Color.fromRGBO(255, 255, 255, 0.75);
 Color GridLineColor = Color.fromRGBO(255, 255, 255, 0.35);
 
+// ChangeNotifiere Class
+class AppState extends ChangeNotifier {
+  double _currentsliderValue =
+      6; // 🔹 Private Variable, um direkte Manipulation zu verhindern
+  double timeValue = 10;
 
+  double get currentsliderValue => _currentsliderValue; // Getter für den Wert
+
+  void updateSliderValue(double newValue) {
+    _currentsliderValue = newValue.clamp(
+      1.0,
+      100.0,
+    ); // Sicherstellen, dass der Wert im Bereich bleibt
+    notifyListeners(); // 🔥 Alle Listener informieren
+  }
+
+  void updateTimeValue(double newValue) {
+    timeValue = newValue.clamp(
+      0.0001,
+      100.0,
+    ); // Sicherstellen, dass der Wert im Bereich bleibt
+    notifyListeners(); // 🔥 Alle Listener informieren
+  }
+}
