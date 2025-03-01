@@ -16,7 +16,7 @@ class _USB_SelectState extends State<USB_Select> {
   @override
   void initState() {
     super.initState();
-    updatePorts(); // Ports beim Start abrufen
+    updatePorts(); 
   }
 
   void updatePorts() {
