@@ -1,10 +1,90 @@
-
+import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:serial_port_win32/serial_port_win32.dart';
 // import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'home_page.dart';
-import 'dart:async';
 import 'settings_pages/settings_widgets/definitions.dart';
+
+class SerialPortReader {
+  SerialPort? port;
+  StreamController<String> dataController =
+      StreamController<String>.broadcast();
+  Timer? readTimer;
+
+  void openPort(String portName) {
+    port = SerialPort(portName, openNow: true, BaudRate: 9600);
+
+    if (port!.isOpened) {
+      print("Port $portName erfolgreich geöffnet!");
+      startReading();
+    } else {
+      print("Fehler beim Öffnen des Ports $portName");
+    }
+  }
+
+  void startReading() {
+    if (port == null || !port!.isOpened) return;
+
+    readTimer = Timer.periodic(Duration(milliseconds: 100), (timer) async {
+      Uint8List? data = await port!.readBytes(
+        64,
+        timeout: Duration(milliseconds: 50),
+      );
+
+      if (data.isNotEmpty) {
+        String receivedString = String.fromCharCodes(data);
+        print("Empfangene Daten: $receivedString");
+
+        // Daten in den Stream senden
+        dataController.add(receivedString);
+      }
+    });
+  }
+
+  void closePort() {
+    readTimer?.cancel();
+    port?.close();
+    dataController.close();
+    print("Port geschlossen.");
+  }
+}
+
+SerialPort? port;
+StreamSubscription<Uint8List>? subscription;
+
+void openPort(String portName) {
+  port = SerialPort(portName, openNow: true, BaudRate: 9600);
+
+  if (port!.isOpened) {
+    print("Port $portName erfolgreich geöffnet!");
+    startReading();
+  } else {
+    print("Fehler beim Öffnen des Ports $portName");
+  }
+}
+
+void startReading() async {
+  if (port == null || !port!.isOpened) return;
+
+  Timer.periodic(Duration(milliseconds: 100), (timer) async {
+    Uint8List? data = await port!.readBytes(
+      64,
+      timeout: Duration(milliseconds: 50),
+    );
+
+    if (data.isNotEmpty) {
+      String receivedString = String.fromCharCodes(data);
+      print("Empfangene Daten: $receivedString");
+    }
+  });
+}
+
+void closePort() {
+  port?.close();
+  subscription?.cancel();
+  print("Port geschlossen.");
+}
 
 class USB_Select extends StatefulWidget {
   const USB_Select({super.key});
@@ -17,11 +97,19 @@ class _USB_SelectState extends State<USB_Select> {
   List<String> availablePorts = [];
   Timer? updatePortsTimer;
   SerialPort? selectedPort;
+  SerialPortReader serialReader = SerialPortReader();
+
+  String receivedData = "";
 
   @override
   void initState() {
     super.initState();
     updatePorts();
+    serialReader.dataController.stream.listen((data) {
+      setState(() {
+        receivedData = data; // UI aktualisieren, wenn neue Daten kommen
+      });
+    });
   }
 
   void updatePorts() {
@@ -43,9 +131,11 @@ class _USB_SelectState extends State<USB_Select> {
 
   void pressedPortSelector(String currentPort) {
     print('$currentPort selected');
-    if (selectedPort?.isOpened ?? false) {
-      selectedPort?.close();
-    }
+ // Falls bereits ein Port offen ist, vorher schließen
+  if (selectedPort != null && selectedPort!.isOpened) {
+    print("Schliesse vorherigen Port: ${selectedPort!.portName}");
+    selectedPort!.close();
+  }
 
     selectedPort = SerialPort(
       currentPort,
@@ -130,6 +220,7 @@ class _USB_SelectState extends State<USB_Select> {
                                                   pressedPortSelector(
                                                     currentPort,
                                                   );
+                                                  serialReader.openPort(currentPort);
                                                 },
                                                 child: Text(
                                                   currentPort,
