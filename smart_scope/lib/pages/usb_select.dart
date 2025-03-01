@@ -12,6 +12,7 @@ class USB_Select extends StatefulWidget {
 
 class _USB_SelectState extends State<USB_Select> {
   List<String> ports = [];
+  Timer? updatePortsTimer;
 
   @override
   void initState() {
@@ -20,12 +21,11 @@ class _USB_SelectState extends State<USB_Select> {
   }
 
   void updatePorts() {
-    Timer.periodic(Duration(milliseconds: 250), (timer) {
+    updatePortsTimer = Timer.periodic(Duration(milliseconds: 250), (timer) {
       setState(() {
-      ports = SerialPort.getAvailablePorts();
-      print("Aktualisierte Ports: $ports");
-      }
-      );
+        ports = SerialPort.getAvailablePorts();
+        print("Aktualisierte Ports: $ports");
+      });
     });
   }
 
@@ -39,8 +39,8 @@ class _USB_SelectState extends State<USB_Select> {
             width: 100,
             child: FloatingActionButton(
               child: Text("Switch"),
-
               onPressed: () {
+                updatePortsTimer?.cancel();
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),
@@ -48,7 +48,6 @@ class _USB_SelectState extends State<USB_Select> {
               },
             ),
           ),
-
           Center(
             child: Column(
               children: [
