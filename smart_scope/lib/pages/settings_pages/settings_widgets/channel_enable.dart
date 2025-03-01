@@ -33,7 +33,7 @@ class ChannelEnable extends StatefulWidget {
 class _ChannelEnableState extends State<ChannelEnable> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height:
           (5 +
               ActivateChannelFont_Size +

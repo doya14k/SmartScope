@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:serial_port_win32/serial_port_win32.dart';
 // import 'package:flutter_libserialport/flutter_libserialport.dart';
@@ -15,6 +16,7 @@ class USB_Select extends StatefulWidget {
 class _USB_SelectState extends State<USB_Select> {
   List<String> availablePorts = [];
   Timer? updatePortsTimer;
+  SerialPort? selectedPort;
 
   @override
   void initState() {
@@ -26,8 +28,7 @@ class _USB_SelectState extends State<USB_Select> {
     updatePortsTimer = Timer.periodic(Duration(milliseconds: 250), (timer) {
       setState(() {
         availablePorts = SerialPort.getAvailablePorts();
-        // availablePorts = SerialPort.availablePorts;
-        print("Aktualisierte Ports: $availablePorts");
+        print("Available Ports: $availablePorts");
       });
     });
   }
@@ -40,10 +41,27 @@ class _USB_SelectState extends State<USB_Select> {
     );
   }
 
-  void pressedPortSelector(currentPort) {
-    print('${currentPort} selected');
+  void pressedPortSelector(String currentPort) {
+    print('$currentPort selected');
+    if (selectedPort?.isOpened ?? false) {
+      selectedPort?.close();
+    }
+
+    selectedPort = SerialPort(
+      currentPort,
+      openNow: true,
+      ByteSize: 8,
+      BaudRate: 9600,
+    );
+    selectedPort?.open();
+    if (selectedPort?.isOpened ?? false) {
+      print("Port $currentPort erfolgreich geöffnet!");
+    } else {
+      print("Fehler beim Öffnen des Ports $currentPort");
+    }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -114,7 +132,7 @@ class _USB_SelectState extends State<USB_Select> {
                                                   );
                                                 },
                                                 child: Text(
-                                                  '${currentPort}',
+                                                  currentPort,
                                                   style: TextStyle(
                                                     fontSize: 40,
                                                     fontFamily: 'PrimaryFont',
@@ -138,6 +156,11 @@ class _USB_SelectState extends State<USB_Select> {
                             height: 30,
                             width: 100,
                             child: FloatingActionButton(
+                              onPressed: () {
+                                switchToMonitorPage();
+                              },
+                              backgroundColor: Colors.grey[400],
+                              hoverColor: Colors.grey[450],
                               child: Text(
                                 "Apply",
                                 style: TextStyle(
@@ -149,11 +172,6 @@ class _USB_SelectState extends State<USB_Select> {
                                   letterSpacing: 1,
                                 ),
                               ),
-                              onPressed: () {
-                                switchToMonitorPage();
-                              },
-                              backgroundColor: Colors.grey[400],
-                              hoverColor: Colors.grey[450],
                             ),
                           ),
                         ],
