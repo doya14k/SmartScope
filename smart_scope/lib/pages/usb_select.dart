@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:serial_port_win32/serial_port_win32.dart';
@@ -53,17 +54,6 @@ class SerialPortReader {
 SerialPort? port;
 StreamSubscription<Uint8List>? subscription;
 
-void openPort(String portName) {
-  port = SerialPort(portName, openNow: true, BaudRate: 9600);
-
-  if (port!.isOpened) {
-    print("Port $portName erfolgreich geöffnet!");
-    startReading();
-  } else {
-    print("Fehler beim Öffnen des Ports $portName");
-  }
-}
-
 void startReading() async {
   if (port == null || !port!.isOpened) return;
 
@@ -97,7 +87,7 @@ class _USB_SelectState extends State<USB_Select> {
   List<String> availablePorts = [];
   Timer? updatePortsTimer;
   SerialPort? selectedPort;
-  SerialPortReader serialReader = SerialPortReader();
+  var serialReader = SerialPortReader();
 
   String receivedData = "";
 
@@ -131,11 +121,11 @@ class _USB_SelectState extends State<USB_Select> {
 
   void pressedPortSelector(String currentPort) {
     print('$currentPort selected');
- // Falls bereits ein Port offen ist, vorher schließen
-  if (selectedPort != null && selectedPort!.isOpened) {
-    print("Schliesse vorherigen Port: ${selectedPort!.portName}");
-    selectedPort!.close();
-  }
+    // Falls bereits ein Port offen ist, vorher schließen
+    if (selectedPort != null && selectedPort!.isOpened) {
+      print("Schliesse vorherigen Port: ${selectedPort!.portName}");
+      selectedPort!.close();
+    }
 
     selectedPort = SerialPort(
       currentPort,
@@ -188,7 +178,7 @@ class _USB_SelectState extends State<USB_Select> {
                         ),
                       ),
                       SizedBox(
-                        height: 500,
+                        height: 100,
                         width: 400,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -199,44 +189,46 @@ class _USB_SelectState extends State<USB_Select> {
                               width: 2,
                             ),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children:
-                                availablePorts
-                                    .map(
-                                      (currentPort) => Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: GestureDetector(
-                                              behavior: HitTestBehavior.opaque,
-                                              onDoubleTap: () {
-                                                switchToMonitorPage();
-                                              },
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  pressedPortSelector(
-                                                    currentPort,
-                                                  );
-                                                  serialReader.openPort(currentPort);
-                                                },
-                                                child: Text(
-                                                  currentPort,
-                                                  style: TextStyle(
-                                                    fontSize: 40,
-                                                    fontFamily: 'PrimaryFont',
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ),
+                          child: Scrollbar(
+                            thumbVisibility: true,
+                            thickness: 20.0,
+                            trackVisibility: false,
+                            child: ListView.builder(
+                              itemCount: availablePorts.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: GestureDetector(
+                                        behavior: HitTestBehavior.opaque,
+                                        onDoubleTap: () {
+                                          switchToMonitorPage();
+                                        },
+                                        child: TextButton(
+                                          onPressed: () {
+                                            pressedPortSelector(
+                                              availablePorts[index],
+                                            );
+                                            serialReader.openPort(
+                                              availablePorts[index],
+                                            );
+                                          },
+                                          child: Text(
+                                            availablePorts[index],
+                                            style: TextStyle(
+                                              fontSize: 40,
+                                              fontFamily: 'PrimaryFont',
+                                              color: Colors.black,
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    )
-                                    .toList(),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
