@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:serial_port_win32/serial_port_win32.dart';
 
 // Interface Layout
 Color AppBarBackroundColor = Colors.grey.shade300;
@@ -61,3 +62,5 @@ class AppState extends ChangeNotifier {
     notifyListeners(); // 🔥 Alle Listener informieren
   }
 }
+
+SerialPort? selectedPort;

@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:serial_port_win32/serial_port_win32.dart';
 // import 'package:flutter_libserialport/flutter_libserialport.dart';
-import 'home_page.dart';
 import 'settings_pages/settings_widgets/definitions.dart';
 
 class SerialPortReader {
@@ -86,8 +84,8 @@ class USB_Select extends StatefulWidget {
 class _USB_SelectState extends State<USB_Select> {
   List<String> availablePorts = [];
   Timer? updatePortsTimer;
-  SerialPort? selectedPort;
   var serialReader = SerialPortReader();
+  final ScrollController _scrollController = ScrollController();
 
   String receivedData = "";
 
@@ -113,10 +111,7 @@ class _USB_SelectState extends State<USB_Select> {
 
   void switchToMonitorPage() {
     updatePortsTimer?.cancel();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
+    Navigator.pushReplacementNamed(context, '/HomePage');
   }
 
   void pressedPortSelector(String currentPort) {
@@ -178,7 +173,7 @@ class _USB_SelectState extends State<USB_Select> {
                         ),
                       ),
                       SizedBox(
-                        height: 100,
+                        height: 100, // 500
                         width: 400,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -190,10 +185,13 @@ class _USB_SelectState extends State<USB_Select> {
                             ),
                           ),
                           child: Scrollbar(
+                            controller: _scrollController,
+                            scrollbarOrientation: ScrollbarOrientation.right,
                             thumbVisibility: true,
-                            thickness: 20.0,
+                            thickness: 15.0,
                             trackVisibility: false,
                             child: ListView.builder(
+                              controller: _scrollController,
                               itemCount: availablePorts.length,
                               itemBuilder: (BuildContext context, int index) {
                                 return Row(
@@ -203,14 +201,32 @@ class _USB_SelectState extends State<USB_Select> {
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.opaque,
                                         onDoubleTap: () {
+                                          serialReader.openPort(
+                                            availablePorts[index],
+                                          );
+                                          pressedPortSelector(
+                                            availablePorts[index],
+                                          );
                                           switchToMonitorPage();
                                         },
                                         child: TextButton(
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                WidgetStatePropertyAll(
+                                                  selectedPort?.portName ==
+                                                          availablePorts[index]
+                                                      ? MonitorBackroundColor
+                                                      : Colors.transparent,
+                                                ),
+                                            animationDuration: Duration.zero,
+                                            splashFactory:
+                                                NoSplash.splashFactory,
+                                          ),
                                           onPressed: () {
-                                            pressedPortSelector(
+                                            serialReader.openPort(
                                               availablePorts[index],
                                             );
-                                            serialReader.openPort(
+                                            pressedPortSelector(
                                               availablePorts[index],
                                             );
                                           },
@@ -236,8 +252,8 @@ class _USB_SelectState extends State<USB_Select> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           SizedBox(
-                            height: 30,
-                            width: 100,
+                            height: selectedPort != null ? 30 : 0,
+                            width: selectedPort != null ? 100 : 0,
                             child: FloatingActionButton(
                               onPressed: () {
                                 switchToMonitorPage();

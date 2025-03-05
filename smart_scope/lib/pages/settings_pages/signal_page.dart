@@ -45,7 +45,7 @@ class _SignalPageState extends State<SignalPage> {
         // OutlinedButton(onPressed: () {}, child: Text("Outlined")),
         Center(
           child: Container(
-            color: Colors.amber,
+            color: Colors.grey[400],
             height: 200.0,
             width: 30.0,
             child: Listener(
@@ -57,17 +57,27 @@ class _SignalPageState extends State<SignalPage> {
               },
               child: RotatedBox(
                 quarterTurns: -1,
-                child: Slider(
-                  value: Provider.of<AppState>(context).currentsliderValue,
-                  min: 1.0,
-                  max: 100.0,
-                  divisions: 100,
-                  onChanged: (double value) {
-                    Provider.of<AppState>(
-                      context,
-                      listen: false,
-                    ).updateSliderValue(value);
-                  },
+                child: SliderTheme(
+                  data: SliderThemeData(
+                    trackShape: RectangularSliderTrackShape(),
+                    trackHeight: 3.0,
+                    activeTrackColor: Colors.white,
+                    inactiveTrackColor: Colors.white,
+                    thumbColor: Colors.black,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                  ),
+                  child: Slider(
+                    value: Provider.of<AppState>(context).currentsliderValue,
+                    min: 1.0,
+                    max: 100.0,
+                    divisions: 100,
+                    onChanged: (double value) {
+                      Provider.of<AppState>(
+                        context,
+                        listen: false,
+                      ).updateSliderValue(value);
+                    },
+                  ),
                 ),
               ),
             ),
@@ -76,7 +86,7 @@ class _SignalPageState extends State<SignalPage> {
 
         Center(
           child: Container(
-            color: Colors.amber,
+            color: Colors.grey[400],
             height: 200.0,
             width: 30.0,
             child: Listener(
@@ -88,17 +98,28 @@ class _SignalPageState extends State<SignalPage> {
               },
               child: RotatedBox(
                 quarterTurns: -1,
-                child: Slider(
-                  value: Provider.of<AppState>(context).timeValue,
-                  min: 0.0001,
-                  max: 100.0,
-                  divisions: 100,
-                  onChanged: (double value) {
-                    Provider.of<AppState>(
-                      context,
-                      listen: false,
-                    ).updateTimeValue(value);
-                  },
+                child: SliderTheme(
+                  data: SliderThemeData(
+                    trackShape: RectangularSliderTrackShape(),
+                    trackHeight: 3.0,
+                    activeTrackColor: Colors.white,
+                    inactiveTrackColor: Colors.white,
+                    thumbColor: Colors.black,
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                  ),
+                  child: Slider(
+                    value: Provider.of<AppState>(context).timeValue,
+                    min: 0.0001,
+                    max: 100.0,
+                    divisions: 100,
+
+                    onChanged: (double value) {
+                      Provider.of<AppState>(
+                        context,
+                        listen: false,
+                      ).updateTimeValue(value);
+                    },
+                  ),
                 ),
               ),
             ),

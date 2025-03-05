@@ -3,6 +3,7 @@ import 'dart:math';
 import 'settings_pages/settings_widgets/definitions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
+import 'package:serial_port_win32/serial_port_win32.dart';
 
 List<FlSpot> generateSineWave({
   double numPoints = 300,
@@ -39,86 +40,138 @@ class _MonitoringPageState extends State<MonitoringPage> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Scaffold(
-        body: Center(
-          child: Padding(
-            padding: EdgeInsets.all(20.0),
-            child: SizedBox(
-              height: 700,
-              child: LineChart(
-                LineChartData(
-                  backgroundColor: CharBackgroundColor,
-                  clipData:
-                      FlClipData.all(), // Ensures that the line stays in the Chart
-                  baselineX: 0.0,
-                  baselineY: 0.0,
-                  maxY: Provider.of<AppState>(context).currentsliderValue,
-                  minY: -Provider.of<AppState>(context).currentsliderValue,
-                  maxX: Provider.of<AppState>(context).timeValue,
-                  minX: -Provider.of<AppState>(context).timeValue,
-                  // Grid Data
-                  gridData: FlGridData(
-                    horizontalInterval: ((2 * Provider.of<AppState>(context).currentsliderValue) / NOF_yGrids),
-                    verticalInterval: ((2 * Provider.of<AppState>(context).timeValue) / NOF_xGrids),
-                    getDrawingHorizontalLine:
-                        (value) => FlLine(
-                          color: GridLineColor,
-                          strokeWidth: 1.0,
-                          dashArray: [4, 4],
-                        ),
-                    getDrawingVerticalLine:
-                        (value) => FlLine(
-                          color: GridLineColor,
-                          strokeWidth: 1.0,
-                          dashArray: [4, 4],
-                        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/USB_Select');
+                    },
+                    icon: Icon(Icons.arrow_back_sharp),
+                    tooltip: 'Return to Port-Select',
                   ),
-                  // Titles off
-                  titlesData: FlTitlesData(show: false),
-                  lineBarsData: [
-                    LineChartBarData(
-                      show: true,
-                      spots: plotData,
-                      color: ch1Color,
-                      barWidth: 3.0,
-                      isCurved: false,
-                      dotData: FlDotData(show: false),
+                ],
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: SizedBox(
+                  height: 700,
+                  child: LineChart(
+                    LineChartData(
+                      backgroundColor: CharBackgroundColor,
+                      clipData:
+                          FlClipData.all(), // Ensures that the line stays in the Chart
+                      baselineX: 0.0,
+                      baselineY: 0.0,
+                      maxY: Provider.of<AppState>(context).currentsliderValue,
+                      minY: -Provider.of<AppState>(context).currentsliderValue,
+                      maxX: Provider.of<AppState>(context).timeValue,
+                      minX: -Provider.of<AppState>(context).timeValue,
+                      // Grid Data
+                      gridData: FlGridData(
+                        horizontalInterval:
+                            ((2 *
+                                    Provider.of<AppState>(
+                                      context,
+                                    ).currentsliderValue) /
+                                NOF_yGrids),
+                        verticalInterval:
+                            ((2 * Provider.of<AppState>(context).timeValue) /
+                                NOF_xGrids),
+                        getDrawingHorizontalLine:
+                            (value) => FlLine(
+                              color: GridLineColor,
+                              strokeWidth: 1.0,
+                              dashArray: [4, 4],
+                            ),
+                        getDrawingVerticalLine:
+                            (value) => FlLine(
+                              color: GridLineColor,
+                              strokeWidth: 1.0,
+                              dashArray: [4, 4],
+                            ),
+                      ),
+                      // Titles off
+                      titlesData: FlTitlesData(show: false),
+                      lineBarsData: [
+                        LineChartBarData(
+                          show: true,
+                          spots: plotData,
+                          color: ch1Color,
+                          barWidth: 3.0,
+                          isCurved: false,
+                          dotData: FlDotData(show: false),
+                        ),
+                      ],
+                      lineTouchData: LineTouchData(
+                        enabled: false,
+                      ), // disable the linetouchdata
+                      extraLinesData: ExtraLinesData(
+                        horizontalLines: [
+                          HorizontalLine(
+                            y: 0,
+                            color: CharBackgroundColor,
+                            strokeWidth: 1,
+                          ),
+                          HorizontalLine(
+                            y: 0,
+                            color: BaseLineColor,
+                            strokeWidth: 1.5,
+                            dashArray: [5, 5],
+                          ),
+                        ],
+                        verticalLines: [
+                          VerticalLine(
+                            x: 0,
+                            color: CharBackgroundColor,
+                            strokeWidth: 1,
+                          ),
+                          VerticalLine(
+                            x: 0,
+                            color: BaseLineColor,
+                            strokeWidth: 1.5,
+                            dashArray: [5, 5],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                  lineTouchData: LineTouchData(
-                    enabled: false,
-                  ), // disable the linetouchdata
-                  extraLinesData: ExtraLinesData(
-                    horizontalLines: [
-                      HorizontalLine(
-                        y: 0,
-                        color: CharBackgroundColor,
-                        strokeWidth: 1,
-                      ),
-                      HorizontalLine(
-                        y: 0,
-                        color: BaseLineColor,
-                        strokeWidth: 1.5,
-                        dashArray: [5, 5],
-                      ),
-                    ],
-                    verticalLines: [
-                      VerticalLine(
-                        x: 0,
-                        color: CharBackgroundColor,
-                        strokeWidth: 1,
-                      ),
-                      VerticalLine(
-                        x: 0,
-                        color: BaseLineColor,
-                        strokeWidth: 1.5,
-                        dashArray: [5, 5],
-                      ),
-                    ],
                   ),
                 ),
               ),
             ),
-          ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          color: Colors.grey[400],
+                          child: Text(
+                            'Selected Port: ${selectedPort!.portName}',
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

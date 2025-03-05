@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_scope/pages/usb_select.dart';
 import 'package:provider/provider.dart';
+import 'pages/home_page.dart';
 import 'pages/settings_pages/settings_widgets/definitions.dart';
 
 void main() {
@@ -19,6 +20,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: USB_Select(), debugShowCheckedModeBanner: false);
+    return MaterialApp(
+      // home: USB_Select(),
+      initialRoute: '/USB_Select', 
+      routes: {
+        '/USB_Select': (context) => USB_Select(),
+        '/HomePage': (context) => HomePage(),
+      },
+      debugShowCheckedModeBanner: false);
   }
 }
