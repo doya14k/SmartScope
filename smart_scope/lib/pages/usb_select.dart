@@ -1,78 +1,8 @@
 import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:serial_port_win32/serial_port_win32.dart';
-// import 'package:flutter_libserialport/flutter_libserialport.dart';
 import 'settings_pages/settings_widgets/definitions.dart';
-
-class SerialPortReader {
-  SerialPort? port;
-  StreamController<String> dataController =
-      StreamController<String>.broadcast();
-  Timer? readTimer;
-
-  void openPort(String portName) {
-    port = SerialPort(portName, openNow: true, BaudRate: 9600);
-
-    if (port!.isOpened) {
-      print("Port $portName erfolgreich geöffnet!");
-      startReading();
-    } else {
-      print("Fehler beim Öffnen des Ports $portName");
-    }
-  }
-
-  void startReading() {
-    if (port == null || !port!.isOpened) return;
-
-    readTimer = Timer.periodic(Duration(milliseconds: 100), (timer) async {
-      Uint8List? data = await port!.readBytes(
-        64,
-        timeout: Duration(milliseconds: 50),
-      );
-
-      if (data.isNotEmpty) {
-        String receivedString = String.fromCharCodes(data);
-        print("Empfangene Daten: $receivedString");
-
-        // Daten in den Stream senden
-        dataController.add(receivedString);
-      }
-    });
-  }
-
-  void closePort() {
-    readTimer?.cancel();
-    port?.close();
-    dataController.close();
-    print("Port geschlossen.");
-  }
-}
-
-SerialPort? port;
-StreamSubscription<Uint8List>? subscription;
-
-void startReading() async {
-  if (port == null || !port!.isOpened) return;
-
-  Timer.periodic(Duration(milliseconds: 100), (timer) async {
-    Uint8List? data = await port!.readBytes(
-      64,
-      timeout: Duration(milliseconds: 50),
-    );
-
-    if (data.isNotEmpty) {
-      String receivedString = String.fromCharCodes(data);
-      print("Empfangene Daten: $receivedString");
-    }
-  });
-}
-
-void closePort() {
-  port?.close();
-  subscription?.cancel();
-  print("Port geschlossen.");
-}
+import 'package:smart_scope/usb_reader.dart';
 
 class USB_Select extends StatefulWidget {
   const USB_Select({super.key});
@@ -84,20 +14,11 @@ class USB_Select extends StatefulWidget {
 class _USB_SelectState extends State<USB_Select> {
   List<String> availablePorts = [];
   Timer? updatePortsTimer;
-  var serialReader = SerialPortReader();
   final ScrollController _scrollController = ScrollController();
-
-  String receivedData = "";
-
   @override
   void initState() {
     super.initState();
     updatePorts();
-    serialReader.dataController.stream.listen((data) {
-      setState(() {
-        receivedData = data; // UI aktualisieren, wenn neue Daten kommen
-      });
-    });
   }
 
   void updatePorts() {
@@ -117,23 +38,23 @@ class _USB_SelectState extends State<USB_Select> {
   void pressedPortSelector(String currentPort) {
     print('$currentPort selected');
     // Falls bereits ein Port offen ist, vorher schließen
-    if (selectedPort != null && selectedPort!.isOpened) {
-      print("Schliesse vorherigen Port: ${selectedPort!.portName}");
-      selectedPort!.close();
-    }
+    // if (selectedPort != null && selectedPort!.isOpened) {
+    //   print("Schliesse vorherigen Port: ${selectedPort!.portName}");
+    //   selectedPort!.close();
+    // }
 
     selectedPort = SerialPort(
       currentPort,
-      openNow: true,
+      openNow: false,
       ByteSize: 8,
       BaudRate: 9600,
     );
-    selectedPort?.open();
-    if (selectedPort?.isOpened ?? false) {
-      print("Port $currentPort erfolgreich geöffnet!");
-    } else {
-      print("Fehler beim Öffnen des Ports $currentPort");
-    }
+    // selectedPort?.open();
+    // if (selectedPort?.isOpened ?? false) {
+    //   print("Port $currentPort erfolgreich geöffnet!");
+    // } else {
+    //   print("Fehler beim Öffnen des Ports $currentPort");
+    // }
   }
 
   @override
@@ -173,7 +94,7 @@ class _USB_SelectState extends State<USB_Select> {
                         ),
                       ),
                       SizedBox(
-                        height: 100, // 500
+                        height: 500, // 500
                         width: 400,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -201,12 +122,10 @@ class _USB_SelectState extends State<USB_Select> {
                                       child: GestureDetector(
                                         behavior: HitTestBehavior.opaque,
                                         onDoubleTap: () {
-                                          serialReader.openPort(
-                                            availablePorts[index],
-                                          );
                                           pressedPortSelector(
                                             availablePorts[index],
                                           );
+                                          openPort(availablePorts[index]);
                                           switchToMonitorPage();
                                         },
                                         child: TextButton(
@@ -223,9 +142,6 @@ class _USB_SelectState extends State<USB_Select> {
                                                 NoSplash.splashFactory,
                                           ),
                                           onPressed: () {
-                                            serialReader.openPort(
-                                              availablePorts[index],
-                                            );
                                             pressedPortSelector(
                                               availablePorts[index],
                                             );
@@ -256,6 +172,7 @@ class _USB_SelectState extends State<USB_Select> {
                             width: selectedPort != null ? 100 : 0,
                             child: FloatingActionButton(
                               onPressed: () {
+                                openPort(selectedPort!.portName);
                                 switchToMonitorPage();
                               },
                               backgroundColor: Colors.grey[400],

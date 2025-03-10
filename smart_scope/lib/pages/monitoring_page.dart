@@ -3,7 +3,7 @@ import 'dart:math';
 import 'settings_pages/settings_widgets/definitions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
-import 'package:serial_port_win32/serial_port_win32.dart';
+import 'package:smart_scope/usb_reader.dart';
 
 List<FlSpot> generateSineWave({
   double numPoints = 300,
@@ -50,6 +50,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                 children: [
                   IconButton(
                     onPressed: () {
+                      closePort();
                       Navigator.pushReplacementNamed(context, '/USB_Select');
                     },
                     icon: Icon(Icons.arrow_back_sharp),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'settings_widgets/channel_enable.dart';
 import 'settings_widgets/definitions.dart';
 import 'package:provider/provider.dart';
-import 'package:serial_port_win32/serial_port_win32.dart';
 
 class SignalPage extends StatefulWidget {
   const SignalPage({super.key});
@@ -40,9 +39,6 @@ class _SignalPageState extends State<SignalPage> {
           icon: Icon(Icons.settings),
           hoverColor: Colors.blue,
         ),
-        Text('${SerialPort.getAvailablePorts()}'),
-        // ElevatedButton(onPressed: () {}, child: Text("Elevated")),
-        // OutlinedButton(onPressed: () {}, child: Text("Outlined")),
         Center(
           child: Container(
             color: Colors.grey[400],
