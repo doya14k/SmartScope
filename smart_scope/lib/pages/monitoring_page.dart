@@ -159,7 +159,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                         child: Container(
                           color: Colors.grey[400],
                           child: Text(
-                            'Selected Port: ${selectedPort!.portName}',
+                            'Selected Port: ${selectedPort != null ? selectedPort!.portName : "Error no one selected"}',
                             style: TextStyle(
                               fontFamily: 'PrimaryFont',
                               fontSize: 15.0,

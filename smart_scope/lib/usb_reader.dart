@@ -33,10 +33,6 @@ void startReading() {
     return;
   }
 
-  // print("!= null");
-  // if (readTimer == null) {
-  //   print("!= null");
-  //   if (!readTimer!.isActive) {
   print("is acitve");
   readTimer = Timer.periodic(Duration(microseconds: 1), (timer) async {
     Uint8List? data = await selectedPort!.readBytes(
@@ -54,19 +50,21 @@ void startReading() {
       }
     }
   });
-  // }
-  // }
 }
 
-void closePort() async{
+void closePort() async {
   if (readTimer != null) {
     readTimer!.cancel();
-    readTimer = null; 
+    readTimer = null;
   }
-  if (selectedPort != null && selectedPort!.isOpened) {
-    selectedPort!.close();
+
+  if (selectedPort != null) {
+    if (selectedPort!.isOpened) {
+      print("Schliesse Port ${selectedPort!.portName}...");
+      await Future.delayed(Duration(milliseconds: 100));
+      selectedPort!.close();
+    } else {}
     selectedPort = null;
-    print("Port geschlossen");
   }
 
   if (!dataController.isClosed) {

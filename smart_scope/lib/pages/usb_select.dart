@@ -37,11 +37,6 @@ class _USB_SelectState extends State<USB_Select> {
 
   void pressedPortSelector(String currentPort) {
     print('$currentPort selected');
-    // Falls bereits ein Port offen ist, vorher schließen
-    // if (selectedPort != null && selectedPort!.isOpened) {
-    //   print("Schliesse vorherigen Port: ${selectedPort!.portName}");
-    //   selectedPort!.close();
-    // }
 
     selectedPort = SerialPort(
       currentPort,
@@ -49,12 +44,6 @@ class _USB_SelectState extends State<USB_Select> {
       ByteSize: 8,
       BaudRate: 9600,
     );
-    // selectedPort?.open();
-    // if (selectedPort?.isOpened ?? false) {
-    //   print("Port $currentPort erfolgreich geöffnet!");
-    // } else {
-    //   print("Fehler beim Öffnen des Ports $currentPort");
-    // }
   }
 
   @override
