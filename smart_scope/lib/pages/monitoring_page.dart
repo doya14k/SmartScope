@@ -105,7 +105,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                         LineChartBarData(
                           show: true,
                           spots: plotData,
-                          color: ch1Color,
+                          color: channel1.channelColor,
                           barWidth: 3.0,
                           isCurved: false,
                           dotData: FlDotData(show: false),

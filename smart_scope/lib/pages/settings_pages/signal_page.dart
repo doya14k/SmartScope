@@ -15,14 +15,15 @@ class _SignalPageState extends State<SignalPage> {
   void updateSlider(double delta, BuildContext context) {
     setState(() {
       final appState = Provider.of<AppState>(context, listen: false);
-      appState.updateSliderValue(appState.currentsliderValue - delta / 100);
+      channel1.uVperDivision = appState.currentsliderValue - delta / max_uVperDivision;
+      appState.updateSliderValue_ch1();
     });
   }
 
   void updateTime(double delta, BuildContext context) {
     setState(() {
       final appState = Provider.of<AppState>(context, listen: false);
-      appState.updateTimeValue(appState.timeValue - delta / 100);
+      appState.updateTimeValue(appState.timeValue - delta / max_uSperDivision);
     });
   }
 
@@ -33,6 +34,21 @@ class _SignalPageState extends State<SignalPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ChannelEnable(),
+        PopupMenuButton(
+          child: SizedBox(
+            height: 100,
+            width: 200,
+            child: Container(
+              color: Colors.amber,
+              child: Center(child: Text('click here')),
+            ),
+          ),
+          itemBuilder: (context) {
+            return List.generate(5, (index) {
+              return PopupMenuItem(child: Text('button no $index'));
+            });
+          },
+        ),
         FloatingActionButton(onPressed: () {}, backgroundColor: Colors.amber),
         IconButton(
           onPressed: () {},
@@ -48,7 +64,7 @@ class _SignalPageState extends State<SignalPage> {
               onPointerSignal: (event) {
                 if (event is PointerScrollEvent) {
                   updateSlider(event.scrollDelta.dy, context);
-                  // print(currentsliderValue);
+                  print(channel1.uVperDivision);
                 }
               },
               child: RotatedBox(
@@ -71,7 +87,8 @@ class _SignalPageState extends State<SignalPage> {
                       Provider.of<AppState>(
                         context,
                         listen: false,
-                      ).updateSliderValue(value);
+                      ).updateSliderValue_ch1();
+                      channel1.uVperDivision = value;
                     },
                   ),
                 ),
