@@ -41,7 +41,7 @@ void startReading() {
     );
 
     if (data.isNotEmpty) {
-      String receivedString = String.fromCharCodes(data);
+      String receivedString = String.fromCharCodes(data).trim();
       print("Empfangene Daten: $receivedString");
       if (!dataController.isClosed) {
         dataController.add(receivedString);

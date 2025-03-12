@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_scope/usb_reader.dart';
 import 'settings_widgets/channel_enable.dart';
 import 'settings_widgets/definitions.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,8 @@ class _SignalPageState extends State<SignalPage> {
   void updateSlider(double delta, BuildContext context) {
     setState(() {
       final appState = Provider.of<AppState>(context, listen: false);
-      channel1.uVperDivision = appState.currentsliderValue - delta / max_uVperDivision;
+      channel1.uVperDivision =
+          appState.currentsliderValue - delta / max_uVperDivision;
       appState.updateSliderValue_ch1();
     });
   }
@@ -34,18 +36,36 @@ class _SignalPageState extends State<SignalPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ChannelEnable(),
+        StreamBuilder<String>(
+          stream: dataController.stream, 
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text("Letzte Nachricht: ${snapshot.data}");
+            } else {
+              return Text("Warte auf Daten...");
+            }
+          },
+        ),
         PopupMenuButton(
           child: SizedBox(
             height: 100,
             width: 200,
             child: Container(
               color: Colors.amber,
-              child: Center(child: Text('click here')),
+              child: Center(child: Text('$selectedTestChannel')),
             ),
           ),
           itemBuilder: (context) {
-            return List.generate(5, (index) {
-              return PopupMenuItem(child: Text('button no $index'));
+            return List.generate(channels.length, (index) {
+              return PopupMenuItem(
+                child: Text('${channels[index].channelName}'),
+                onTap: () {
+                  setState(() {
+                    selectedTestChannel = '${channels[index].channelName}';
+                    print('${channels[index].channelName}');
+                  });
+                },
+              );
             });
           },
         ),

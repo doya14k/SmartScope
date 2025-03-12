@@ -19,7 +19,7 @@ class Channel {
   Color? channelColor;
   int? channelIndex;
   String? channelName;
-  List<double>? channelData;
+  List<double>? channelData = [];
   double? uVperDivision;
 
   Channel({
@@ -43,6 +43,7 @@ Channel channel1 = Channel(
   index: 1,
   name: 'CH1',
   uVperDiv: 50,
+  data: [],
 );
 
 // CH2
@@ -51,7 +52,12 @@ Channel channel2 = Channel(
   index: 2,
   name: 'CH2',
   uVperDiv: 50,
+  data: [],
 );
+
+List<Channel> channels = [channel1, channel2];
+
+String selectedTestChannel = 'Select Channel';
 
 // Channel Parameters
 // Color ch1Color = Colors.amber;
