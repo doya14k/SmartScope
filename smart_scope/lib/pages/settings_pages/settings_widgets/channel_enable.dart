@@ -69,7 +69,8 @@ class _ChannelEnableState extends State<ChannelEnable> {
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   fixedSize: Size(CH_Enable_width, CH_Enable_height),
-                  backgroundColor: isCH1_activated ? channel1.channelColor : clear,
+                  backgroundColor:
+                      isCH1_activated ? channel1.channelColor : clear,
                 ),
                 onPressed: () {
                   setState(() {
@@ -83,7 +84,9 @@ class _ChannelEnableState extends State<ChannelEnable> {
                     fontWeight: FontWeight.bold,
                     fontSize: ActivateChannelFontSize,
                     color:
-                        isCH1_activated ? ChannelSelected_fontColor : channel1.channelColor,
+                        isCH1_activated
+                            ? ChannelSelected_fontColor
+                            : channel1.channelColor,
                   ),
                 ),
               ),
@@ -98,7 +101,8 @@ class _ChannelEnableState extends State<ChannelEnable> {
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   fixedSize: Size(CH_Enable_width, CH_Enable_height),
-                  backgroundColor: isCH2_activated ? channel2.channelColor : clear,
+                  backgroundColor:
+                      isCH2_activated ? channel2.channelColor : clear,
                 ),
                 onPressed: () {
                   setState(() {
@@ -112,7 +116,9 @@ class _ChannelEnableState extends State<ChannelEnable> {
                     fontWeight: FontWeight.bold,
                     fontSize: ActivateChannelFontSize,
                     color:
-                        isCH2_activated ? ChannelSelected_fontColor : channel2.channelColor,
+                        isCH2_activated
+                            ? ChannelSelected_fontColor
+                            : channel2.channelColor,
                   ),
                 ),
               ),

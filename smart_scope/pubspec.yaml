@@ -33,7 +33,9 @@ dependencies:
   fl_chart: ^0.70.2
   provider: ^6.1.2
   serial_port_win32: ^2.1.12
-
+  window_manager: ^0.4.3
+  auto_size_text: ^3.0.0
+  
   # flutter_plot: ^0.1.0
 
   # The following adds the Cupertino Icons font to your application.

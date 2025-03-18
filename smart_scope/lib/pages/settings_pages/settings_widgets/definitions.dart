@@ -29,11 +29,11 @@ class Channel {
     List<double>? data,
     double? uVperDiv,
   }) {
-    this.channelColor = color;
-    this.channelIndex = index;
-    this.channelName = name;
-    this.channelData = data;
-    this.uVperDivision = uVperDiv;
+    channelColor = color;
+    channelIndex = index;
+    channelName = name;
+    channelData = data;
+    uVperDivision = uVperDiv;
   }
 }
 
@@ -111,3 +111,16 @@ class AppState extends ChangeNotifier {
 }
 
 SerialPort? selectedPort;
+
+// Trigger Modes
+List<String> triggerMode = ['Auto', 'Single', 'Normal', 'Roll'];
+int selecetTriggerModeIndex = 2;
+
+Color selectedTriggerModeBackgroundColor = Colors.grey.shade500;
+
+// Trigger Channel
+Channel selectedTriggerChannel = channels[0];
+
+bool fallingTriggerSelected = true;
+
+Color triggerSwitchBackgroundColor = Colors.grey.shade400;

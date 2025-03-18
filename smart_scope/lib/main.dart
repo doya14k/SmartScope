@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:smart_scope/pages/usb_select.dart';
 import 'package:provider/provider.dart';
+import 'package:window_manager/window_manager.dart';
 import 'pages/home_page.dart';
 import 'pages/settings_pages/settings_widgets/definitions.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+
+  WindowOptions windowOptions = WindowOptions(
+    fullScreen: false,
+    titleBarStyle: TitleBarStyle.normal,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.show();
+    await windowManager.maximize();
+    await windowManager.setTitleBarStyle(TitleBarStyle.normal);
+    await windowManager.setMinimumSize(const Size(1503, 845));
+    await windowManager.setAspectRatio(16 / 9);
+  });
   runApp(
     ChangeNotifierProvider(create: (context) => AppState(), child: MyApp()),
   );
@@ -22,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: USB_Select(),
-      initialRoute: '/USB_Select',
+      initialRoute: '/HomePage',
       routes: {
         '/USB_Select': (context) => USB_Select(),
         '/HomePage': (context) => HomePage(),
