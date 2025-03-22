@@ -72,7 +72,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
       appBar: AppBar(
         backgroundColor: AppBarBackroundColor,
         title: Text(
-          "This is the Settings-Menu",
+          "Settings-Menu",
           style: TextStyle(fontFamily: 'PrimaryFont'),
         ),
       ),

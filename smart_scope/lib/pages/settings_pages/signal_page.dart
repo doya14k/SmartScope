@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'settings_widgets/triggerModeSelect.dart';
 import 'settings_widgets/triggerChannelSelection.dart';
 import 'settings_widgets/horizontalScale.dart';
+import 'settings_widgets/verticalScaler.dart';
 
 class SignalPage extends StatefulWidget {
   const SignalPage({super.key});
@@ -18,8 +19,10 @@ class _SignalPageState extends State<SignalPage> {
     setState(() {
       final appState = Provider.of<AppState>(context, listen: false);
       channel1.uVperDivision =
-          appState.currentsliderValue - delta / max_uVperDivision;
-      appState.updateSliderValue_ch1();
+          appState.ch1_uVoltageValue - delta / max_uVperDivision;
+      appState.updateSliderValue_ch1(
+        appState.ch1_uVoltageValue - delta / max_uVperDivision,
+      );
     });
   }
 
@@ -107,7 +110,7 @@ class _SignalPageState extends State<SignalPage> {
             //             thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
             //           ),
             //           child: Slider(
-            //             value: Provider.of<AppState>(context).currentsliderValue,
+            //             value: Provider.of<AppState>(context).ch1_uVoltageValue,
             //             min: 1.0,
             //             max: 100.0,
             //             divisions: 100,
@@ -133,7 +136,7 @@ class _SignalPageState extends State<SignalPage> {
             //       onPointerSignal: (event) {
             //         if (event is PointerScrollEvent) {
             //           updateTime(event.scrollDelta.dy, context);
-            //           // print(currentsliderValue);
+            //           // print(ch1_uVoltageValue);
             //         }
             //       },
             //       child: RotatedBox(
@@ -169,6 +172,7 @@ class _SignalPageState extends State<SignalPage> {
         ),
         TriggerChannelSelection(),
         HorizontalScaler(),
+        VerticalScaler(),
       ],
     );
   }

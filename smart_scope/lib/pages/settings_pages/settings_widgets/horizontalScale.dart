@@ -17,8 +17,10 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
     setState(() {
       final appState = Provider.of<AppState>(context, listen: false);
       channel1.uVperDivision =
-          (appState.currentsliderValue - delta) / max_uVperDivision;
-      appState.updateSliderValue_ch1();
+          (appState.ch1_uVoltageValue - delta) / max_uVperDivision;
+      appState.updateSliderValue_ch1(
+        (appState.ch1_uVoltageValue - delta) / max_uVperDivision,
+      );
     });
   }
 
@@ -45,6 +47,7 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
       width: 300,
       height: 120,
       child: Card(
+        color: HorizontalScalerBackgroundColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,7 +81,7 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'time/div',
+                      labelText: 'Time/Div',
                     ),
                     onSubmitted: (inputText) {
                       setState(() {

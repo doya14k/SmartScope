@@ -21,6 +21,9 @@ class Channel {
   String? channelName;
   List<double>? channelData = [];
   double? uVperDivision;
+  bool ChannelIs1to1 = true;
+  bool channelIsDC = true;
+  bool channelIsActive = false;
 
   Channel({
     Color? color,
@@ -28,12 +31,18 @@ class Channel {
     String? name,
     List<double>? data,
     double? uVperDiv,
+    bool is1to1 = true,
+    bool isDC = true,
+    bool isActive = false,
   }) {
     channelColor = color;
     channelIndex = index;
     channelName = name;
     channelData = data;
     uVperDivision = uVperDiv;
+    ChannelIs1to1 = is1to1;
+    channelIsDC = isDC;
+    channelIsActive = isActive;
   }
 }
 
@@ -44,6 +53,8 @@ Channel channel1 = Channel(
   name: 'CH1',
   uVperDiv: 50,
   data: [],
+  is1to1: true,
+  isDC: true,
 );
 
 // CH2
@@ -53,6 +64,8 @@ Channel channel2 = Channel(
   name: 'CH2',
   uVperDiv: 50,
   data: [],
+  is1to1: true,
+  isDC: true,
 );
 
 List<Channel> channels = [channel1, channel2];
@@ -86,7 +99,7 @@ Color GridLineColor = Color.fromRGBO(255, 255, 255, 0.35);
 // ChangeNotifiere Class
 
 double min_uVperDivision = 1.0;
-double max_uVperDivision = 100.0;
+double max_uVperDivision = 100000000.0;
 
 double min_uSperDivision = 0.001;
 double max_uSperDivision = 10000000.0; // 1000 uS * 1000 mS * 10s
@@ -94,15 +107,21 @@ double max_uSperDivision = 10000000.0; // 1000 uS * 1000 mS * 10s
 double increment_uSperDivision = 1.0;
 
 class AppState extends ChangeNotifier {
-  double _currentsliderValue = 6;
-  double timeValue = 10.0;
+  double _ch1_uVoltageValue = 10000.0;
+  double _ch2_uVoltageValue = 10000.0;
+  double timeValue = 1000.0;
 
-  double get currentsliderValue => _currentsliderValue;
+  double get ch1_uVoltageValue {
+    return _ch1_uVoltageValue;
+  }
 
-  String timeValueText = 'test';
+  double get ch2_uVoltageValue {
+    return _ch2_uVoltageValue;
+  }
+
+  String timeValueText = '';
 
   String get timeValue2Text {
-    // Time is in ns range
     if (timeValue < 1) {
       timeValueText = '${(timeValue * 1000).toStringAsFixed(3)} ns';
       return timeValueText;
@@ -115,6 +134,122 @@ class AppState extends ChangeNotifier {
     } else {
       timeValueText = '${(timeValue).toStringAsFixed(3)} µs';
       return timeValueText;
+    }
+  }
+
+  String get voltageValueTextCH1 {
+    if (_ch1_uVoltageValue < 1000) {
+      return '${(_ch1_uVoltageValue).toStringAsFixed(2)} µV';
+    } else if ((_ch1_uVoltageValue < 1000000) &&
+        (_ch1_uVoltageValue < 1000000)) {
+      return '${(_ch1_uVoltageValue / 1000).toStringAsFixed(2)} mV';
+    } else if (_ch1_uVoltageValue >= 1000000) {
+      return '${(_ch1_uVoltageValue / 1000000).toStringAsFixed(2)} V';
+    } else {
+      return '${(_ch1_uVoltageValue / 1000000).toStringAsFixed(2)} V';
+    }
+  }
+
+  String get voltageValueTextCH2 {
+    if (_ch2_uVoltageValue < 1000) {
+      return '${(_ch2_uVoltageValue).toStringAsFixed(2)} µV';
+    } else if ((_ch2_uVoltageValue < 1000000) &&
+        (_ch2_uVoltageValue < 1000000)) {
+      return '${(_ch2_uVoltageValue / 1000).toStringAsFixed(2)} mV';
+    } else if (_ch2_uVoltageValue >= 1000000) {
+      return '${(_ch2_uVoltageValue / 1000000).toStringAsFixed(2)} V';
+    } else {
+      return '${(_ch2_uVoltageValue / 1000000).toStringAsFixed(2)} V';
+    }
+  }
+
+  convertVoltageText2ValueCH1(String voltagText) {
+    String voltageTextNumbersOnly;
+
+    for (int i = 0; i < voltagText.length; i++) {
+      if ((voltagText[i] == ' ')) {
+        voltageTextNumbersOnly = voltagText.replaceRange(
+          i,
+          voltagText.length,
+          '',
+        );
+        _ch1_uVoltageValue = double.parse(voltageTextNumbersOnly);
+        if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
+          _ch1_uVoltageValue *= 1;
+        } else if (voltagText[i + 1] == 'm') {
+          _ch1_uVoltageValue *= 1000;
+        } else if ((voltagText[i + 1] == 'v') || (voltagText[i + 1] == 'V')) {
+          _ch1_uVoltageValue *= 1000000;
+        }
+        print('Data: $_ch1_uVoltageValue');
+        notifyListeners();
+        return;
+      } else if ((voltagText[i] == 'u') ||
+          (voltagText[i] == 'm') ||
+          (voltagText[i] == 'v') ||
+          (voltagText[i] == 'V')) {
+        voltageTextNumbersOnly = voltagText.replaceRange(
+          i,
+          voltagText.length,
+          '',
+        );
+        _ch1_uVoltageValue = double.parse(voltageTextNumbersOnly);
+        if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
+          _ch1_uVoltageValue *= 1;
+        } else if (voltagText[i] == 'm') {
+          _ch1_uVoltageValue *= 1000;
+        } else if ((voltagText[i] == 'v') || (voltagText[i] == 'V')) {
+          _ch1_uVoltageValue *= 1000000;
+        }
+        print('Data: $_ch1_uVoltageValue');
+        notifyListeners();
+        return;
+      }
+    }
+  }
+
+  convertVoltageText2ValueCH2(String voltagText) {
+    String voltageTextNumbersOnly;
+
+    for (int i = 0; i < voltagText.length; i++) {
+      if ((voltagText[i] == ' ')) {
+        voltageTextNumbersOnly = voltagText.replaceRange(
+          i,
+          voltagText.length,
+          '',
+        );
+        _ch2_uVoltageValue = double.parse(voltageTextNumbersOnly);
+        if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
+          _ch2_uVoltageValue *= 1;
+        } else if (voltagText[i + 1] == 'm') {
+          _ch2_uVoltageValue *= 1000;
+        } else if ((voltagText[i + 1] == 'v') || (voltagText[i + 1] == 'V')) {
+          _ch2_uVoltageValue *= 1000000;
+        }
+        print('Data: $_ch2_uVoltageValue');
+        notifyListeners();
+        return;
+      } else if ((voltagText[i] == 'u') ||
+          (voltagText[i] == 'm') ||
+          (voltagText[i] == 'v') ||
+          (voltagText[i] == 'V')) {
+        voltageTextNumbersOnly = voltagText.replaceRange(
+          i,
+          voltagText.length,
+          '',
+        );
+        _ch2_uVoltageValue = double.parse(voltageTextNumbersOnly);
+        if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
+          _ch2_uVoltageValue *= 1;
+        } else if (voltagText[i] == 'm') {
+          _ch2_uVoltageValue *= 1000;
+        } else if ((voltagText[i] == 'v') || (voltagText[i] == 'V')) {
+          _ch2_uVoltageValue *= 1000000;
+        }
+        print('Data: $_ch2_uVoltageValue');
+        notifyListeners();
+        return;
+      }
     }
   }
 
@@ -159,11 +294,55 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  void updateSliderValue_ch1() {
-    _currentsliderValue = channel1.uVperDivision!.clamp(
+  void updateSliderValue_ch1(double newValue) {
+    channel1.uVperDivision = newValue;
+    _ch1_uVoltageValue = channel1.uVperDivision!.clamp(
       min_uVperDivision,
       max_uVperDivision,
     );
+    notifyListeners();
+  }
+
+  void updateSliderValue_ch2(double newValue) {
+    channel2.uVperDivision = newValue;
+    _ch2_uVoltageValue = channel2.uVperDivision!.clamp(
+      min_uVperDivision,
+      max_uVperDivision,
+    );
+    notifyListeners();
+  }
+
+  void incrementVoltageValueCH1(double delta) {
+    if (_ch1_uVoltageValue < 1000) {
+      _ch1_uVoltageValue = _ch1_uVoltageValue + (delta * 1);
+    } else if (_ch1_uVoltageValue < 1000000) {
+      _ch1_uVoltageValue = _ch1_uVoltageValue + (delta * 1000);
+    } else if (_ch1_uVoltageValue >= 1000000) {
+      _ch1_uVoltageValue = _ch1_uVoltageValue + (delta * 1000000);
+    }
+
+    if (_ch1_uVoltageValue > max_uVperDivision) {
+      _ch1_uVoltageValue = max_uVperDivision;
+    } else if (_ch1_uVoltageValue < min_uVperDivision) {
+      _ch1_uVoltageValue = min_uVperDivision;
+    }
+    notifyListeners();
+  }
+
+  void incrementVoltageValueCH2(double delta) {
+    if (_ch2_uVoltageValue < 1000) {
+      _ch2_uVoltageValue = _ch2_uVoltageValue + (delta * 1);
+    } else if (_ch2_uVoltageValue < 1000000) {
+      _ch2_uVoltageValue = _ch2_uVoltageValue + (delta * 1000);
+    } else if (_ch2_uVoltageValue >= 1000000) {
+      _ch2_uVoltageValue = _ch2_uVoltageValue + (delta * 1000000);
+    }
+
+    if (_ch2_uVoltageValue > max_uVperDivision) {
+      _ch2_uVoltageValue = max_uVperDivision;
+    } else if (_ch2_uVoltageValue < min_uVperDivision) {
+      _ch2_uVoltageValue = min_uVperDivision;
+    }
     notifyListeners();
   }
 
@@ -215,6 +394,40 @@ class AppState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  bool get isCH1Active {
+    return channel1.channelIsActive;
+  }
+
+  bool get isCH2Active {
+    return channel2.channelIsActive;
+  }
+
+  void updateListeners() {
+    notifyListeners();
+  }
+
+  void ch1_pressed() {
+    if (channel1.channelIsActive) {
+      channel1.channelIsActive = false;
+      print("CH1_Disabled");
+    } else {
+      channel1.channelIsActive = true;
+      print("CH1_Activated");
+    }
+    notifyListeners();
+  }
+
+  void ch2_pressed() {
+    if (channel2.channelIsActive) {
+      channel2.channelIsActive = false;
+      print("CH2_Disabled");
+    } else {
+      channel2.channelIsActive = true;
+      print("CH2_Activated");
+    }
+    notifyListeners();
+  }
 }
 
 SerialPort? selectedPort;
@@ -231,3 +444,15 @@ Channel selectedTriggerChannel = channels[0];
 bool fallingTriggerSelected = true;
 
 Color triggerSwitchBackgroundColor = Colors.grey.shade400;
+
+// Vertical scaler settings
+// Tastkopf settings
+Color VerticalScalerBackgroundColor = Colors.grey.shade100;
+
+List<String> tastkopfModes = ['1:1', '10:1'];
+
+// DC/AC Coupling setttings
+List<String> couplingModes = ['DC', 'AC'];
+
+// Horizontal scaler
+Color HorizontalScalerBackgroundColor = Colors.grey.shade100;

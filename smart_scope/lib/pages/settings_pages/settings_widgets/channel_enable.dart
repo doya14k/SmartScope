@@ -1,27 +1,6 @@
 import 'package:flutter/material.dart';
 import 'definitions.dart';
-
-bool isCH1_activated = false;
-void ch1_pressed() {
-  if (isCH1_activated) {
-    isCH1_activated = false;
-    print("CH1_Disabled");
-  } else {
-    isCH1_activated = true;
-    print("CH1_Activated");
-  }
-}
-
-bool isCH2_activated = false;
-void ch2_pressed() {
-  if (isCH2_activated) {
-    isCH2_activated = false;
-    print("CH2_Disabled");
-  } else {
-    isCH2_activated = true;
-    print("CH2_Activated");
-  }
-}
+import 'package:provider/provider.dart';
 
 class ChannelEnable extends StatefulWidget {
   const ChannelEnable({super.key});
@@ -70,11 +49,11 @@ class _ChannelEnableState extends State<ChannelEnable> {
                 style: OutlinedButton.styleFrom(
                   fixedSize: Size(CH_Enable_width, CH_Enable_height),
                   backgroundColor:
-                      isCH1_activated ? channel1.channelColor : clear,
+                      channel1.channelIsActive ? channel1.channelColor : clear,
                 ),
                 onPressed: () {
                   setState(() {
-                    ch1_pressed();
+                    Provider.of<AppState>(context, listen: false).ch1_pressed();
                   });
                 },
                 child: Text(
@@ -84,7 +63,7 @@ class _ChannelEnableState extends State<ChannelEnable> {
                     fontWeight: FontWeight.bold,
                     fontSize: ActivateChannelFontSize,
                     color:
-                        isCH1_activated
+                        channel1.channelIsActive
                             ? ChannelSelected_fontColor
                             : channel1.channelColor,
                   ),
@@ -102,11 +81,11 @@ class _ChannelEnableState extends State<ChannelEnable> {
                 style: OutlinedButton.styleFrom(
                   fixedSize: Size(CH_Enable_width, CH_Enable_height),
                   backgroundColor:
-                      isCH2_activated ? channel2.channelColor : clear,
+                      channel2.channelIsActive ? channel2.channelColor : clear,
                 ),
                 onPressed: () {
                   setState(() {
-                    ch2_pressed();
+                    Provider.of<AppState>(context, listen: false).ch2_pressed();
                   });
                 },
                 child: Text(
@@ -116,7 +95,7 @@ class _ChannelEnableState extends State<ChannelEnable> {
                     fontWeight: FontWeight.bold,
                     fontSize: ActivateChannelFontSize,
                     color:
-                        isCH2_activated
+                        channel2.channelIsActive
                             ? ChannelSelected_fontColor
                             : channel2.channelColor,
                   ),
