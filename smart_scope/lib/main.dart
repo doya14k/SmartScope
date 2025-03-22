@@ -6,20 +6,20 @@ import 'pages/home_page.dart';
 import 'pages/settings_pages/settings_widgets/definitions.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await windowManager.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await windowManager.ensureInitialized();
 
-  WindowOptions windowOptions = WindowOptions(
-    fullScreen: false,
-    titleBarStyle: TitleBarStyle.normal,
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.maximize();
-    await windowManager.setTitleBarStyle(TitleBarStyle.normal);
-    await windowManager.setMinimumSize(const Size(1503, 845));
-    await windowManager.setAspectRatio(16 / 9);
-  });
+  // WindowOptions windowOptions = WindowOptions(
+  //   fullScreen: false,
+  //   titleBarStyle: TitleBarStyle.normal,
+  // );
+  // windowManager.waitUntilReadyToShow(windowOptions, () async {
+  //   await windowManager.show();
+  //   // await windowManager.maximize();
+  //   await windowManager.setTitleBarStyle(TitleBarStyle.normal);
+  //   await windowManager.setMinimumSize(const Size(1503, 845));
+  //   await windowManager.setAspectRatio(16 / 9);
+  // });
   runApp(
     ChangeNotifierProvider(create: (context) => AppState(), child: MyApp()),
   );

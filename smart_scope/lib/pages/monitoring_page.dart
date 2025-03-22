@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_scope/usb_reader.dart';
 
 List<FlSpot> generateSineWave({
-  double numPoints = 300,
+  double numPoints = 30000,
   double fine = 0.1,
   double frequency = 25,
   double amplitude = 5.0,
@@ -66,7 +66,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   height: 700,
                   child: LineChart(
                     LineChartData(
-                      backgroundColor: CharBackgroundColor,
+                      backgroundColor: ChartBackgroundColor,
                       clipData:
                           FlClipData.all(), // Ensures that the line stays in the Chart
                       baselineX: 0.0,
@@ -118,7 +118,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                         horizontalLines: [
                           HorizontalLine(
                             y: 0,
-                            color: CharBackgroundColor,
+                            color: ChartBackgroundColor,
                             strokeWidth: 1,
                           ),
                           HorizontalLine(
@@ -131,7 +131,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                         verticalLines: [
                           VerticalLine(
                             x: 0,
-                            color: CharBackgroundColor,
+                            color: ChartBackgroundColor,
                             strokeWidth: 1,
                           ),
                           VerticalLine(

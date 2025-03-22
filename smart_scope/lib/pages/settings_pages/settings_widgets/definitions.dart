@@ -75,7 +75,7 @@ double ActivateChannelFont_Size = 15;
 int MonitorSizePercentage = 70;
 
 // Monitoring Chart Widget Parameters
-Color CharBackgroundColor = Colors.black;
+Color ChartBackgroundColor = Colors.black;
 
 // Grid Values
 double NOF_xGrids = 12;
@@ -87,14 +87,77 @@ Color GridLineColor = Color.fromRGBO(255, 255, 255, 0.35);
 
 double min_uVperDivision = 1.0;
 double max_uVperDivision = 100.0;
-double min_uSperDivision = 0.0001;
-double max_uSperDivision = 100.0;
+
+double min_uSperDivision = 0.001;
+double max_uSperDivision = 10000000.0; // 1000 uS * 1000 mS * 10s
+
+double increment_uSperDivision = 1.0;
 
 class AppState extends ChangeNotifier {
   double _currentsliderValue = 6;
-  double timeValue = 10;
+  double timeValue = 10.0;
 
   double get currentsliderValue => _currentsliderValue;
+
+  String timeValueText = 'test';
+
+  String get timeValue2Text {
+    // Time is in ns range
+    if (timeValue < 1) {
+      timeValueText = '${(timeValue * 1000).toStringAsFixed(3)} ns';
+      return timeValueText;
+    } else if ((timeValue > 1000) && (timeValue < 1000000)) {
+      timeValueText = '${(timeValue / 1000).toStringAsFixed(3)} ms';
+      return timeValueText;
+    } else if (timeValue > 1000000) {
+      timeValueText = '${(timeValue / 1000000).toStringAsFixed(3)} s';
+      return timeValueText;
+    } else {
+      timeValueText = '${(timeValue).toStringAsFixed(3)} µs';
+      return timeValueText;
+    }
+  }
+
+  convertTimeText2Value(String timeText) {
+    String timeTextNumbersOnly;
+
+    for (int i = 0; i < timeText.length; i++) {
+      if ((timeText[i] == ' ')) {
+        timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
+        timeValue = double.parse(timeTextNumbersOnly);
+        if (timeText[i + 1] == 'n') {
+          timeValue *= 0.001;
+        } else if ((timeText[i + 1] == 'u') || (timeText[i + 1] == 'µ')) {
+          timeValue *= 1;
+        } else if (timeText[i + 1] == 'm') {
+          timeValue *= 1000;
+        } else if (timeText[i + 1] == 's') {
+          timeValue *= 1000000;
+        }
+        print('Data: $timeValue');
+        notifyListeners();
+        return;
+      } else if ((timeText[i] == 'n') ||
+          (timeText[i] == 'u') ||
+          (timeText[i] == 'm') ||
+          (timeText[i] == 's')) {
+        timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
+        timeValue = double.parse(timeTextNumbersOnly);
+        if (timeText[i] == 'n') {
+          timeValue *= 0.001;
+        } else if ((timeText[i] == 'u') || (timeText[i] == 'µ')) {
+          timeValue *= 1;
+        } else if (timeText[i] == 'm') {
+          timeValue *= 1000;
+        } else if (timeText[i] == 's') {
+          timeValue *= 1000000;
+        }
+        print('Data: $timeValue');
+        notifyListeners();
+        return;
+      }
+    }
+  }
 
   void updateSliderValue_ch1() {
     _currentsliderValue = channel1.uVperDivision!.clamp(
@@ -106,6 +169,50 @@ class AppState extends ChangeNotifier {
 
   void updateTimeValue(double newValue) {
     timeValue = newValue.clamp(min_uSperDivision, max_uSperDivision);
+    notifyListeners();
+  }
+
+  void incrementTimeValue(double delta) {
+    if (timeValue < 1) {
+      timeValue = (timeValue + (delta * 0.001));
+      print('ns');
+    } else if ((timeValue >= 1) && (timeValue < 1000)) {
+      timeValue = (timeValue + (delta * 1)).roundToDouble();
+      print('us');
+    } else if ((timeValue >= 1000) && (timeValue < 1000000)) {
+      timeValue = (timeValue + (delta * 1000)).roundToDouble();
+      print('ms');
+    } else if ((timeValue >= 1000000)) {
+      timeValue = (timeValue + (delta * 1000000)).roundToDouble();
+      print('s');
+    }
+    if (timeValue > max_uSperDivision) {
+      timeValue = max_uSperDivision;
+    } else if (timeValue < min_uSperDivision) {
+      timeValue = min_uSperDivision;
+    }
+    notifyListeners();
+  }
+
+  void incrementTimeValueFine(double delta) {
+    if (timeValue < 1) {
+      timeValue = (timeValue + (delta * 0.01));
+      print('ns');
+    } else if ((timeValue >= 1) && (timeValue < 1000)) {
+      timeValue = (timeValue + (delta * 0.1));
+      print('us');
+    } else if ((timeValue >= 1000) && (timeValue < 1000000)) {
+      timeValue = (timeValue + (delta * 100));
+      print('ms');
+    } else if ((timeValue >= 1000000)) {
+      timeValue = (timeValue + (delta * 100000));
+      print('s');
+    }
+    if (timeValue > max_uSperDivision) {
+      timeValue = max_uSperDivision;
+    } else if (timeValue < min_uSperDivision) {
+      timeValue = min_uSperDivision;
+    }
     notifyListeners();
   }
 }

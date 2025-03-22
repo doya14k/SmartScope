@@ -4,6 +4,7 @@ import 'settings_widgets/definitions.dart';
 import 'package:provider/provider.dart';
 import 'settings_widgets/triggerModeSelect.dart';
 import 'settings_widgets/triggerChannelSelection.dart';
+import 'settings_widgets/horizontalScale.dart';
 
 class SignalPage extends StatefulWidget {
   const SignalPage({super.key});
@@ -167,6 +168,7 @@ class _SignalPageState extends State<SignalPage> {
           ],
         ),
         TriggerChannelSelection(),
+        HorizontalScaler(),
       ],
     );
   }
