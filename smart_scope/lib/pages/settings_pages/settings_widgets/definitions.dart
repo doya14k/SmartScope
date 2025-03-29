@@ -16,24 +16,24 @@ Color clear = Color.fromRGBO(0, 0, 0, 0);
 
 // Channel Class
 class Channel {
-  Color? channelColor;
+  Color channelColor = Colors.grey;
   int? channelIndex;
   String? channelName;
   List<double>? channelData = [];
-  double? uVperDivision;
+  double uVperDivision = 2000.0;
   bool ChannelIs1to1 = true;
   bool channelIsDC = true;
-  bool channelIsActive = false;
+  bool channelIsActive = true;
 
   Channel({
-    Color? color,
+    Color color = Colors.grey,
     int? index,
     String? name,
     List<double>? data,
-    double? uVperDiv,
+    double uVperDiv = 2000.0,
     bool is1to1 = true,
     bool isDC = true,
-    bool isActive = false,
+    bool isActive = true,
   }) {
     channelColor = color;
     channelIndex = index;
@@ -51,7 +51,7 @@ Channel channel1 = Channel(
   color: Colors.amber,
   index: 1,
   name: 'CH1',
-  uVperDiv: 50,
+  uVperDiv: 2000,
   data: [],
   is1to1: true,
   isDC: true,
@@ -62,7 +62,7 @@ Channel channel2 = Channel(
   color: Colors.blue.shade300,
   index: 2,
   name: 'CH2',
-  uVperDiv: 50,
+  uVperDiv: 2000,
   data: [],
   is1to1: true,
   isDC: true,
@@ -106,10 +106,16 @@ double max_uSperDivision = 10000000.0; // 1000 uS * 1000 mS * 10s
 
 double increment_uSperDivision = 1.0;
 
+double max_uVLevelOffset = 100000000;
+double min_uVLevelOffset = -max_uVLevelOffset;
+
 class AppState extends ChangeNotifier {
-  double _ch1_uVoltageValue = 10000.0;
-  double _ch2_uVoltageValue = 10000.0;
-  double timeValue = 1000.0;
+  double _ch1_uVoltageValue = channel1.uVperDivision; // 2000.0;
+  double _ch2_uVoltageValue = channel2.uVperDivision; //2000.0;
+  double timeValue = 2.0;
+
+  double ch1_uVoltageLevelOffset = 0.0;
+  double ch2_uVoltageLevelOffset = 0.0;
 
   double get ch1_uVoltageValue {
     return _ch1_uVoltageValue;
@@ -427,6 +433,180 @@ class AppState extends ChangeNotifier {
       print("CH2_Activated");
     }
     notifyListeners();
+  }
+
+  void updatedCH1_LevelOffset(double newValue) {
+    ch1_uVoltageLevelOffset = newValue;
+    if (ch1_uVoltageLevelOffset > max_uVLevelOffset) {
+      ch1_uVoltageLevelOffset = max_uVLevelOffset;
+    } else if (ch1_uVoltageLevelOffset <= min_uVLevelOffset) {
+      ch1_uVoltageLevelOffset = min_uVLevelOffset;
+    }
+    notifyListeners();
+  }
+
+  void updatedCH2_LevelOffset(double newValue) {
+    ch2_uVoltageLevelOffset = newValue;
+    if (ch2_uVoltageLevelOffset > (max_uVLevelOffset)) {
+      ch2_uVoltageLevelOffset = max_uVLevelOffset;
+    } else if (ch2_uVoltageLevelOffset <= min_uVLevelOffset) {
+      ch2_uVoltageLevelOffset = min_uVLevelOffset;
+    }
+    notifyListeners();
+  }
+
+  void incrementCH1_LevelOffset(double delta) {
+    ch1_uVoltageLevelOffset += ((channel1.uVperDivision / 20) * delta);
+    if (ch1_uVoltageLevelOffset > max_uVLevelOffset) {
+      ch1_uVoltageLevelOffset = max_uVLevelOffset;
+    } else if (ch1_uVoltageLevelOffset <= min_uVLevelOffset) {
+      ch1_uVoltageLevelOffset = min_uVLevelOffset;
+    }
+    notifyListeners();
+  }
+
+  void incrementCH2_LevelOffset(double delta) {
+    ch2_uVoltageLevelOffset += ((channel2.uVperDivision / 20) * delta);
+    if (ch2_uVoltageLevelOffset > (max_uVLevelOffset)) {
+      ch2_uVoltageLevelOffset = (max_uVLevelOffset);
+    } else if (ch2_uVoltageLevelOffset <= min_uVLevelOffset) {
+      ch2_uVoltageLevelOffset = min_uVLevelOffset;
+    }
+    notifyListeners();
+  }
+
+  convertCH2OffsetText2Value(String offsetText) {
+    String offsetTextNumbersOnly;
+    double sign = 1;
+
+    if (offsetText[0] == '-') {
+      sign = -1;
+      offsetText = offsetText.replaceRange(0, 1, '');
+    }
+
+    for (int i = 0; i < offsetText.length; i++) {
+      if ((offsetText[i] == ' ')) {
+        offsetTextNumbersOnly = offsetText.replaceRange(
+          i,
+          offsetText.length,
+          '',
+        );
+        ch2_uVoltageLevelOffset = sign * double.parse(offsetTextNumbersOnly);
+        if (offsetText[i + 1] == 'n') {
+          ch2_uVoltageLevelOffset *= 0.001;
+        } else if ((offsetText[i + 1] == 'u') || (offsetText[i + 1] == 'µ')) {
+          ch2_uVoltageLevelOffset *= 1;
+        } else if (offsetText[i + 1] == 'm') {
+          ch2_uVoltageLevelOffset *= 1000;
+        } else if (offsetText[i + 1] == 's') {
+          ch2_uVoltageLevelOffset *= 1000000;
+        }
+        print('Data: $ch2_uVoltageLevelOffset');
+        notifyListeners();
+        return;
+      } else if ((offsetText[i] == 'n') ||
+          (offsetText[i] == 'u') ||
+          (offsetText[i] == 'm') ||
+          (offsetText[i] == 's')) {
+        offsetTextNumbersOnly = offsetText.replaceRange(
+          i,
+          offsetText.length,
+          '',
+        );
+        ch2_uVoltageLevelOffset = sign * double.parse(offsetTextNumbersOnly);
+        if (offsetText[i] == 'n') {
+          ch2_uVoltageLevelOffset *= 0.001;
+        } else if ((offsetText[i] == 'u') || (offsetText[i] == 'µ')) {
+          ch2_uVoltageLevelOffset *= 1;
+        } else if (offsetText[i] == 'm') {
+          ch2_uVoltageLevelOffset *= 1000;
+        } else if (offsetText[i] == 's') {
+          ch2_uVoltageLevelOffset *= 1000000;
+        }
+        print('Data: $ch2_uVoltageLevelOffset');
+        notifyListeners();
+        return;
+      }
+    }
+  }
+
+  convertCH1OffsetText2Value(String offsetText) {
+    String offsetTextNumbersOnly;
+    double sign = 1;
+
+    if (offsetText[0] == '-') {
+      sign = -1;
+      offsetText = offsetText.replaceRange(0, 1, '');
+    }
+
+    for (int i = 0; i < offsetText.length; i++) {
+      if ((offsetText[i] == ' ')) {
+        offsetTextNumbersOnly = offsetText.replaceRange(
+          i,
+          offsetText.length,
+          '',
+        );
+        ch1_uVoltageLevelOffset = sign * double.parse(offsetTextNumbersOnly);
+        if (offsetText[i + 1] == 'n') {
+          ch1_uVoltageLevelOffset *= 0.001;
+        } else if ((offsetText[i + 1] == 'u') || (offsetText[i + 1] == 'µ')) {
+          ch1_uVoltageLevelOffset *= 1;
+        } else if (offsetText[i + 1] == 'm') {
+          ch1_uVoltageLevelOffset *= 1000;
+        } else if (offsetText[i + 1] == 's') {
+          ch1_uVoltageLevelOffset *= 1000000;
+        }
+        print('Data: $ch1_uVoltageLevelOffset');
+        notifyListeners();
+        return;
+      } else if ((offsetText[i] == 'n') ||
+          (offsetText[i] == 'u') ||
+          (offsetText[i] == 'm') ||
+          (offsetText[i] == 's')) {
+        offsetTextNumbersOnly = offsetText.replaceRange(
+          i,
+          offsetText.length,
+          '',
+        );
+        ch1_uVoltageLevelOffset = sign * double.parse(offsetTextNumbersOnly);
+        if (offsetText[i] == 'n') {
+          ch1_uVoltageLevelOffset *= 0.001;
+        } else if ((offsetText[i] == 'u') || (offsetText[i] == 'µ')) {
+          ch1_uVoltageLevelOffset *= 1;
+        } else if (offsetText[i] == 'm') {
+          ch1_uVoltageLevelOffset *= 1000;
+        } else if (offsetText[i] == 's') {
+          ch1_uVoltageLevelOffset *= 1000000;
+        }
+        print('Data: $ch1_uVoltageLevelOffset');
+        notifyListeners();
+        return;
+      }
+    }
+  }
+
+  String get offsetValueTextCH1 {
+    if ((ch1_uVoltageLevelOffset.abs() < 1000) &&
+        (ch1_uVoltageLevelOffset.abs() >= 0.0)) {
+      return '${(ch1_uVoltageLevelOffset).toStringAsFixed(2)} µV';
+    } else if ((ch1_uVoltageLevelOffset.abs() >= 1000) &&
+        (ch1_uVoltageLevelOffset.abs() < 1000000)) {
+      return '${(ch1_uVoltageLevelOffset / 1000).toStringAsFixed(2)} mV';
+    } else {
+      return '${(ch1_uVoltageLevelOffset / 1000000).toStringAsFixed(2)} V';
+    }
+  }
+
+  String get offsetValueTextCH2 {
+    if ((ch2_uVoltageLevelOffset.abs() < 1000) &&
+        (ch2_uVoltageLevelOffset.abs() >= 0.0)) {
+      return '${(ch2_uVoltageLevelOffset).toStringAsFixed(2)} µV';
+    } else if ((ch2_uVoltageLevelOffset.abs() >= 1000) &&
+        (ch2_uVoltageLevelOffset.abs() < 1000000)) {
+      return '${(ch2_uVoltageLevelOffset / 1000).toStringAsFixed(2)} mV';
+    } else {
+      return '${(ch2_uVoltageLevelOffset / 1000000).toStringAsFixed(2)} V';
+    }
   }
 }
 

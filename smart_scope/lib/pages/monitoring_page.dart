@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:smart_scope/usb_reader.dart';
 
 List<FlSpot> generateSineWave({
-  double numPoints = 30000,
+  double numPoints = 300,
   double fine = 0.1,
   double frequency = 25,
   double amplitude = 5000.0,
@@ -21,7 +21,7 @@ List<FlSpot> generateSineWave({
 }
 
 List<FlSpot> generateSineWave2({
-  double numPoints = 30000,
+  double numPoints = 300,
   double fine = 0.1,
   double frequency = 30,
   double amplitude = 5000.0,
@@ -90,26 +90,14 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               FlClipData.all(), // Ensures that the line stays in the Chart
                           baselineX: 0.0,
                           baselineY: 0.0,
-                          maxY:
-                              Provider.of<AppState>(context).ch1_uVoltageValue,
-                          minY:
-                              -Provider.of<AppState>(context).ch1_uVoltageValue,
-                          maxX: Provider.of<AppState>(context).timeValue,
-                          minX: -Provider.of<AppState>(context).timeValue,
+                          maxY: NOF_yGrids,
+                          minY: -NOF_yGrids,
+                          maxX: NOF_xGrids,
+                          minX: -NOF_xGrids,
                           // Grid Data
                           gridData: FlGridData(
-                            horizontalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).ch1_uVoltageValue) /
-                                    NOF_yGrids),
-                            verticalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).timeValue) /
-                                    NOF_xGrids),
+                            horizontalInterval: ((2 * NOF_yGrids) / NOF_yGrids),
+                            verticalInterval: ((2 * NOF_xGrids) / NOF_xGrids),
                             getDrawingHorizontalLine:
                                 (value) => FlLine(
                                   color: GridLineColor,
@@ -177,11 +165,29 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           baselineX: 0.0,
                           baselineY: 0.0,
                           maxY:
-                              Provider.of<AppState>(context).ch1_uVoltageValue,
+                              (Provider.of<AppState>(
+                                    context,
+                                  ).ch1_uVoltageValue *
+                                  (NOF_yGrids / 2)) -
+                              Provider.of<AppState>(
+                                context,
+                              ).ch1_uVoltageLevelOffset,
                           minY:
-                              -Provider.of<AppState>(context).ch1_uVoltageValue,
-                          maxX: Provider.of<AppState>(context).timeValue,
-                          minX: -Provider.of<AppState>(context).timeValue,
+                              (-Provider.of<AppState>(
+                                    context,
+                                  ).ch1_uVoltageValue *
+                                  (NOF_yGrids / 2)) -
+                              Provider.of<AppState>(
+                                context,
+                              ).ch1_uVoltageLevelOffset,
+                          maxX:
+                              Provider.of<AppState>(context).timeValue *
+                                  (NOF_xGrids / 2) -
+                              Provider.of<AppState>(context).timeValue,
+                          minX:
+                              -Provider.of<AppState>(context).timeValue *
+                                  (NOF_xGrids / 2) -
+                              Provider.of<AppState>(context).timeValue,
                           // Grid Data
                           gridData: FlGridData(
                             horizontalInterval:
@@ -224,6 +230,53 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           lineTouchData: LineTouchData(
                             enabled: false,
                           ), // disable the linetouchdata
+                          extraLinesData: ExtraLinesData(
+                            horizontalLines: [
+                              HorizontalLine(
+                                y:
+                                    ((Provider.of<AppState>(
+                                                      context,
+                                                    ).ch1_uVoltageLevelOffset +
+                                                    0)
+                                                .abs() <
+                                            (channel1.uVperDivision *
+                                                (NOF_yGrids / 2)))
+                                        ? 20.0
+                                        : (Provider.of<AppState>(
+                                              context,
+                                            ).ch1_uVoltageLevelOffset >
+                                            0)
+                                        ? ((Provider.of<AppState>(
+                                                  context,
+                                                ).ch1_uVoltageValue *
+                                                (NOF_yGrids / 2)) -
+                                            (Provider.of<AppState>(
+                                                  context,
+                                                ).ch1_uVoltageLevelOffset +
+                                                0))
+                                        : (-Provider.of<AppState>(
+                                                  context,
+                                                ).ch1_uVoltageValue *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).ch1_uVoltageLevelOffset +
+                                            50),
+                                color: channel1.channelColor,
+                                strokeWidth: 0,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(right: 5),
+                                  show: channel1.channelIsActive,
+                                  alignment: Alignment.centerLeft,
+                                  labelResolver: (p0) => '▶',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
 
@@ -236,11 +289,27 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           baselineX: 0.0,
                           baselineY: 0.0,
                           maxY:
-                              Provider.of<AppState>(context).ch2_uVoltageValue,
+                              Provider.of<AppState>(context).ch2_uVoltageValue *
+                                  (NOF_yGrids / 2) -
+                              Provider.of<AppState>(
+                                context,
+                              ).ch2_uVoltageLevelOffset,
                           minY:
-                              -Provider.of<AppState>(context).ch2_uVoltageValue,
-                          maxX: Provider.of<AppState>(context).timeValue,
-                          minX: -Provider.of<AppState>(context).timeValue,
+                              -Provider.of<AppState>(
+                                    context,
+                                  ).ch2_uVoltageValue *
+                                  (NOF_yGrids / 2) -
+                              Provider.of<AppState>(
+                                context,
+                              ).ch2_uVoltageLevelOffset,
+                          maxX:
+                              Provider.of<AppState>(context).timeValue *
+                                  (NOF_xGrids / 2) -
+                              Provider.of<AppState>(context).timeValue,
+                          minX:
+                              -Provider.of<AppState>(context).timeValue *
+                                  (NOF_xGrids / 2) -
+                              Provider.of<AppState>(context).timeValue,
                           // Grid Data
                           gridData: FlGridData(
                             horizontalInterval:
@@ -283,6 +352,53 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           lineTouchData: LineTouchData(
                             enabled: false,
                           ), // disable the linetouchdata
+                          extraLinesData: ExtraLinesData(
+                            horizontalLines: [
+                              HorizontalLine(
+                                y:
+                                    ((Provider.of<AppState>(
+                                                      context,
+                                                    ).ch2_uVoltageLevelOffset +
+                                                    0)
+                                                .abs() <
+                                            (channel2.uVperDivision *
+                                                (NOF_yGrids / 2)))
+                                        ? 20.0
+                                        : (Provider.of<AppState>(
+                                              context,
+                                            ).ch2_uVoltageLevelOffset >
+                                            0)
+                                        ? ((Provider.of<AppState>(
+                                                  context,
+                                                ).ch2_uVoltageValue *
+                                                (NOF_yGrids / 2)) -
+                                            (Provider.of<AppState>(
+                                                  context,
+                                                ).ch2_uVoltageLevelOffset +
+                                                0))
+                                        : (-Provider.of<AppState>(
+                                                  context,
+                                                ).ch2_uVoltageValue *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).ch2_uVoltageLevelOffset +
+                                            50),
+                                color: channel2.channelColor,
+                                strokeWidth: 0,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(left: 4),
+                                  show: channel2.channelIsActive,
+                                  alignment: Alignment.centerLeft,
+                                  labelResolver: (p0) => '▶',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

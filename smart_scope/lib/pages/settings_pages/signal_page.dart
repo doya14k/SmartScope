@@ -6,6 +6,7 @@ import 'settings_widgets/triggerModeSelect.dart';
 import 'settings_widgets/triggerChannelSelection.dart';
 import 'settings_widgets/horizontalScale.dart';
 import 'settings_widgets/verticalScaler.dart';
+import 'settings_widgets/levelOffsetShifter.dart';
 
 class SignalPage extends StatefulWidget {
   const SignalPage({super.key});
@@ -172,7 +173,11 @@ class _SignalPageState extends State<SignalPage> {
         ),
         TriggerChannelSelection(),
         HorizontalScaler(),
-        VerticalScaler(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+          children: [VerticalScaler(), LevelOffsetShifter()],
+        ),
       ],
     );
   }
