@@ -5,20 +5,21 @@ import 'definitions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 
-class HorizontalScaler extends StatefulWidget {
-  const HorizontalScaler({super.key});
+class HorizontalTriggerScaler extends StatefulWidget {
+  const HorizontalTriggerScaler({super.key});
 
   @override
-  State<HorizontalScaler> createState() => _HorizontalScalerState();
+  State<HorizontalTriggerScaler> createState() =>
+      _HorizontalTriggerScalerState();
 }
 
-class _HorizontalScalerState extends State<HorizontalScaler> {
+class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
   void updateSlider(double delta, BuildContext context) {
     setState(() {
       final appState = Provider.of<AppState>(context, listen: false);
       channel1.uVperDivision =
           (appState.ch1_uVoltageValue - delta) / max_uVperDivision;
-      appState.updateSliderValue_ch1(
+      appState.updateTriggerHorizontalOffset(
         (appState.ch1_uVoltageValue - delta) / max_uVperDivision,
       );
     });
@@ -27,19 +28,41 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
   void updateTime(double delta, BuildContext context) {
     setState(() {
       final appState = Provider.of<AppState>(context, listen: false);
-      appState.incrementTimeValue(delta / 100);
+      appState.incrementTriggerHorizontalOffset(delta / 100);
       print('Delta ${delta / 100}');
-      print('appState.timeValue ${appState.timeValue}');
+      print('appState.timeValue ${appState.triggerHorizontalOffset}');
       appState.updateGraphTimeValue(appState.triggerHorizontalOffset);
     });
   }
 
-  double logTransform(double value, double min, double max) {
-    return (log(value) - log(min)) / (log(max) - log(min));
+  double logTransform(double value, double max) {
+    if (value == 0) return 0.5;
+
+    double sign = 1.0;
+    if (value < 0.0) {
+      sign = -1.0;
+    }
+
+    return 0.5 + sign * (log((sign * value) + 1) / log(max + 1)) * 0.5;
   }
 
-  double inverseLogTransform(double value, double min, double max) {
-    return exp(log(min) + value * (log(max) - log(min)));
+  double inverseLogTransform(double value, double max) {
+    if (value == 0.5) return 0;
+
+    double sign = 1.0;
+    if (value < 0.5) {
+      sign = -1.0;
+    }
+    double Value = exp((value - 0.5) * 2 * log(max + 1));
+
+    if (sign == 1.0) {
+      return Value + 1;
+    } else if (sign == -1.0) {
+      return -(1 / Value) - 1;
+    }
+
+    // error?
+    return 0.0;
   }
 
   @override
@@ -58,7 +81,7 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
               children: [
                 Spacer(flex: 1),
                 AutoSizeText(
-                  'Horizontal',
+                  'Trigger Horizontal',
                   maxLines: 1,
                   style: TextStyle(
                     fontFamily: 'PrimaryFont',
@@ -79,20 +102,20 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                             Provider.of<AppState>(
                               context,
                               listen: false,
-                            ).timeValue2Text,
+                            ).triggerHorizontalOffsetValue2Text,
                       ),
                     ),
                     obscureText: false,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Time/Div',
+                      labelText: 'Time-offset',
                     ),
                     onSubmitted: (inputText) {
                       setState(() {
                         Provider.of<AppState>(
                           context,
                           listen: false,
-                        ).convertTimeText2Value(inputText);
+                        ).convertTriggerHorizontalOffsetText2Value(inputText);
                       });
                     },
                   ),
@@ -104,22 +127,6 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                IconButton(
-                  style: IconButton.styleFrom(
-                    fixedSize: Size(10, 20),
-                    shape: CircleBorder(),
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      Provider.of<AppState>(
-                        context,
-                        listen: false,
-                      ).incrementTimeValueFine(-1);
-                    });
-                  },
-                  icon: Icon(Icons.arrow_back),
-                  iconSize: 20,
-                ),
                 Expanded(
                   child: Listener(
                     onPointerSignal: (event) {
@@ -129,7 +136,7 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                           Provider.of<AppState>(
                             context,
                             listen: false,
-                          ).timeValue,
+                          ).triggerHorizontalOffset,
                         );
                       }
                     },
@@ -146,24 +153,29 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                       ),
                       child: Slider(
                         value: logTransform(
-                          Provider.of<AppState>(context).timeValue,
-                          min_uSperDivision,
-                          max_uSperDivision,
+                          Provider.of<AppState>(
+                            context,
+                          ).triggerHorizontalOffset,
+                          max_TriggerHorizontalOffset,
                         ),
                         min: 0,
                         max: 1,
                         divisions:
-                            (max_uSperDivision / min_uSperDivision).toInt(),
+                            (max_TriggerHorizontalOffset -
+                                    min_TriggerHorizontalOffset)
+                                .toInt(),
                         onChanged: (double value) {
                           double transformedValue = inverseLogTransform(
                             value,
-                            min_uSperDivision,
-                            max_uSperDivision,
+                            max_TriggerHorizontalOffset,
                           );
                           Provider.of<AppState>(
                             context,
                             listen: false,
-                          ).updateTimeValue(transformedValue);
+                          ).updateTriggerHorizontalOffset(transformedValue);
+                          print(
+                            '${Provider.of<AppState>(context, listen: false).triggerHorizontalOffset}',
+                          );
                         },
                       ),
                     ),
@@ -179,12 +191,17 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                       Provider.of<AppState>(
                         context,
                         listen: false,
-                      ).incrementTimeValueFine(1);
+                      ).updateTriggerHorizontalOffset(0);
+                      print(
+                        '${Provider.of<AppState>(context, listen: false).triggerHorizontalOffset}',
+                      );
                     });
                   },
-                  icon: Icon(Icons.arrow_forward),
-                  iconSize: 20,
+                  icon: Icon(Icons.exposure_zero),
+                  iconSize: 25,
+                  alignment: Alignment.center,
                 ),
+                SizedBox(width: 20),
               ],
             ),
           ],

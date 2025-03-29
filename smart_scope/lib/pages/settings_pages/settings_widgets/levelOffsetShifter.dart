@@ -46,8 +46,8 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
-      width: 225,
+      height: 450,
+      width: 310,
       child: Card(
         color: VerticalScalerBackgroundColor,
         child: Column(
@@ -122,18 +122,20 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                           ),
                         ),
                         SizedBox(
-                          height: 200,
+                          height: 250,
                           child: RotatedBox(
-                            quarterTurns: 1,
+                            quarterTurns: 3,
                             child: Listener(
                               onPointerSignal: (event) {
                                 if (event is PointerScrollEvent) {
-                                  Provider.of<AppState>(
-                                    context,
-                                    listen: false,
-                                  ).incrementCH1_LevelOffset(
-                                    -event.scrollDelta.dy / 100,
-                                  );
+                                  setState(() {
+                                    Provider.of<AppState>(
+                                      context,
+                                      listen: false,
+                                    ).incrementCH1_LevelOffset(
+                                      -event.scrollDelta.dy / 100,
+                                    );
+                                  });
                                 }
                               },
                               child: SliderTheme(
@@ -180,6 +182,26 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                               ),
                             ),
                           ),
+                        ),
+                        IconButton(
+                          style: IconButton.styleFrom(
+                            fixedSize: Size(10, 20),
+                            shape: CircleBorder(),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              Provider.of<AppState>(
+                                context,
+                                listen: false,
+                              ).updatedCH1_LevelOffset(0);
+                              print(
+                                '${Provider.of<AppState>(context, listen: false).triggerHorizontalOffset}',
+                              );
+                            });
+                          },
+                          icon: Icon(Icons.exposure_zero),
+                          iconSize: 25,
+                          alignment: Alignment.center,
                         ),
                       ],
                     ),
@@ -235,18 +257,20 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                           ),
                         ),
                         SizedBox(
-                          height: 200,
+                          height: 250,
                           child: RotatedBox(
                             quarterTurns: 3,
                             child: Listener(
                               onPointerSignal: (event) {
                                 if (event is PointerScrollEvent) {
-                                  Provider.of<AppState>(
-                                    context,
-                                    listen: false,
-                                  ).incrementCH2_LevelOffset(
-                                    -event.scrollDelta.dy / 100,
-                                  );
+                                  setState(() {
+                                    Provider.of<AppState>(
+                                      context,
+                                      listen: false,
+                                    ).incrementCH2_LevelOffset(
+                                      -event.scrollDelta.dy / 100,
+                                    );
+                                  });
                                 }
                               },
                               child: SliderTheme(
@@ -293,6 +317,166 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                               ),
                             ),
                           ),
+                        ),
+                        IconButton(
+                          style: IconButton.styleFrom(
+                            fixedSize: Size(10, 20),
+                            shape: CircleBorder(),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              Provider.of<AppState>(
+                                context,
+                                listen: false,
+                              ).updatedCH2_LevelOffset(0);
+                              print(
+                                '${Provider.of<AppState>(context, listen: false).triggerHorizontalOffset}',
+                              );
+                            });
+                          },
+                          icon: Icon(Icons.exposure_zero),
+                          iconSize: 25,
+                          alignment: Alignment.center,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                Spacer(flex: 1),
+                Column(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 5),
+                        AutoSizeText(
+                          'Trigger',
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontFamily: 'PrimaryFont',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        SizedBox(
+                          height: 50,
+                          width: 85,
+                          child: TextField(
+                            controller: TextEditingController.fromValue(
+                              TextEditingValue(
+                                text:
+                                    Provider.of<AppState>(
+                                      context,
+                                      listen: false,
+                                    ).triggerVerticalOffsetValue2Text,
+                              ),
+                            ),
+                            style: TextStyle(fontSize: 14),
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              contentPadding: EdgeInsets.all(2),
+                              border: OutlineInputBorder(),
+                              labelText: 'Offset',
+                            ),
+                            onSubmitted: (inputText) {
+                              setState(() {
+                                Provider.of<AppState>(
+                                  context,
+                                  listen: false,
+                                ).convertTriggerVerticalOffsetText2Value(
+                                  inputText,
+                                );
+                                print('$inputText');
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 250,
+                          child: RotatedBox(
+                            quarterTurns: 3,
+                            child: Listener(
+                              onPointerSignal: (event) {
+                                if (event is PointerScrollEvent) {
+                                  Provider.of<AppState>(
+                                    context,
+                                    listen: false,
+                                  ).incrementTriggerVerticalOffset(
+                                    -event.scrollDelta.dy / 100,
+                                  );
+                                  print(
+                                    '${Provider.of<AppState>(context, listen: false).triggerVerticalOffset}',
+                                  );
+                                }
+                              },
+                              child: SliderTheme(
+                                data: SliderThemeData(
+                                  trackShape: RectangularSliderTrackShape(),
+                                  trackHeight: 5.0,
+                                  activeTrackColor: Colors.grey,
+                                  inactiveTrackColor: Colors.grey,
+                                  thumbColor: Colors.black,
+                                  thumbShape: RoundSliderThumbShape(
+                                    enabledThumbRadius: 10,
+                                  ),
+                                ),
+                                child: Slider(
+                                  value: logTransform(
+                                    Provider.of<AppState>(
+                                      context,
+                                      listen: false,
+                                    ).triggerVerticalOffset,
+                                    max_TriggerVerticalOffset,
+                                  ),
+                                  min: 0,
+                                  max: 1,
+                                  divisions:
+                                      (max_TriggerVerticalOffset -
+                                              min_TriggerVerticalOffset)
+                                          .toInt(),
+                                  onChanged: (double value) {
+                                    setState(() {
+                                      Provider.of<AppState>(
+                                        context,
+                                        listen: false,
+                                      ).updateTriggerVerticalOffset(
+                                        inverseLogTransform(
+                                          value,
+                                          max_TriggerVerticalOffset,
+                                        ),
+                                      );
+                                      print(
+                                        'Offset slide: ${(Provider.of<AppState>(context, listen: false).triggerVerticalOffset)}',
+                                      );
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          style: IconButton.styleFrom(
+                            fixedSize: Size(10, 20),
+                            shape: CircleBorder(),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              Provider.of<AppState>(
+                                context,
+                                listen: false,
+                              ).updateTriggerVerticalOffset(0);
+                              print(
+                                '${Provider.of<AppState>(context, listen: false).triggerHorizontalOffset}',
+                              );
+                            });
+                          },
+                          icon: Icon(Icons.exposure_zero),
+                          iconSize: 25,
+                          alignment: Alignment.center,
                         ),
                       ],
                     ),

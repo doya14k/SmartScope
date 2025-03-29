@@ -123,7 +123,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                                   context,
                                   listen: false,
                                 ).convertVoltageText2ValueCH1(inputText);
-                                print('$inputText');
+                                print(inputText);
                               });
                             },
                           ),
@@ -347,7 +347,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                                   context,
                                   listen: false,
                                 ).convertVoltageText2ValueCH2(inputText);
-                                print('$inputText');
+                                print(inputText);
                               });
                             },
                           ),

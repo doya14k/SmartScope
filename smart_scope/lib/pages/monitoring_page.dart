@@ -165,29 +165,17 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           baselineX: 0.0,
                           baselineY: 0.0,
                           maxY:
-                              (Provider.of<AppState>(
-                                    context,
-                                  ).ch1_uVoltageValue *
-                                  (NOF_yGrids / 2)) -
                               Provider.of<AppState>(
                                 context,
-                              ).ch1_uVoltageLevelOffset,
+                              ).maxGraphVoltageValueCH1,
                           minY:
-                              (-Provider.of<AppState>(
-                                    context,
-                                  ).ch1_uVoltageValue *
-                                  (NOF_yGrids / 2)) -
                               Provider.of<AppState>(
                                 context,
-                              ).ch1_uVoltageLevelOffset,
+                              ).minGraphVoltageValueCH1,
                           maxX:
-                              Provider.of<AppState>(context).timeValue *
-                                  (NOF_xGrids / 2) -
-                              Provider.of<AppState>(context).timeValue,
+                              Provider.of<AppState>(context).maxGraphTimeValue,
                           minX:
-                              -Provider.of<AppState>(context).timeValue *
-                                  (NOF_xGrids / 2) -
-                              Provider.of<AppState>(context).timeValue,
+                              Provider.of<AppState>(context).minGraphTimeValue,
                           // Grid Data
                           gridData: FlGridData(
                             horizontalInterval:
@@ -231,13 +219,57 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             enabled: false,
                           ), // disable the linetouchdata
                           extraLinesData: ExtraLinesData(
+                            verticalLines: [
+                              VerticalLine(
+                                x:
+                                    ((Provider.of<AppState>(context).timeValue *
+                                                ((NOF_xGrids / 2) - 1)) >
+                                            (Provider.of<AppState>(
+                                                  context,
+                                                ).triggerHorizontalOffset)
+                                                .abs())
+                                        ? 0
+                                        : (Provider.of<AppState>(
+                                              context,
+                                            ).triggerHorizontalOffset <
+                                            0)
+                                        ? -Provider.of<AppState>(
+                                                  context,
+                                                ).timeValue *
+                                                (NOF_xGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).triggerHorizontalOffset
+                                        : Provider.of<AppState>(
+                                                  context,
+                                                ).timeValue *
+                                                (NOF_xGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).triggerHorizontalOffset,
+                                color: triggerColor,
+                                strokeWidth: 0.0,
+                                label: VerticalLineLabel(
+                                  padding: EdgeInsets.only(top: 0),
+                                  show:
+                                      ((channel1.channelIsActive) &&
+                                          selectedTriggerChannel ==
+                                              channels[0]),
+                                  alignment: Alignment.topCenter,
+                                  labelResolver: (p0) => '▼',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                             horizontalLines: [
                               HorizontalLine(
                                 y:
                                     ((Provider.of<AppState>(
-                                                      context,
-                                                    ).ch1_uVoltageLevelOffset +
-                                                    0)
+                                                  context,
+                                                ).ch1_uVoltageLevelOffset)
                                                 .abs() <
                                             (channel1.uVperDivision *
                                                 (NOF_yGrids / 2)))
@@ -275,6 +307,50 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                   ),
                                 ),
                               ),
+                              // Trigger offset
+                              HorizontalLine(
+                                y:
+                                    ((Provider.of<AppState>(context).timeValue *
+                                                ((NOF_yGrids / 2) - 1)) >
+                                            (Provider.of<AppState>(
+                                                  context,
+                                                ).triggerVerticalOffset)
+                                                .abs())
+                                        ? 0
+                                        : (Provider.of<AppState>(
+                                              context,
+                                            ).triggerVerticalOffset <
+                                            0)
+                                        ? -Provider.of<AppState>(
+                                                  context,
+                                                ).timeValue *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).triggerVerticalOffset
+                                        : Provider.of<AppState>(
+                                                  context,
+                                                ).timeValue *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).triggerVerticalOffset,
+                                color: triggerColor,
+                                strokeWidth: 0.0,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(top: 0),
+                                  show:
+                                      ((channel1.channelIsActive) &&
+                                          selectedTriggerChannel ==
+                                              channels[0]),
+                                  alignment: Alignment.centerRight,
+                                  labelResolver: (p0) => '◀',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -289,27 +365,17 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           baselineX: 0.0,
                           baselineY: 0.0,
                           maxY:
-                              Provider.of<AppState>(context).ch2_uVoltageValue *
-                                  (NOF_yGrids / 2) -
                               Provider.of<AppState>(
                                 context,
-                              ).ch2_uVoltageLevelOffset,
+                              ).maxGraphVoltageValueCH2,
                           minY:
-                              -Provider.of<AppState>(
-                                    context,
-                                  ).ch2_uVoltageValue *
-                                  (NOF_yGrids / 2) -
                               Provider.of<AppState>(
                                 context,
-                              ).ch2_uVoltageLevelOffset,
+                              ).minGraphVoltageValueCH2,
                           maxX:
-                              Provider.of<AppState>(context).timeValue *
-                                  (NOF_xGrids / 2) -
-                              Provider.of<AppState>(context).timeValue,
+                              Provider.of<AppState>(context).maxGraphTimeValue,
                           minX:
-                              -Provider.of<AppState>(context).timeValue *
-                                  (NOF_xGrids / 2) -
-                              Provider.of<AppState>(context).timeValue,
+                              Provider.of<AppState>(context).minGraphTimeValue,
                           // Grid Data
                           gridData: FlGridData(
                             horizontalInterval:
@@ -353,7 +419,53 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             enabled: false,
                           ), // disable the linetouchdata
                           extraLinesData: ExtraLinesData(
+                            verticalLines: [
+                              VerticalLine(
+                                x:
+                                    ((Provider.of<AppState>(context).timeValue *
+                                                ((NOF_xGrids / 2) - 1)) >
+                                            (Provider.of<AppState>(
+                                                  context,
+                                                ).triggerHorizontalOffset)
+                                                .abs())
+                                        ? 0
+                                        : (Provider.of<AppState>(
+                                              context,
+                                            ).triggerHorizontalOffset <
+                                            0)
+                                        ? -Provider.of<AppState>(
+                                                  context,
+                                                ).timeValue *
+                                                (NOF_xGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).triggerHorizontalOffset
+                                        : Provider.of<AppState>(
+                                                  context,
+                                                ).timeValue *
+                                                (NOF_xGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).triggerHorizontalOffset,
+                                color: triggerColor,
+                                strokeWidth: 0.0,
+                                label: VerticalLineLabel(
+                                  padding: EdgeInsets.only(top: 0),
+                                  show:
+                                      ((channel2.channelIsActive) &&
+                                          selectedTriggerChannel ==
+                                              channels[1]),
+                                  alignment: Alignment.topCenter,
+                                  labelResolver: (p0) => '▼',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                             horizontalLines: [
+                              // Offset Data
                               HorizontalLine(
                                 y:
                                     ((Provider.of<AppState>(
@@ -397,10 +509,54 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                   ),
                                 ),
                               ),
+                              // Trigger offset
+                              HorizontalLine(
+                                y:
+                                    ((Provider.of<AppState>(context).timeValue *
+                                                ((NOF_yGrids / 2) - 1)) >
+                                            (Provider.of<AppState>(
+                                                  context,
+                                                ).triggerVerticalOffset)
+                                                .abs())
+                                        ? 0
+                                        : (Provider.of<AppState>(
+                                              context,
+                                            ).triggerVerticalOffset <
+                                            0)
+                                        ? -Provider.of<AppState>(
+                                                  context,
+                                                ).timeValue *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).triggerVerticalOffset
+                                        : Provider.of<AppState>(
+                                                  context,
+                                                ).timeValue *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<AppState>(
+                                              context,
+                                            ).triggerVerticalOffset,
+                                color: triggerColor,
+                                strokeWidth: 0.0,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(top: 0),
+                                  show:
+                                      ((channel2.channelIsActive) &&
+                                          selectedTriggerChannel ==
+                                              channels[1]),
+                                  alignment: Alignment.centerRight,
+                                  labelResolver: (p0) => '◀',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ),
+                      ), // Trigger
                     ],
                   ),
                 ),

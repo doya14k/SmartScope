@@ -14,6 +14,9 @@ Color UnselectedItemColor = Colors.grey.shade700;
 // Clear
 Color clear = Color.fromRGBO(0, 0, 0, 0);
 
+// Trigger Color
+Color triggerColor = Colors.deepOrange;
+
 // Channel Class
 class Channel {
   Color channelColor = Colors.grey;
@@ -109,13 +112,52 @@ double increment_uSperDivision = 1.0;
 double max_uVLevelOffset = 100000000;
 double min_uVLevelOffset = -max_uVLevelOffset;
 
+// Trigger Offset Horizontal
+double max_TriggerHorizontalOffset = max_uSperDivision * NOF_xGrids / 2;
+double min_TriggerHorizontalOffset = -max_TriggerHorizontalOffset;
+
+// Trigger Offset vertical
+double max_TriggerVerticalOffset = max_uVperDivision * NOF_yGrids / 2;
+double min_TriggerVerticalOffset = -max_TriggerVerticalOffset;
+
 class AppState extends ChangeNotifier {
   double _ch1_uVoltageValue = channel1.uVperDivision; // 2000.0;
   double _ch2_uVoltageValue = channel2.uVperDivision; //2000.0;
   double timeValue = 2.0;
 
+  double triggerHorizontalOffset = 0.0;
+  double triggerVerticalOffset = 0.0;
+
   double ch1_uVoltageLevelOffset = 0.0;
   double ch2_uVoltageLevelOffset = 0.0;
+
+  double maxGraphTimeValue = 2.0 * (NOF_xGrids / 2);
+  double minGraphTimeValue = -2.0 * (NOF_xGrids / 2);
+
+  double maxGraphVoltageValueCH1 = channel1.uVperDivision * (NOF_yGrids / 2);
+  double minGraphVoltageValueCH1 = -channel1.uVperDivision * (NOF_yGrids / 2);
+
+  double maxGraphVoltageValueCH2 = channel2.uVperDivision * (NOF_yGrids / 2);
+  double minGraphVoltageValueCH2 = -channel2.uVperDivision * (NOF_yGrids / 2);
+
+  updateGraphTimeValue(double timeOffsetValue) {
+    maxGraphTimeValue = (timeValue * (NOF_xGrids / 2) - timeOffsetValue);
+    minGraphTimeValue = (-timeValue * (NOF_xGrids / 2) - timeOffsetValue);
+    notifyListeners();
+  }
+
+  updateGraphVoltageValue() {
+    maxGraphVoltageValueCH1 =
+        (channel1.uVperDivision * (NOF_yGrids / 2)) - ch1_uVoltageLevelOffset;
+    minGraphVoltageValueCH1 =
+        -(channel1.uVperDivision * (NOF_yGrids / 2)) - ch1_uVoltageLevelOffset;
+
+    maxGraphVoltageValueCH2 =
+        (channel2.uVperDivision * (NOF_yGrids / 2)) - ch2_uVoltageLevelOffset;
+    minGraphVoltageValueCH2 =
+        -(channel2.uVperDivision * (NOF_yGrids / 2)) - ch2_uVoltageLevelOffset;
+    notifyListeners();
+  }
 
   double get ch1_uVoltageValue {
     return _ch1_uVoltageValue;
@@ -276,6 +318,7 @@ class AppState extends ChangeNotifier {
           timeValue *= 1000000;
         }
         print('Data: $timeValue');
+        updateGraphTimeValue(triggerHorizontalOffset);
         notifyListeners();
         return;
       } else if ((timeText[i] == 'n') ||
@@ -294,6 +337,7 @@ class AppState extends ChangeNotifier {
           timeValue *= 1000000;
         }
         print('Data: $timeValue');
+        updateGraphTimeValue(triggerHorizontalOffset);
         notifyListeners();
         return;
       }
@@ -302,7 +346,7 @@ class AppState extends ChangeNotifier {
 
   void updateSliderValue_ch1(double newValue) {
     channel1.uVperDivision = newValue;
-    _ch1_uVoltageValue = channel1.uVperDivision!.clamp(
+    _ch1_uVoltageValue = channel1.uVperDivision.clamp(
       min_uVperDivision,
       max_uVperDivision,
     );
@@ -311,7 +355,7 @@ class AppState extends ChangeNotifier {
 
   void updateSliderValue_ch2(double newValue) {
     channel2.uVperDivision = newValue;
-    _ch2_uVoltageValue = channel2.uVperDivision!.clamp(
+    _ch2_uVoltageValue = channel2.uVperDivision.clamp(
       min_uVperDivision,
       max_uVperDivision,
     );
@@ -354,6 +398,7 @@ class AppState extends ChangeNotifier {
 
   void updateTimeValue(double newValue) {
     timeValue = newValue.clamp(min_uSperDivision, max_uSperDivision);
+    updateGraphTimeValue(triggerHorizontalOffset);
     notifyListeners();
   }
 
@@ -398,6 +443,7 @@ class AppState extends ChangeNotifier {
     } else if (timeValue < min_uSperDivision) {
       timeValue = min_uSperDivision;
     }
+    updateGraphTimeValue(triggerHorizontalOffset);
     notifyListeners();
   }
 
@@ -442,6 +488,7 @@ class AppState extends ChangeNotifier {
     } else if (ch1_uVoltageLevelOffset <= min_uVLevelOffset) {
       ch1_uVoltageLevelOffset = min_uVLevelOffset;
     }
+    updateGraphVoltageValue();
     notifyListeners();
   }
 
@@ -452,6 +499,7 @@ class AppState extends ChangeNotifier {
     } else if (ch2_uVoltageLevelOffset <= min_uVLevelOffset) {
       ch2_uVoltageLevelOffset = min_uVLevelOffset;
     }
+    updateGraphVoltageValue();
     notifyListeners();
   }
 
@@ -462,6 +510,7 @@ class AppState extends ChangeNotifier {
     } else if (ch1_uVoltageLevelOffset <= min_uVLevelOffset) {
       ch1_uVoltageLevelOffset = min_uVLevelOffset;
     }
+    updateGraphVoltageValue();
     notifyListeners();
   }
 
@@ -472,6 +521,7 @@ class AppState extends ChangeNotifier {
     } else if (ch2_uVoltageLevelOffset <= min_uVLevelOffset) {
       ch2_uVoltageLevelOffset = min_uVLevelOffset;
     }
+    updateGraphVoltageValue();
     notifyListeners();
   }
 
@@ -498,16 +548,17 @@ class AppState extends ChangeNotifier {
           ch2_uVoltageLevelOffset *= 1;
         } else if (offsetText[i + 1] == 'm') {
           ch2_uVoltageLevelOffset *= 1000;
-        } else if (offsetText[i + 1] == 's') {
+        } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
           ch2_uVoltageLevelOffset *= 1000000;
         }
         print('Data: $ch2_uVoltageLevelOffset');
+        updateGraphVoltageValue();
         notifyListeners();
         return;
       } else if ((offsetText[i] == 'n') ||
           (offsetText[i] == 'u') ||
           (offsetText[i] == 'm') ||
-          (offsetText[i] == 's')) {
+          ((offsetText[i] == 'v') || (offsetText[i] == 'V'))) {
         offsetTextNumbersOnly = offsetText.replaceRange(
           i,
           offsetText.length,
@@ -520,10 +571,11 @@ class AppState extends ChangeNotifier {
           ch2_uVoltageLevelOffset *= 1;
         } else if (offsetText[i] == 'm') {
           ch2_uVoltageLevelOffset *= 1000;
-        } else if (offsetText[i] == 's') {
+        } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
           ch2_uVoltageLevelOffset *= 1000000;
         }
         print('Data: $ch2_uVoltageLevelOffset');
+        updateGraphVoltageValue();
         notifyListeners();
         return;
       }
@@ -553,16 +605,17 @@ class AppState extends ChangeNotifier {
           ch1_uVoltageLevelOffset *= 1;
         } else if (offsetText[i + 1] == 'm') {
           ch1_uVoltageLevelOffset *= 1000;
-        } else if (offsetText[i + 1] == 's') {
+        } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
           ch1_uVoltageLevelOffset *= 1000000;
         }
         print('Data: $ch1_uVoltageLevelOffset');
+        updateGraphVoltageValue();
         notifyListeners();
         return;
       } else if ((offsetText[i] == 'n') ||
           (offsetText[i] == 'u') ||
           (offsetText[i] == 'm') ||
-          (offsetText[i] == 's')) {
+          ((offsetText[i] == 'v') || (offsetText[i] == 'V'))) {
         offsetTextNumbersOnly = offsetText.replaceRange(
           i,
           offsetText.length,
@@ -575,10 +628,11 @@ class AppState extends ChangeNotifier {
           ch1_uVoltageLevelOffset *= 1;
         } else if (offsetText[i] == 'm') {
           ch1_uVoltageLevelOffset *= 1000;
-        } else if (offsetText[i] == 's') {
+        } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
           ch1_uVoltageLevelOffset *= 1000000;
         }
         print('Data: $ch1_uVoltageLevelOffset');
+        updateGraphVoltageValue();
         notifyListeners();
         return;
       }
@@ -608,6 +662,192 @@ class AppState extends ChangeNotifier {
       return '${(ch2_uVoltageLevelOffset / 1000000).toStringAsFixed(2)} V';
     }
   }
+
+  void updateTriggerHorizontalOffset(double newValue) {
+    triggerHorizontalOffset = newValue;
+    if (triggerHorizontalOffset > (max_TriggerHorizontalOffset)) {
+      triggerHorizontalOffset = max_TriggerHorizontalOffset;
+    } else if (triggerHorizontalOffset <= min_TriggerHorizontalOffset) {
+      triggerHorizontalOffset = min_TriggerHorizontalOffset;
+    }
+    updateGraphTimeValue(triggerHorizontalOffset);
+    notifyListeners();
+  }
+
+  void incrementTriggerHorizontalOffset(double delta) {
+    triggerHorizontalOffset += ((timeValue / 20) * delta);
+    if (triggerHorizontalOffset > max_TriggerHorizontalOffset) {
+      triggerHorizontalOffset = max_TriggerHorizontalOffset;
+    } else if (triggerHorizontalOffset <= min_TriggerHorizontalOffset) {
+      triggerHorizontalOffset = min_TriggerHorizontalOffset;
+    }
+    notifyListeners();
+  }
+
+  convertTriggerHorizontalOffsetText2Value(String offsetText) {
+    String offsetTextNumbersOnly;
+    double sign = 1;
+
+    if (offsetText[0] == '-') {
+      sign = -1;
+      offsetText = offsetText.replaceRange(0, 1, '');
+    }
+
+    for (int i = 0; i < offsetText.length; i++) {
+      if ((offsetText[i] == ' ')) {
+        offsetTextNumbersOnly = offsetText.replaceRange(
+          i,
+          offsetText.length,
+          '',
+        );
+        triggerHorizontalOffset = sign * double.parse(offsetTextNumbersOnly);
+        if (offsetText[i + 1] == 'n') {
+          triggerHorizontalOffset *= 0.001;
+        } else if ((offsetText[i + 1] == 'u') || (offsetText[i + 1] == 'µ')) {
+          triggerHorizontalOffset *= 1;
+        } else if (offsetText[i + 1] == 'm') {
+          triggerHorizontalOffset *= 1000;
+        } else if (offsetText[i + 1] == 's') {
+          triggerHorizontalOffset *= 1000000;
+        }
+        print('Data: $triggerHorizontalOffset');
+        notifyListeners();
+        updateGraphTimeValue(triggerHorizontalOffset);
+        return;
+      } else if ((offsetText[i] == 'n') ||
+          (offsetText[i] == 'u') ||
+          (offsetText[i] == 'm') ||
+          (offsetText[i] == 's')) {
+        offsetTextNumbersOnly = offsetText.replaceRange(
+          i,
+          offsetText.length,
+          '',
+        );
+        triggerHorizontalOffset = sign * double.parse(offsetTextNumbersOnly);
+        if (offsetText[i] == 'n') {
+          triggerHorizontalOffset *= 0.001;
+        } else if ((offsetText[i] == 'u') || (offsetText[i] == 'µ')) {
+          triggerHorizontalOffset *= 1;
+        } else if (offsetText[i] == 'm') {
+          triggerHorizontalOffset *= 1000;
+        } else if (offsetText[i] == 's') {
+          triggerHorizontalOffset *= 1000000;
+        }
+        print('Data: $triggerHorizontalOffset');
+        notifyListeners();
+        updateGraphTimeValue(triggerHorizontalOffset);
+        return;
+      }
+    }
+  }
+
+  String get triggerHorizontalOffsetValue2Text {
+    if ((triggerHorizontalOffset.abs() < 1000) &&
+        (triggerHorizontalOffset.abs() >= 0.0)) {
+      return '${(triggerHorizontalOffset).toStringAsFixed(2)} µs';
+    } else if ((triggerHorizontalOffset.abs() >= 1000) &&
+        (triggerHorizontalOffset.abs() < 1000000)) {
+      return '${(triggerHorizontalOffset / 1000).toStringAsFixed(2)} ms';
+    } else {
+      return '${(triggerHorizontalOffset / 1000000).toStringAsFixed(2)} s';
+    }
+  }
+
+  void updateTriggerVerticalOffset(double newValue) {
+    triggerVerticalOffset = newValue;
+    if (triggerVerticalOffset > (max_TriggerVerticalOffset)) {
+      triggerVerticalOffset = max_TriggerVerticalOffset;
+    } else if (triggerVerticalOffset <= min_TriggerVerticalOffset) {
+      triggerVerticalOffset = min_TriggerVerticalOffset;
+    }
+    updateGraphVoltageValue();
+    notifyListeners();
+  }
+
+  void incrementTriggerVerticalOffset(double delta) {
+    double referenceUvperdivision = channel1.uVperDivision;
+
+    if (!channel1.channelIsActive) {
+      if (channel2.channelIsActive) {
+        referenceUvperdivision = channel2.uVperDivision;
+      }
+    }
+
+    triggerVerticalOffset += ((referenceUvperdivision / 20) * delta);
+    if (triggerVerticalOffset > max_TriggerVerticalOffset) {
+      triggerVerticalOffset = max_TriggerVerticalOffset;
+    } else if (triggerVerticalOffset <= min_TriggerVerticalOffset) {
+      triggerVerticalOffset = min_TriggerVerticalOffset;
+    }
+    notifyListeners();
+  }
+
+  String get triggerVerticalOffsetValue2Text {
+    if ((triggerVerticalOffset.abs() < 1000) &&
+        (triggerVerticalOffset.abs() >= 0.0)) {
+      return '${(triggerVerticalOffset).toStringAsFixed(2)} µV';
+    } else if ((triggerVerticalOffset.abs() >= 1000) &&
+        (triggerVerticalOffset.abs() < 1000000)) {
+      return '${(triggerVerticalOffset / 1000).toStringAsFixed(2)} mV';
+    } else {
+      return '${(triggerVerticalOffset / 1000000).toStringAsFixed(2)} V';
+    }
+  }
+
+  convertTriggerVerticalOffsetText2Value(String offsetText) {
+    String offsetTextNumbersOnly;
+    double sign = 1;
+
+    if (offsetText[0] == '-') {
+      sign = -1;
+      offsetText = offsetText.replaceRange(0, 1, '');
+    }
+
+    for (int i = 0; i < offsetText.length; i++) {
+      if ((offsetText[i] == ' ')) {
+        offsetTextNumbersOnly = offsetText.replaceRange(
+          i,
+          offsetText.length,
+          '',
+        );
+        triggerVerticalOffset = sign * double.parse(offsetTextNumbersOnly);
+        if (offsetText[i + 1] == 'n') {
+          triggerVerticalOffset *= 0.001;
+        } else if ((offsetText[i + 1] == 'u') || (offsetText[i + 1] == 'µ')) {
+          triggerVerticalOffset *= 1;
+        } else if (offsetText[i + 1] == 'm') {
+          triggerVerticalOffset *= 1000;
+        } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
+          triggerVerticalOffset *= 1000000;
+        }
+        print('Data: $triggerVerticalOffset');
+        notifyListeners();
+        return;
+      } else if ((offsetText[i] == 'n') ||
+          (offsetText[i] == 'u') ||
+          (offsetText[i] == 'm') ||
+          ((offsetText[i] == 'v') || (offsetText[i] == 'V'))) {
+        offsetTextNumbersOnly = offsetText.replaceRange(
+          i,
+          offsetText.length,
+          '',
+        );
+        triggerVerticalOffset = sign * double.parse(offsetTextNumbersOnly);
+        if (offsetText[i] == 'n') {
+          triggerVerticalOffset *= 0.001;
+        } else if ((offsetText[i] == 'u') || (offsetText[i] == 'µ')) {
+          triggerVerticalOffset *= 1;
+        } else if (offsetText[i] == 'm') {
+          triggerVerticalOffset *= 1000;
+        } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
+          triggerVerticalOffset *= 1000000;
+        }
+        print('Data: $triggerVerticalOffset');
+        notifyListeners();
+        return;
+      }
+    }
+  }
 }
 
 SerialPort? selectedPort;
@@ -616,7 +856,13 @@ SerialPort? selectedPort;
 List<String> triggerMode = ['Auto', 'Single', 'Normal', 'Roll'];
 int selecetTriggerModeIndex = 2;
 
+List<String> triggerStates = ['Run', 'Stop', 'Clear'];
+int selecetTriggerStateIndex = 1;
+
 Color selectedTriggerModeBackgroundColor = Colors.grey.shade500;
+Color selectedTriggerStateBackgroundColor = Colors.grey.shade500;
+Color selectedRunBackgroundColor = Colors.green;
+Color selectedStopBackgroundColor = Colors.red;
 
 // Trigger Channel
 Channel selectedTriggerChannel = channels[0];

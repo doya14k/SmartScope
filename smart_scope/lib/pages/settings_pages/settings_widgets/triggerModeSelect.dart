@@ -14,7 +14,15 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 200,
-      height: 90,
+      height:
+          5 +
+          ActivateChannelFont_Size +
+          CH_Enable_sizedBoxHeight +
+          CH_Enable_height +
+          CH_Enable_sizedBoxHeight +
+          CH_Enable_height +
+          5 +
+          15,
       child: Card(
         color: ChannelEnableBackgroundColor,
         child: Row(
@@ -28,7 +36,19 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                 int actualIndex = index;
                 return OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    fixedSize: Size(90, 30),
+                    fixedSize: Size(
+                      90,
+                      (5 +
+                              ActivateChannelFont_Size +
+                              CH_Enable_sizedBoxHeight +
+                              CH_Enable_height +
+                              CH_Enable_sizedBoxHeight +
+                              CH_Enable_height +
+                              5 +
+                              15 -
+                              30) /
+                          2,
+                    ),
                     backgroundColor:
                         (actualIndex == selecetTriggerModeIndex)
                             ? selectedTriggerModeBackgroundColor
@@ -40,7 +60,7 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                     style: TextStyle(
                       fontFamily: 'PrimaryFont',
                       fontWeight: FontWeight.bold,
-                      fontSize: 50,
+                      fontSize: 100,
                       color:
                           (actualIndex == selecetTriggerModeIndex)
                               ? ChannelEnableBackgroundColor
@@ -64,7 +84,19 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                 int actualIndex = index + (triggerMode.length / 2).floor();
                 return OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    fixedSize: Size(90, 30),
+                    fixedSize: Size(
+                      90,
+                      (5 +
+                              ActivateChannelFont_Size +
+                              CH_Enable_sizedBoxHeight +
+                              CH_Enable_height +
+                              CH_Enable_sizedBoxHeight +
+                              CH_Enable_height +
+                              5 +
+                              15 -
+                              30) /
+                          2,
+                    ),
                     backgroundColor:
                         (actualIndex == selecetTriggerModeIndex)
                             ? selectedTriggerModeBackgroundColor
@@ -76,7 +108,7 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                     style: TextStyle(
                       fontFamily: 'PrimaryFont',
                       fontWeight: FontWeight.bold,
-                      fontSize: 50,
+                      fontSize: 100,
                       color:
                           (actualIndex == selecetTriggerModeIndex)
                               ? ChannelEnableBackgroundColor

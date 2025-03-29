@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'definitions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
 class TriggerChannelSelection extends StatefulWidget {
   const TriggerChannelSelection({super.key});
@@ -15,7 +16,7 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 200,
-      height: 200,
+      height: 240,
       child: Card(
         color: ChannelEnableBackgroundColor,
         child: Column(
@@ -45,7 +46,7 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
               children: [
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    fixedSize: Size(80, 40),
+                    fixedSize: Size(80, 60),
                     backgroundColor:
                         (selectedTriggerChannel == channels[0])
                             ? channel1.channelColor
@@ -72,7 +73,7 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                 ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    fixedSize: Size(80, 40),
+                    fixedSize: Size(80, 60),
                     backgroundColor:
                         (selectedTriggerChannel == channels[1])
                             ? channel2.channelColor
@@ -116,8 +117,8 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                 RotatedBox(
                   quarterTurns: 2,
                   child: SizedBox(
-                    width: 70,
-                    height: 50,
+                    width: 80,
+                    height: 60,
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: Switch(

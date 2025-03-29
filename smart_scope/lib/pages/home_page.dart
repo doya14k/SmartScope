@@ -73,8 +73,9 @@ class _SettingsMenuState extends State<SettingsMenu> {
         backgroundColor: AppBarBackroundColor,
         title: Text(
           "Settings-Menu",
-          style: TextStyle(fontFamily: 'PrimaryFont'),
+          style: TextStyle(fontFamily: 'PrimaryFont', fontSize: 40),
         ),
+        toolbarHeight: 100,
       ),
       body: pages[selectedIndex],
       backgroundColor: BodyBackgroundColor,

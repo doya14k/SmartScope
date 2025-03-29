@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_scope/pages/usb_select.dart';
 import 'package:provider/provider.dart';
-import 'package:window_manager/window_manager.dart';
 import 'pages/home_page.dart';
 import 'pages/settings_pages/settings_widgets/definitions.dart';
 
