@@ -55,6 +55,10 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   onPressed: () {
                     setState(() {
                       selectedTriggerChannel = channels[0];
+                      Provider.of<AppState>(
+                        context,
+                        listen: false,
+                      ).updateTriggeredChannel(channels[0]);
                     });
                   },
                   child: AutoSizeText(
@@ -82,6 +86,10 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   onPressed: () {
                     setState(() {
                       selectedTriggerChannel = channels[1];
+                      Provider.of<AppState>(
+                        context,
+                        listen: false,
+                      ).updateTriggeredChannel(channels[1]);
                     });
                   },
                   child: AutoSizeText(

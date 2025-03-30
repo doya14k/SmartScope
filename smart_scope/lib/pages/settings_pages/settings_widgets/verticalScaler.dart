@@ -30,6 +30,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
       appState.incrementVoltageValueCH1(-delta / 100);
       print('Delta ${delta / 100}');
       print('appState.ch1 ${appState.ch1_uVoltageValue}');
+      appState.updateGraphVoltageValue();
     });
   }
 
@@ -39,6 +40,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
       appState.incrementVoltageValueCH2(-delta / 100);
       print('Delta ${delta / 100}');
       print('appState.ch2 ${appState.ch2_uVoltageValue}');
+      appState.updateGraphVoltageValue();
     });
   }
 
@@ -135,16 +137,18 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             child: Listener(
                               onPointerSignal: (event) {
                                 if (event is PointerScrollEvent) {
-                                  updateCH1_VperDiv(
-                                    event.scrollDelta.dy,
-                                    context,
-                                  );
-                                  print(
-                                    Provider.of<AppState>(
+                                  setState(() {
+                                    updateCH1_VperDiv(
+                                      event.scrollDelta.dy,
                                       context,
-                                      listen: false,
-                                    ).ch1_uVoltageValue,
-                                  );
+                                    );
+                                    print(
+                                      Provider.of<AppState>(
+                                        context,
+                                        listen: false,
+                                      ).ch1_uVoltageValue,
+                                    );
+                                  });
                                 }
                               },
                               child: SliderTheme(
@@ -359,16 +363,18 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             child: Listener(
                               onPointerSignal: (event) {
                                 if (event is PointerScrollEvent) {
-                                  updateCH2_VperDiv(
-                                    event.scrollDelta.dy,
-                                    context,
-                                  );
-                                  print(
-                                    Provider.of<AppState>(
+                                  setState(() {
+                                    updateCH2_VperDiv(
+                                      event.scrollDelta.dy,
                                       context,
-                                      listen: false,
-                                    ).timeValue,
-                                  );
+                                    );
+                                    print(
+                                      Provider.of<AppState>(
+                                        context,
+                                        listen: false,
+                                      ).timeValue,
+                                    );
+                                  });
                                 }
                               },
                               child: SliderTheme(

@@ -140,6 +140,16 @@ class AppState extends ChangeNotifier {
   double maxGraphVoltageValueCH2 = channel2.uVperDivision * (NOF_yGrids / 2);
   double minGraphVoltageValueCH2 = -channel2.uVperDivision * (NOF_yGrids / 2);
 
+  bool get channel1IsTriggered =>
+      ((channel1.channelIsActive) && selectedTriggerChannel == channels[0]);
+  bool get channel2IsTriggered =>
+      ((channel2.channelIsActive) && selectedTriggerChannel == channels[1]);
+
+  updateTriggeredChannel(var newTriggerChannel) {
+    selectedTriggerChannel = newTriggerChannel;
+    notifyListeners();
+  }
+
   updateGraphTimeValue(double timeOffsetValue) {
     maxGraphTimeValue = (timeValue * (NOF_xGrids / 2) - timeOffsetValue);
     minGraphTimeValue = (-timeValue * (NOF_xGrids / 2) - timeOffsetValue);
@@ -147,6 +157,9 @@ class AppState extends ChangeNotifier {
   }
 
   updateGraphVoltageValue() {
+    channel1.uVperDivision = _ch1_uVoltageValue;
+    channel2.uVperDivision = _ch2_uVoltageValue;
+
     maxGraphVoltageValueCH1 =
         (channel1.uVperDivision * (NOF_yGrids / 2)) - ch1_uVoltageLevelOffset;
     minGraphVoltageValueCH1 =
@@ -230,6 +243,7 @@ class AppState extends ChangeNotifier {
           _ch1_uVoltageValue *= 1000000;
         }
         print('Data: $_ch1_uVoltageValue');
+        updateGraphVoltageValue();
         notifyListeners();
         return;
       } else if ((voltagText[i] == 'u') ||
@@ -250,6 +264,7 @@ class AppState extends ChangeNotifier {
           _ch1_uVoltageValue *= 1000000;
         }
         print('Data: $_ch1_uVoltageValue');
+        updateGraphVoltageValue();
         notifyListeners();
         return;
       }
@@ -275,6 +290,7 @@ class AppState extends ChangeNotifier {
           _ch2_uVoltageValue *= 1000000;
         }
         print('Data: $_ch2_uVoltageValue');
+        updateGraphVoltageValue();
         notifyListeners();
         return;
       } else if ((voltagText[i] == 'u') ||
@@ -295,6 +311,7 @@ class AppState extends ChangeNotifier {
           _ch2_uVoltageValue *= 1000000;
         }
         print('Data: $_ch2_uVoltageValue');
+        updateGraphVoltageValue();
         notifyListeners();
         return;
       }
@@ -350,6 +367,8 @@ class AppState extends ChangeNotifier {
       min_uVperDivision,
       max_uVperDivision,
     );
+    channel1.uVperDivision = _ch1_uVoltageValue;
+    updateGraphVoltageValue();
     notifyListeners();
   }
 
@@ -359,6 +378,8 @@ class AppState extends ChangeNotifier {
       min_uVperDivision,
       max_uVperDivision,
     );
+    channel2.uVperDivision = _ch2_uVoltageValue;
+    updateGraphVoltageValue();
     notifyListeners();
   }
 
@@ -376,6 +397,8 @@ class AppState extends ChangeNotifier {
     } else if (_ch1_uVoltageValue < min_uVperDivision) {
       _ch1_uVoltageValue = min_uVperDivision;
     }
+    channel1.uVperDivision = _ch1_uVoltageValue;
+    updateGraphVoltageValue();
     notifyListeners();
   }
 
@@ -393,6 +416,8 @@ class AppState extends ChangeNotifier {
     } else if (_ch2_uVoltageValue < min_uVperDivision) {
       _ch2_uVoltageValue = min_uVperDivision;
     }
+    channel2.uVperDivision = _ch2_uVoltageValue;
+    updateGraphVoltageValue();
     notifyListeners();
   }
 
@@ -473,9 +498,13 @@ class AppState extends ChangeNotifier {
   void ch2_pressed() {
     if (channel2.channelIsActive) {
       channel2.channelIsActive = false;
+      selectedTriggerChannel = channels[0];
+      updateTriggeredChannel(selectedTriggerChannel);
       print("CH2_Disabled");
     } else {
       channel2.channelIsActive = true;
+      selectedTriggerChannel = channels[1];
+      updateTriggeredChannel(selectedTriggerChannel);
       print("CH2_Activated");
     }
     notifyListeners();

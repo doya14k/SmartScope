@@ -252,9 +252,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 label: VerticalLineLabel(
                                   padding: EdgeInsets.only(top: 0),
                                   show:
-                                      ((channel1.channelIsActive) &&
-                                          selectedTriggerChannel ==
-                                              channels[0]),
+                                      Provider.of<AppState>(
+                                        context,
+                                        listen: true,
+                                      ).channel1IsTriggered,
                                   alignment: Alignment.topCenter,
                                   labelResolver: (p0) => '▼',
                                   style: TextStyle(
@@ -340,9 +341,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 label: HorizontalLineLabel(
                                   padding: EdgeInsets.only(top: 0),
                                   show:
-                                      ((channel1.channelIsActive) &&
-                                          selectedTriggerChannel ==
-                                              channels[0]),
+                                      Provider.of<AppState>(
+                                        context,
+                                        listen: true,
+                                      ).channel1IsTriggered,
                                   alignment: Alignment.centerRight,
                                   labelResolver: (p0) => '◀',
                                   style: TextStyle(
@@ -452,9 +454,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 label: VerticalLineLabel(
                                   padding: EdgeInsets.only(top: 0),
                                   show:
-                                      ((channel2.channelIsActive) &&
-                                          selectedTriggerChannel ==
-                                              channels[1]),
+                                      Provider.of<AppState>(
+                                        context,
+                                        listen: true,
+                                      ).channel2IsTriggered,
                                   alignment: Alignment.topCenter,
                                   labelResolver: (p0) => '▼',
                                   style: TextStyle(
@@ -542,9 +545,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 label: HorizontalLineLabel(
                                   padding: EdgeInsets.only(top: 0),
                                   show:
-                                      ((channel2.channelIsActive) &&
-                                          selectedTriggerChannel ==
-                                              channels[1]),
+                                      Provider.of<AppState>(
+                                        context,
+                                        listen: true,
+                                      ).channel2IsTriggered,
                                   alignment: Alignment.centerRight,
                                   labelResolver: (p0) => '◀',
                                   style: TextStyle(
