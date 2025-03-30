@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_scope/pages/monitoring_page.dart';
 import 'settings_pages/signal_page.dart';
 import 'settings_pages/settings_widgets/definitions.dart';
+import 'settings_pages/measurement_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -50,12 +51,12 @@ class SettingsMenu extends StatefulWidget {
   State<SettingsMenu> createState() => _SettingsMenuState();
 }
 
-int selectedIndex = 0; // Index für die Auswahl des aktuellen Inhalts
+int selectedIndex = 1; // Index für die Auswahl des aktuellen Inhalts
 
 class _SettingsMenuState extends State<SettingsMenu> {
   final List<Widget> pages = [
     SignalPage(),
-    Center(child: Text("Measurements", style: TextStyle(fontSize: 24))),
+    MeasurementPage(),
     Center(child: Text("Reference", style: TextStyle(fontSize: 24))),
     Center(child: Text("Cursor", style: TextStyle(fontSize: 24))),
   ];

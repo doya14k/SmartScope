@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_scope/pages/settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'package:smart_scope/pages/usb_select.dart';
 import 'package:provider/provider.dart';
 import 'pages/home_page.dart';
@@ -20,7 +21,13 @@ void main() async {
   //   await windowManager.setAspectRatio(16 / 9);
   // });
   runApp(
-    ChangeNotifierProvider(create: (context) => AppState(), child: MyApp()),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AppState()),
+        ChangeNotifierProvider(create: (context) => MeasurementsChanges()),
+      ],
+      child: MyApp(),
+    ),
   );
 }
 

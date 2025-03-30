@@ -75,9 +75,7 @@ List<Channel> channels = [channel1, channel2];
 
 String selectedTestChannel = 'Select Channel';
 
-// Channel Parameters
-// Color ch1Color = Colors.amber;
-// Color ch2Color = Colors.blue.shade300;
+
 
 // Acitvate Channel Widget
 double ActivateChannelFontSize = 35.0;
