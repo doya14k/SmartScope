@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 // Channel Parameters
 Color channel1_lightBackgroundColor = Colors.amber.shade200;
@@ -12,7 +14,181 @@ Color measurementnotSelectedBackground = Colors.grey.shade50;
 double outlinedButtonWidth = 150;
 double outlinedButtonHeight = 60;
 
+final GlobalKey<_MeasurementDataTemplateState> ch1_Period_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Frequency_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_widthPos_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_widthNeg_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_dutyPos_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_dutyNeg_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Vmax_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Vmin_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Vpp_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Vamp_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Vtop_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Vbase_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Vavg_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch1_Vrms_key = GlobalKey();
+
+final GlobalKey<_MeasurementDataTemplateState> ch2_Period_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Frequency_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_widthPos_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_widthNeg_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_dutyPos_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_dutyNeg_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Vmax_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Vmin_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Vpp_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Vamp_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Vtop_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Vbase_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Vavg_key = GlobalKey();
+final GlobalKey<_MeasurementDataTemplateState> ch2_Vrms_key = GlobalKey();
+
+// DataWindow
+String Data2Text(double data, int decimalDigits, String unit) {
+  double dataAbs = data.abs();
+  if (dataAbs >= 1000000000) {
+    return '${(data / 1000000000).toStringAsFixed(decimalDigits)} G$unit';
+  } else if (dataAbs >= 1000000) {
+    return '${(data / 1000000).toStringAsFixed(decimalDigits)} M$unit';
+  } else if (dataAbs >= 1000) {
+    return '${(data / 1000).toStringAsFixed(decimalDigits)} k$unit';
+  } else if (dataAbs >= 1.0) {
+    return '${data.toStringAsFixed(decimalDigits)} $unit';
+  } else if (dataAbs >= 0.001) {
+    return '${(data * 1000).toStringAsFixed(decimalDigits)} m$unit';
+  } else if (dataAbs >= 0.000001) {
+    return '${(data * 1000000).toStringAsFixed(decimalDigits)} µ$unit';
+  } else if (dataAbs >= 0.000000001) {
+    return '${(data * 1000000000).toStringAsFixed(decimalDigits)} n$unit';
+  }
+  return "$data $unit";
+}
+
+Color ch1_WindowDataColor = Colors.amber.shade50;
+Color ch2_WindowDataColor = Colors.blue.shade50;
+
+double dataWindowWidth = 95;
+double dataWindowHeight = 70;
+
+class MeasurementDataTemplate extends StatefulWidget {
+  final String title;
+  final Color color;
+  final double? initialData;
+  final int decimalDigits;
+  final String unit;
+
+  const MeasurementDataTemplate({
+    required super.key,
+    required this.title,
+    this.initialData,
+    required this.color,
+    required this.decimalDigits,
+    required this.unit,
+  });
+
+  @override
+  State<MeasurementDataTemplate> createState() =>
+      _MeasurementDataTemplateState();
+}
+
+class _MeasurementDataTemplateState extends State<MeasurementDataTemplate> {
+  late double _data;
+
+  @override
+  void initState() {
+    super.initState();
+    _data = widget.initialData ?? 0.0;
+  }
+
+  void updateData(double newData) {
+    setState(() {
+      _data = newData;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: dataWindowHeight,
+      width: dataWindowWidth,
+      child: Padding(
+        padding: const EdgeInsets.all(3),
+        child: Container(
+          decoration: BoxDecoration(
+            color: widget.color,
+            border: Border.all(color: Colors.black, width: 1.25),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 7,
+                child: AutoSizeText(
+                  '${widget.title}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'PrimaryFont',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Colors.black,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 10,
+                child: AutoSizeText(
+                  '${Data2Text(_data, widget.decimalDigits, widget.unit)}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'PrimaryFont',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class MeasurementsChanges extends ChangeNotifier {
+  // Data Variables Time
+  double ch1_Period = 0;
+  double ch1_Frequency = 0;
+  double ch1_widthPos = 0;
+  double ch1_widthNeg = 0;
+  double ch1_DutyPos = 0;
+  double ch1_DutyhNeg = 0;
+  double ch2_Period = 0;
+  double ch2_Frequency = 0;
+  double ch2_widthPos = 0;
+  double ch2_widthNeg = 0;
+  double ch2_DutyPos = 0;
+  double ch2_DutyhNeg = 0;
+
+  // Data Variables Vertical
+  double ch1_Vmax = 0;
+  double ch1_Vmin = 0;
+  double ch1_Vpp = 0;
+  double ch1_Vamp = 0;
+  double ch1_Vtop = 0;
+  double ch1_Vbase = 0;
+  double ch1_Vavg = 0;
+  double ch1_Vrms = 0;
+  double ch2_Vmax = 0;
+  double ch2_Vmin = 0;
+  double ch2_Vpp = 0;
+  double ch2_Vamp = 0;
+  double ch2_Vtop = 0;
+  double ch2_Vbase = 0;
+  double ch2_Vavg = 0;
+  double ch2_Vrms = 0;
+
   bool measCH1_Period = false;
   bool measCH1_Frequency = false;
   bool measCH1_widthPos = false;
@@ -80,6 +256,7 @@ class MeasurementsChanges extends ChangeNotifier {
   update_measCH1_Vpp() {
     measCH1_Vpp = !measCH1_Vpp;
     print('CH1 Vpp: ${measCH1_Vpp}');
+    ch2_Vpp_key.currentState?.updateData(10.0);
     notifyListeners();
   }
 
