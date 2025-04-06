@@ -14,9 +14,11 @@ class TriggerChannelSelection extends StatefulWidget {
 class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 200,
-      height: 240,
+      width: screenWidth * 0.104,
+      height: screenHeight * 0.242,
       child: Card(
         color: ChannelEnableBackgroundColor,
         child: Column(
@@ -32,7 +34,7 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   style: TextStyle(
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
-                    fontSize: 25,
+                    fontSize: screenHeight * 0.01759,
                     color: Colors.black,
                     decoration: TextDecoration.underline,
                   ),
@@ -46,7 +48,10 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
               children: [
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    fixedSize: Size(80, 60),
+                    fixedSize: Size(
+                      screenWidth * 0.04167,
+                      screenHeight * 0.05277,
+                    ),
                     backgroundColor:
                         (selectedTriggerChannel == channels[0])
                             ? channel1.channelColor
@@ -63,10 +68,11 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   },
                   child: AutoSizeText(
                     "CH1",
+                    minFontSize: 1,
                     style: TextStyle(
                       fontFamily: 'PrimaryFont',
                       fontWeight: FontWeight.bold,
-                      fontSize: 50,
+                      fontSize: screenHeight * 0.044,
                       color:
                           (selectedTriggerChannel == channels[0])
                               ? ChannelSelected_fontColor
@@ -77,7 +83,10 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                 ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
-                    fixedSize: Size(80, 60),
+                    fixedSize: Size(
+                      screenWidth * 0.04167,
+                      screenHeight * 0.05277,
+                    ),
                     backgroundColor:
                         (selectedTriggerChannel == channels[1])
                             ? channel2.channelColor
@@ -94,10 +103,11 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   },
                   child: AutoSizeText(
                     "CH2",
+                    minFontSize: 1,
                     style: TextStyle(
                       fontFamily: 'PrimaryFont',
                       fontWeight: FontWeight.bold,
-                      fontSize: 50,
+                      fontSize: screenHeight * 0.044,
                       color:
                           (selectedTriggerChannel == channels[1])
                               ? ChannelSelected_fontColor
@@ -115,8 +125,8 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
               children: [
                 Image.asset(
                   'images/rising_edge.png',
-                  width: 30,
-                  height: 30,
+                  width: screenWidth * 0.0156,
+                  height: screenHeight * 0.02638,
                   opacity:
                       (fallingTriggerSelected)
                           ? AlwaysStoppedAnimation(1)
@@ -125,8 +135,8 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                 RotatedBox(
                   quarterTurns: 2,
                   child: SizedBox(
-                    width: 80,
-                    height: 60,
+                    width: screenWidth * 0.04167,
+                    height: screenHeight * 0.05277,
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: Switch(
@@ -164,8 +174,8 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                 ),
                 Image.asset(
                   'images/falling_edge.png',
-                  width: 30,
-                  height: 30,
+                  width: screenWidth * 0.0156,
+                  height: screenHeight * 0.02638,
                   opacity:
                       (!fallingTriggerSelected)
                           ? AlwaysStoppedAnimation(1)

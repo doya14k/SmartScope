@@ -12,17 +12,11 @@ class TriggerModeSelector extends StatefulWidget {
 class _TriggerModeSelectorState extends State<TriggerModeSelector> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 200,
-      height:
-          5 +
-          ActivateChannelFont_Size +
-          CH_Enable_sizedBoxHeight +
-          CH_Enable_height +
-          CH_Enable_sizedBoxHeight +
-          CH_Enable_height +
-          5 +
-          15,
+      width: screenWidth * 0.1042,
+      height: screenHeight * 0.143,
       child: Card(
         color: ChannelEnableBackgroundColor,
         child: Row(
@@ -37,34 +31,27 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                 return OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     fixedSize: Size(
-                      90,
-                      (5 +
-                              ActivateChannelFont_Size +
-                              CH_Enable_sizedBoxHeight +
-                              CH_Enable_height +
-                              CH_Enable_sizedBoxHeight +
-                              CH_Enable_height +
-                              5 +
-                              15 -
-                              30) /
-                          2,
+                      screenWidth * 0.04687,
+                      ((screenHeight * 0.1401) - 10) / 2,
                     ),
                     backgroundColor:
                         (actualIndex == selecetTriggerModeIndex)
                             ? selectedTriggerModeBackgroundColor
                             : clear,
                   ),
-                  child: AutoSizeText(
-                    triggerMode[actualIndex],
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'PrimaryFont',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 100,
-                      color:
-                          (actualIndex == selecetTriggerModeIndex)
-                              ? ChannelEnableBackgroundColor
-                              : selectedTriggerModeBackgroundColor,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: Text(
+                      triggerMode[actualIndex],
+                      style: TextStyle(
+                        fontFamily: 'PrimaryFont',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 100,
+                        color:
+                            (actualIndex == selecetTriggerModeIndex)
+                                ? ChannelEnableBackgroundColor
+                                : selectedTriggerModeBackgroundColor,
+                      ),
                     ),
                   ),
                   onPressed: () {
@@ -85,34 +72,27 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                 return OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     fixedSize: Size(
-                      90,
-                      (5 +
-                              ActivateChannelFont_Size +
-                              CH_Enable_sizedBoxHeight +
-                              CH_Enable_height +
-                              CH_Enable_sizedBoxHeight +
-                              CH_Enable_height +
-                              5 +
-                              15 -
-                              30) /
-                          2,
+                      screenWidth * 0.04687,
+                      ((screenHeight * 0.1401) - 10) / 2,
                     ),
                     backgroundColor:
                         (actualIndex == selecetTriggerModeIndex)
                             ? selectedTriggerModeBackgroundColor
                             : clear,
                   ),
-                  child: AutoSizeText(
-                    triggerMode[actualIndex],
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'PrimaryFont',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 100,
-                      color:
-                          (actualIndex == selecetTriggerModeIndex)
-                              ? ChannelEnableBackgroundColor
-                              : selectedTriggerModeBackgroundColor,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: Text(
+                      triggerMode[actualIndex],
+                      style: TextStyle(
+                        fontFamily: 'PrimaryFont',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 100,
+                        color:
+                            (actualIndex == selecetTriggerModeIndex)
+                                ? ChannelEnableBackgroundColor
+                                : selectedTriggerModeBackgroundColor,
+                      ),
                     ),
                   ),
                   onPressed: () {

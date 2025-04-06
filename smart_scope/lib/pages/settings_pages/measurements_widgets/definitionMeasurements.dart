@@ -98,7 +98,11 @@ class _MeasurementDataTemplateState extends State<MeasurementDataTemplate> {
   @override
   void initState() {
     super.initState();
-    _data = widget.initialData ?? 0.0;
+    if (widget.initialData == null) {
+      _data = 0.0;
+    } else {
+      _data = widget.initialData!;
+    }
   }
 
   void updateData(double newData) {
@@ -109,15 +113,20 @@ class _MeasurementDataTemplateState extends State<MeasurementDataTemplate> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      height: dataWindowHeight,
-      width: dataWindowWidth,
+      height: screenHeight * 0.06156,
+      width: screenWidth * 0.049479,
       child: Padding(
-        padding: const EdgeInsets.all(3),
+        padding: EdgeInsets.all(screenHeight * 0.002638),
         child: Container(
           decoration: BoxDecoration(
             color: widget.color,
-            border: Border.all(color: Colors.black, width: 1.25),
+            border: Border.all(
+              color: Colors.black,
+              width: screenHeight * 0.001099,
+            ),
           ),
           child: Column(
             children: [
@@ -125,11 +134,12 @@ class _MeasurementDataTemplateState extends State<MeasurementDataTemplate> {
                 flex: 7,
                 child: AutoSizeText(
                   '${widget.title}',
+                  minFontSize: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                    fontSize: screenHeight * 0.0132,
                     color: Colors.black,
                     decoration: TextDecoration.underline,
                   ),
@@ -139,11 +149,12 @@ class _MeasurementDataTemplateState extends State<MeasurementDataTemplate> {
                 flex: 10,
                 child: AutoSizeText(
                   '${Data2Text(_data, widget.decimalDigits, widget.unit)}',
+                  minFontSize: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: screenHeight * 0.01759,
                     color: Colors.black,
                   ),
                 ),

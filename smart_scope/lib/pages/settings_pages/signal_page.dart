@@ -41,44 +41,46 @@ class _SignalPageState extends State<SignalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       child: Stack(
         children: [
           Positioned(top: topMargin, left: leftMargin, child: ChannelEnable()),
           Positioned(
             top: topMargin,
-            left: leftMargin + 145,
+            left: screenWidth * 0.0807,
             child: TriggerModeSelector(),
           ),
           Positioned(
             top: topMargin,
-            left: leftMargin + 350,
+            left: screenWidth * 0.1875,
             child: TriggerStateSelector(),
           ),
           Positioned(
-            top: topMargin + 168,
-            left: leftMargin + 350,
+            top: screenHeight * 0.1477,
+            left: screenWidth * 0.1875,
             child: TriggerChannelSelection(),
           ),
           Positioned(
-            top: topMargin + 165,
+            top: screenHeight * 0.1477,
             left: leftMargin,
             child: HorizontalScaler(),
           ),
           Positioned(
-            top: topMargin + 290,
+            top: screenHeight * 0.2726,
             left: leftMargin,
             child: HorizontalTriggerScaler(),
           ),
           Positioned(
-            top: topMargin + 415,
-            left: leftMargin + 325,
-            child: VerticalScaler(),
-          ),
-          Positioned(
-            top: topMargin + 415,
+            top: screenHeight * 0.4,
             left: leftMargin,
             child: LevelOffsetShifter(),
+          ),
+          Positioned(
+            top: screenHeight * 0.4,
+            left: screenWidth * 0.1744,
+            child: VerticalScaler(),
           ),
         ],
       ),

@@ -12,17 +12,11 @@ class TriggerStateSelector extends StatefulWidget {
 class _TriggerStateSelectorState extends State<TriggerStateSelector> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 200,
-      height:
-          5 +
-          ActivateChannelFont_Size +
-          CH_Enable_sizedBoxHeight +
-          CH_Enable_height +
-          CH_Enable_sizedBoxHeight +
-          CH_Enable_height +
-          5 +
-          15,
+      width: screenWidth * 0.1041,
+      height: screenHeight * 0.143,
       child: Card(
         color: ChannelEnableBackgroundColor,
         child: Row(
@@ -35,17 +29,8 @@ class _TriggerStateSelectorState extends State<TriggerStateSelector> {
                 return OutlinedButton(
                   style: OutlinedButton.styleFrom(
                     fixedSize: Size(
-                      180,
-                      (5 +
-                              ActivateChannelFont_Size +
-                              CH_Enable_sizedBoxHeight +
-                              CH_Enable_height +
-                              CH_Enable_sizedBoxHeight +
-                              CH_Enable_height +
-                              5 +
-                              15 -
-                              30) /
-                          3,
+                      screenWidth * 0.09375,
+                      (screenHeight * 0.143 - 30) / 3,
                     ),
                     backgroundColor:
                         (actualIndex != selecetTriggerStateIndex)

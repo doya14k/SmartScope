@@ -15,6 +15,8 @@ class _MeasurementsSettingsChannel1State
     extends State<MeasurementsSettingsChannel1> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       margin: EdgeInsets.all(20),
       color: channel1_lightBackgroundColor,
@@ -58,8 +60,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -88,7 +90,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -97,8 +99,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -139,8 +141,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -169,7 +171,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -178,8 +180,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -220,8 +222,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -250,7 +252,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -259,8 +261,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -333,8 +335,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -363,7 +365,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -372,8 +374,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -402,7 +404,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 50),
+                        SizedBox(height: screenHeight * 0.044),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -411,8 +413,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -441,7 +443,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -450,8 +452,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -493,8 +495,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -523,7 +525,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -532,8 +534,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -562,7 +564,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 50),
+                        SizedBox(height: screenHeight * 0.044),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -571,8 +573,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(
@@ -601,7 +603,7 @@ class _MeasurementsSettingsChannel1State
                             ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -610,8 +612,8 @@ class _MeasurementsSettingsChannel1State
                               ),
                             ),
                             fixedSize: Size(
-                              outlinedButtonWidth,
-                              outlinedButtonHeight,
+                              screenWidth * 0.078,
+                              screenHeight * 0.053,
                             ),
                             backgroundColor:
                                 (Provider.of<MeasurementsChanges>(

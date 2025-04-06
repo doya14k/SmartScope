@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'definitions.dart';
 import 'package:provider/provider.dart';
@@ -12,20 +13,14 @@ class ChannelEnable extends StatefulWidget {
 class _ChannelEnableState extends State<ChannelEnable> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      height:
-          (5 +
-              ActivateChannelFont_Size +
-              CH_Enable_sizedBoxHeight +
-              CH_Enable_height +
-              CH_Enable_sizedBoxHeight +
-              CH_Enable_height +
-              5 +
-              15),
+      height: screenHeight * 0.143,
       child: Card(
         color: ChannelEnableBackgroundColor,
         child: Container(
-          margin: EdgeInsets.all(5.0),
+          margin: EdgeInsets.all(screenHeight * 0.00439),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -34,10 +29,10 @@ class _ChannelEnableState extends State<ChannelEnable> {
                 style: TextStyle(
                   fontFamily: 'PrimaryFont',
                   fontWeight: FontWeight.bold,
-                  fontSize: ActivateChannelFont_Size,
+                  fontSize: screenHeight * 0.0132,
                 ),
               ),
-              SizedBox(height: CH_Enable_sizedBoxHeight),
+              SizedBox(height: screenHeight * 0.00876),
               // .-----------------.
               // |  ____ _   _   _ |
               // | / ___| | | | / ||
@@ -47,7 +42,7 @@ class _ChannelEnableState extends State<ChannelEnable> {
               // '-----------------'
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  fixedSize: Size(CH_Enable_width, CH_Enable_height),
+                  fixedSize: Size(screenWidth * 0.0625, screenHeight * 0.044),
                   backgroundColor:
                       channel1.channelIsActive ? channel1.channelColor : clear,
                 ),
@@ -56,12 +51,13 @@ class _ChannelEnableState extends State<ChannelEnable> {
                     Provider.of<AppState>(context, listen: false).ch1_pressed();
                   });
                 },
-                child: Text(
+                child: AutoSizeText(
                   "CH1",
+                  maxLines: 1,
                   style: TextStyle(
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
-                    fontSize: ActivateChannelFontSize,
+                    fontSize: screenHeight * 0.0305,
                     color:
                         channel1.channelIsActive
                             ? ChannelSelected_fontColor
@@ -69,7 +65,7 @@ class _ChannelEnableState extends State<ChannelEnable> {
                   ),
                 ),
               ),
-              SizedBox(height: CH_Enable_sizedBoxHeight),
+              SizedBox(height: screenHeight * 0.00876),
               // .---------------------.
               // |  ____ _   _   ____  |
               // | / ___| | | | |___ \ |
@@ -79,7 +75,7 @@ class _ChannelEnableState extends State<ChannelEnable> {
               // '---------------------'
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  fixedSize: Size(CH_Enable_width, CH_Enable_height),
+                  fixedSize: Size(screenWidth * 0.0625, screenHeight * 0.044),
                   backgroundColor:
                       channel2.channelIsActive ? channel2.channelColor : clear,
                 ),
@@ -88,12 +84,13 @@ class _ChannelEnableState extends State<ChannelEnable> {
                     Provider.of<AppState>(context, listen: false).ch2_pressed();
                   });
                 },
-                child: Text(
+                child: AutoSizeText(
                   "CH2",
+                  maxLines: 1,
                   style: TextStyle(
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
-                    fontSize: ActivateChannelFontSize,
+                    fontSize: screenHeight * 0.0305,
                     color:
                         channel2.channelIsActive
                             ? ChannelSelected_fontColor

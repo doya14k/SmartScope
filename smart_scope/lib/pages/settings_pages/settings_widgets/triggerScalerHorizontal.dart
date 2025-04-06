@@ -67,9 +67,11 @@ class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 340,
-      height: 120,
+      width: screenWidth * 0.177,
+      height: screenHeight * 0.119,
       child: Card(
         color: HorizontalScalerBackgroundColor,
         child: Column(
@@ -87,14 +89,14 @@ class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
-                    fontSize: 20,
+                    fontSize: screenHeight * 0.0175,
                     color: Colors.black,
                   ),
                 ),
                 Spacer(flex: 5),
                 SizedBox(
-                  height: 50,
-                  width: 120,
+                  height: screenHeight * 0.044,
+                  width: screenWidth * 0.0625,
                   child: TextField(
                     controller: TextEditingController.fromValue(
                       TextEditingValue(
@@ -183,7 +185,10 @@ class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
                 ),
                 IconButton(
                   style: IconButton.styleFrom(
-                    fixedSize: Size(10, 20),
+                    fixedSize: Size(
+                      screenWidth * 0.00521,
+                      screenHeight * 0.01759,
+                    ),
                     shape: CircleBorder(),
                   ),
                   onPressed: () {
@@ -201,7 +206,7 @@ class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
                   iconSize: 25,
                   alignment: Alignment.center,
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: screenWidth * 0.0104),
               ],
             ),
           ],

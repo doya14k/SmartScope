@@ -51,7 +51,7 @@ class SettingsMenu extends StatefulWidget {
   State<SettingsMenu> createState() => _SettingsMenuState();
 }
 
-int selectedIndex = 1; // Index für die Auswahl des aktuellen Inhalts
+int selectedIndex = 0; 
 
 class _SettingsMenuState extends State<SettingsMenu> {
   final List<Widget> pages = [
@@ -69,14 +69,18 @@ class _SettingsMenuState extends State<SettingsMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppBarBackroundColor,
         title: Text(
           "Settings-Menu",
-          style: TextStyle(fontFamily: 'PrimaryFont', fontSize: 40),
+          style: TextStyle(
+            fontFamily: 'PrimaryFont',
+            fontSize: screenHeight * 0.04,
+          ),
         ),
-        toolbarHeight: 100,
+        toolbarHeight: screenHeight * 0.075,
       ),
       body: pages[selectedIndex],
       backgroundColor: BodyBackgroundColor,

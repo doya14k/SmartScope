@@ -57,6 +57,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Expanded(
       child: Scaffold(
         body: Column(
@@ -82,7 +83,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
               child: Padding(
                 padding: EdgeInsets.all(20.0),
                 child: SizedBox(
-                  height: 700,
+                  height: screenHeight * 0.6156,
                   child: Stack(
                     children: [
                       LineChart(
@@ -603,7 +604,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                           style: TextStyle(
                                             fontFamily: 'PrimaryFont',
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 25,
+                                            fontSize: screenHeight * 0.022,
                                             color: Colors.black,
                                           ),
                                         ),
@@ -830,7 +831,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                           style: TextStyle(
                                             fontFamily: 'PrimaryFont',
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 25,
+                                            fontSize: screenHeight * 0.022,
                                             color: Colors.black,
                                           ),
                                         ),

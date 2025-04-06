@@ -19,12 +19,14 @@ class _MeasurementPageState extends State<MeasurementPage> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: screenHeight * 0.018),
           Expanded(
             flex: 1,
             child: Row(
@@ -35,7 +37,10 @@ class _MeasurementPageState extends State<MeasurementPage> {
                   flex: 6,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      fixedSize: Size(CH_Enable_width, CH_Enable_height),
+                      fixedSize: Size(
+                        screenWidth * 0.0625,
+                        screenHeight * 0.045,
+                      ),
                       backgroundColor:
                           (selectedMeasurementSettingsChannel == 0)
                               ? channel1.channelColor
@@ -66,7 +71,10 @@ class _MeasurementPageState extends State<MeasurementPage> {
                   flex: 6,
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      fixedSize: Size(CH_Enable_width, CH_Enable_height),
+                      fixedSize: Size(
+                        screenWidth * 0.0625,
+                        screenHeight * 0.045,
+                      ),
                       backgroundColor:
                           (selectedMeasurementSettingsChannel == 1)
                               ? channel2.channelColor

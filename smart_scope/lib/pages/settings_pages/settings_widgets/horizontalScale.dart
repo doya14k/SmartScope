@@ -44,9 +44,11 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      width: 340,
-      height: 120,
+      width: screenWidth * 0.177,
+      height: screenHeight * 0.119,
       child: Card(
         color: HorizontalScalerBackgroundColor,
         child: Column(
@@ -64,14 +66,14 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
-                    fontSize: 20,
+                    fontSize: screenHeight * 0.01759,
                     color: Colors.black,
                   ),
                 ),
                 Spacer(flex: 5),
                 SizedBox(
-                  height: 50,
-                  width: 120,
+                  height: screenHeight * 0.044,
+                  width: screenWidth * 0.0625,
                   child: TextField(
                     controller: TextEditingController.fromValue(
                       TextEditingValue(
@@ -106,7 +108,10 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
               children: [
                 IconButton(
                   style: IconButton.styleFrom(
-                    fixedSize: Size(10, 20),
+                    fixedSize: Size(
+                      screenWidth * 0.005208,
+                      screenHeight * 0.01759,
+                    ),
                     shape: CircleBorder(),
                   ),
                   onPressed: () {
@@ -118,7 +123,7 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                     });
                   },
                   icon: Icon(Icons.arrow_back),
-                  iconSize: 20,
+                  iconSize: screenHeight * 0.01759,
                 ),
                 Expanded(
                   child: Listener(
@@ -171,7 +176,10 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                 ),
                 IconButton(
                   style: IconButton.styleFrom(
-                    fixedSize: Size(10, 20),
+                    fixedSize: Size(
+                      screenWidth * 0.005208,
+                      screenHeight * 0.01759,
+                    ),
                     shape: CircleBorder(),
                   ),
                   onPressed: () {
@@ -183,7 +191,7 @@ class _HorizontalScalerState extends State<HorizontalScaler> {
                     });
                   },
                   icon: Icon(Icons.arrow_forward),
-                  iconSize: 20,
+                  iconSize: screenHeight * 0.01759,
                 ),
               ],
             ),

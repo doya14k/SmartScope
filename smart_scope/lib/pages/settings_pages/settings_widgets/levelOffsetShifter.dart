@@ -45,16 +45,18 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      height: 450,
-      width: 310,
+      height: screenHeight * 0.4045,
+      width: screenWidth * 0.1614,
       child: Card(
         color: VerticalScalerBackgroundColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight * 0.0088),
             Row(
               children: [
                 Spacer(flex: 1),
@@ -65,7 +67,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
-                    fontSize: 20,
+                    fontSize: screenWidth * 0.00104,
                     color: Colors.black,
                   ),
                 ),
@@ -85,14 +87,14 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                           style: TextStyle(
                             fontFamily: 'PrimaryFont',
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,
+                            fontSize: screenWidth * 0.0156,
                             color: channel1.channelColor,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         SizedBox(
-                          height: 50,
-                          width: 85,
+                          height: screenHeight * 0.04397,
+                          width: screenWidth * 0.04427,
                           child: TextField(
                             controller: TextEditingController.fromValue(
                               TextEditingValue(
@@ -122,7 +124,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                           ),
                         ),
                         SizedBox(
-                          height: 250,
+                          height: screenHeight * 0.2198,
                           child: RotatedBox(
                             quarterTurns: 3,
                             child: Listener(
@@ -200,7 +202,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                             });
                           },
                           icon: Icon(Icons.exposure_zero),
-                          iconSize: 25,
+                          iconSize: screenWidth * 0.013,
                           alignment: Alignment.center,
                         ),
                       ],
@@ -220,14 +222,14 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                           style: TextStyle(
                             fontFamily: 'PrimaryFont',
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,
+                            fontSize: screenWidth * 0.0156,
                             color: channel2.channelColor,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         SizedBox(
-                          height: 50,
-                          width: 85,
+                          height: screenHeight * 0.04397,
+                          width: screenWidth * 0.04427,
                           child: TextField(
                             controller: TextEditingController.fromValue(
                               TextEditingValue(
@@ -257,7 +259,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                           ),
                         ),
                         SizedBox(
-                          height: 250,
+                          height: screenHeight * 0.2198,
                           child: RotatedBox(
                             quarterTurns: 3,
                             child: Listener(
@@ -335,7 +337,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                             });
                           },
                           icon: Icon(Icons.exposure_zero),
-                          iconSize: 25,
+                          iconSize: screenWidth * 0.013,
                           alignment: Alignment.center,
                         ),
                       ],
@@ -356,14 +358,14 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                           style: TextStyle(
                             fontFamily: 'PrimaryFont',
                             fontWeight: FontWeight.bold,
-                            fontSize: 25,
+                            fontSize: screenWidth * 0.013,
                             color: Colors.black,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         SizedBox(
-                          height: 50,
-                          width: 85,
+                          height: screenHeight * 0.04397,
+                          width: screenWidth * 0.04427,
                           child: TextField(
                             controller: TextEditingController.fromValue(
                               TextEditingValue(
@@ -395,7 +397,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                           ),
                         ),
                         SizedBox(
-                          height: 250,
+                          height: screenHeight * 0.2198,
                           child: RotatedBox(
                             quarterTurns: 3,
                             child: Listener(
@@ -475,7 +477,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                             });
                           },
                           icon: Icon(Icons.exposure_zero),
-                          iconSize: 25,
+                          iconSize: screenWidth * 0.013,
                           alignment: Alignment.center,
                         ),
                       ],

@@ -54,16 +54,18 @@ class _VerticalScalerState extends State<VerticalScaler> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return SizedBox(
-      height: 450,
-      width: 225,
+      height: screenHeight * 0.4045,
+      width: screenWidth * 0.1172,
       child: Card(
         color: VerticalScalerBackgroundColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: screenHeight * 0.0088),
             Row(
               children: [
                 Spacer(flex: 1),
@@ -74,7 +76,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                     fontFamily: 'PrimaryFont',
                     fontWeight: FontWeight.bold,
                     decoration: TextDecoration.underline,
-                    fontSize: 20,
+                    fontSize: screenWidth * 0.01041,
                     color: Colors.black,
                   ),
                 ),
@@ -94,14 +96,14 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           style: TextStyle(
                             fontFamily: 'PrimaryFont',
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,
+                            fontSize: screenWidth * 0.01562,
                             color: channel1.channelColor,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         SizedBox(
-                          height: 50,
-                          width: 85,
+                          height: screenHeight * 0.04397,
+                          width: screenWidth * 0.04427,
                           child: TextField(
                             controller: TextEditingController.fromValue(
                               TextEditingValue(
@@ -131,7 +133,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           ),
                         ),
                         SizedBox(
-                          height: 200,
+                          height: screenHeight * 0.1759,
                           child: RotatedBox(
                             quarterTurns: -1,
                             child: Listener(
@@ -201,8 +203,8 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
                               child: SizedBox(
-                                height: 30,
-                                width: 40,
+                                height: screenHeight * 0.02638,
+                                width: screenWidth * 0.0208,
                                 child: Center(
                                   child: AutoSizeText(
                                     (channel1.ChannelIs1to1 == true)
@@ -247,7 +249,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             });
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         PopupMenuButton(
                           tooltip: 'Coupling',
                           child: Container(
@@ -257,8 +259,8 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
                               child: SizedBox(
-                                height: 30,
-                                width: 40,
+                                height: screenHeight * 0.02638,
+                                width: screenWidth * 0.0208,
                                 child: Center(
                                   child: AutoSizeText(
                                     (channel1.channelIsDC == true)
@@ -320,14 +322,14 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           style: TextStyle(
                             fontFamily: 'PrimaryFont',
                             fontWeight: FontWeight.bold,
-                            fontSize: 30,
+                            fontSize: screenWidth * 0.01562,
                             color: channel2.channelColor,
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         SizedBox(
-                          height: 50,
-                          width: 85,
+                          height: screenHeight * 0.04397,
+                          width: screenWidth * 0.04427,
                           child: TextField(
                             controller: TextEditingController.fromValue(
                               TextEditingValue(
@@ -357,7 +359,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           ),
                         ),
                         SizedBox(
-                          height: 200,
+                          height: screenHeight * 0.1759,
                           child: RotatedBox(
                             quarterTurns: -1,
                             child: Listener(
@@ -427,8 +429,8 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
                               child: SizedBox(
-                                height: 30,
-                                width: 40,
+                                height: screenHeight * 0.02638,
+                                width: screenWidth * 0.02083,
                                 child: Center(
                                   child: AutoSizeText(
                                     (channel2.ChannelIs1to1 == true)
@@ -473,7 +475,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             });
                           },
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: screenHeight * 0.0088),
                         PopupMenuButton(
                           tooltip: 'Coupling',
                           child: Container(
@@ -483,8 +485,8 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
                               child: SizedBox(
-                                height: 30,
-                                width: 40,
+                                height: screenHeight * 0.02638,
+                                width: screenWidth * 0.02083,
                                 child: Center(
                                   child: AutoSizeText(
                                     (channel2.channelIsDC == true)
