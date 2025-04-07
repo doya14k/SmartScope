@@ -403,15 +403,17 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                             child: Listener(
                               onPointerSignal: (event) {
                                 if (event is PointerScrollEvent) {
-                                  Provider.of<AppState>(
-                                    context,
-                                    listen: false,
-                                  ).incrementTriggerVerticalOffset(
-                                    -event.scrollDelta.dy / 100,
-                                  );
-                                  print(
-                                    '${Provider.of<AppState>(context, listen: false).triggerVerticalOffset}',
-                                  );
+                                  setState(() {
+                                    Provider.of<AppState>(
+                                      context,
+                                      listen: false,
+                                    ).incrementTriggerVerticalOffset(
+                                      -event.scrollDelta.dy / 100,
+                                    );
+                                    print(
+                                      '${Provider.of<AppState>(context, listen: false).triggerVerticalOffset}',
+                                    );
+                                  });
                                 }
                               },
                               child: SliderTheme(

@@ -6,6 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_scope/usb_reader.dart';
 import 'settings_pages/measurements_widgets/definitionMeasurements.dart';
+import 'settings_pages/reference_widgets/defintionenReference.dart';
 
 List<FlSpot> generateSineWave({
   double numPoints = 300,
@@ -560,6 +561,381 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                   ),
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+                      ), // Trigger
+                      // Ref1
+                      LineChart(
+                        LineChartData(
+                          backgroundColor: clear,
+                          clipData:
+                              FlClipData.all(), // Ensures that the line stays in the Chart
+                          baselineX: 0.0,
+                          baselineY: 0.0,
+                          maxY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).maxGraphVoltageValueRef1,
+                          minY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).minGraphVoltageValueRef1,
+                          maxX:
+                              Provider.of<AppState>(context).maxGraphTimeValue,
+                          minX:
+                              Provider.of<AppState>(context).minGraphTimeValue,
+                          // Grid Data
+                          gridData: FlGridData(
+                            horizontalInterval:
+                                ((2 *
+                                        Provider.of<ReferenceChanges>(
+                                          context,
+                                        ).Ref1uVperDivision) /
+                                    NOF_yGrids),
+                            verticalInterval:
+                                ((2 *
+                                        Provider.of<AppState>(
+                                          context,
+                                        ).timeValue) /
+                                    NOF_xGrids),
+                            getDrawingHorizontalLine:
+                                (value) => FlLine(
+                                  color: clear,
+                                  strokeWidth: 1.0,
+                                  dashArray: [4, 4],
+                                ),
+                            getDrawingVerticalLine:
+                                (value) => FlLine(
+                                  color: clear,
+                                  strokeWidth: 1.0,
+                                  dashArray: [4, 4],
+                                ),
+                          ),
+                          // Titles off
+                          titlesData: FlTitlesData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              show:
+                                  Provider.of<ReferenceChanges>(
+                                    context,
+                                    listen: true,
+                                  ).Ref1IsActive,
+                              spots: plotData2,
+                              color: ref1GraphColor,
+                              barWidth: 3.0,
+                              isCurved: false,
+                              dotData: FlDotData(show: false),
+                            ),
+                          ],
+                          lineTouchData: LineTouchData(
+                            enabled: false,
+                          ), // disable the linetouchdata
+                          extraLinesData: ExtraLinesData(
+                            horizontalLines: [
+                              // Offset Data
+                              HorizontalLine(
+                                y:
+                                    ((Provider.of<ReferenceChanges>(
+                                                      context,
+                                                    ).Ref1Offset +
+                                                    0)
+                                                .abs() <
+                                            (Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref1uVperDivision *
+                                                (NOF_yGrids / 2)))
+                                        ? 20.0
+                                        : (Provider.of<ReferenceChanges>(
+                                              context,
+                                            ).Ref1Offset >
+                                            0)
+                                        ? ((Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref1uVperDivision *
+                                                (NOF_yGrids / 2)) -
+                                            (Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref1Offset +
+                                                0))
+                                        : (-Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref1uVperDivision *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<ReferenceChanges>(
+                                              context,
+                                            ).Ref1Offset +
+                                            50),
+                                color: ref1GraphColor,
+                                strokeWidth: 0,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(left: 4),
+                                  show:
+                                      Provider.of<ReferenceChanges>(
+                                        context,
+                                        listen: true,
+                                      ).Ref1IsActive,
+                                  alignment: Alignment.centerLeft,
+                                  labelResolver: (p0) => '▶',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              // Trigger offset
+                            ],
+                          ),
+                        ),
+                      ), // Trigger
+                      // Ref2
+                      LineChart(
+                        LineChartData(
+                          backgroundColor: clear,
+                          clipData:
+                              FlClipData.all(), // Ensures that the line stays in the Chart
+                          baselineX: 0.0,
+                          baselineY: 0.0,
+                          maxY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).maxGraphVoltageValueRef2,
+                          minY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).minGraphVoltageValueRef2,
+                          maxX:
+                              Provider.of<AppState>(context).maxGraphTimeValue,
+                          minX:
+                              Provider.of<AppState>(context).minGraphTimeValue,
+                          // Grid Data
+                          gridData: FlGridData(
+                            horizontalInterval:
+                                ((2 *
+                                        Provider.of<ReferenceChanges>(
+                                          context,
+                                        ).Ref2uVperDivision) /
+                                    NOF_yGrids),
+                            verticalInterval:
+                                ((2 *
+                                        Provider.of<AppState>(
+                                          context,
+                                        ).timeValue) /
+                                    NOF_xGrids),
+                            getDrawingHorizontalLine:
+                                (value) => FlLine(
+                                  color: clear,
+                                  strokeWidth: 1.0,
+                                  dashArray: [4, 4],
+                                ),
+                            getDrawingVerticalLine:
+                                (value) => FlLine(
+                                  color: clear,
+                                  strokeWidth: 1.0,
+                                  dashArray: [4, 4],
+                                ),
+                          ),
+                          // Titles off
+                          titlesData: FlTitlesData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              show:
+                                  Provider.of<ReferenceChanges>(
+                                    context,
+                                    listen: true,
+                                  ).Ref2IsActive,
+                              spots: plotData2,
+                              color: ref2GraphColor,
+                              barWidth: 3.0,
+                              isCurved: false,
+                              dotData: FlDotData(show: false),
+                            ),
+                          ],
+                          lineTouchData: LineTouchData(
+                            enabled: false,
+                          ), // disable the linetouchdata
+                          extraLinesData: ExtraLinesData(
+                            horizontalLines: [
+                              // Offset Data
+                              HorizontalLine(
+                                y:
+                                    ((Provider.of<ReferenceChanges>(
+                                                      context,
+                                                    ).Ref2Offset +
+                                                    0)
+                                                .abs() <
+                                            (Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref2uVperDivision *
+                                                (NOF_yGrids / 2)))
+                                        ? 20.0
+                                        : (Provider.of<ReferenceChanges>(
+                                              context,
+                                            ).Ref2Offset >
+                                            0)
+                                        ? ((Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref2uVperDivision *
+                                                (NOF_yGrids / 2)) -
+                                            (Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref2Offset +
+                                                0))
+                                        : (-Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref2uVperDivision *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<ReferenceChanges>(
+                                              context,
+                                            ).Ref2Offset +
+                                            50),
+                                color: ref2GraphColor,
+                                strokeWidth: 0,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(left: 4),
+                                  show:
+                                      Provider.of<ReferenceChanges>(
+                                        context,
+                                        listen: true,
+                                      ).Ref2IsActive,
+                                  alignment: Alignment.centerLeft,
+                                  labelResolver: (p0) => '▶',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              // Trigger offset
+                            ],
+                          ),
+                        ),
+                      ), // Trigger
+                      // Ref3
+                      LineChart(
+                        LineChartData(
+                          backgroundColor: clear,
+                          clipData:
+                              FlClipData.all(), // Ensures that the line stays in the Chart
+                          baselineX: 0.0,
+                          baselineY: 0.0,
+                          maxY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).maxGraphVoltageValueRef3,
+                          minY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).minGraphVoltageValueRef3,
+                          maxX:
+                              Provider.of<AppState>(context).maxGraphTimeValue,
+                          minX:
+                              Provider.of<AppState>(context).minGraphTimeValue,
+                          // Grid Data
+                          gridData: FlGridData(
+                            horizontalInterval:
+                                ((2 *
+                                        Provider.of<ReferenceChanges>(
+                                          context,
+                                        ).Ref3uVperDivision) /
+                                    NOF_yGrids),
+                            verticalInterval:
+                                ((2 *
+                                        Provider.of<AppState>(
+                                          context,
+                                        ).timeValue) /
+                                    NOF_xGrids),
+                            getDrawingHorizontalLine:
+                                (value) => FlLine(
+                                  color: clear,
+                                  strokeWidth: 1.0,
+                                  dashArray: [4, 4],
+                                ),
+                            getDrawingVerticalLine:
+                                (value) => FlLine(
+                                  color: clear,
+                                  strokeWidth: 1.0,
+                                  dashArray: [4, 4],
+                                ),
+                          ),
+                          // Titles off
+                          titlesData: FlTitlesData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              show:
+                                  Provider.of<ReferenceChanges>(
+                                    context,
+                                    listen: true,
+                                  ).Ref3IsActive,
+                              spots: plotData2,
+                              color: ref3GraphColor,
+                              barWidth: 3.0,
+                              isCurved: false,
+                              dotData: FlDotData(show: false),
+                            ),
+                          ],
+                          lineTouchData: LineTouchData(
+                            enabled: false,
+                          ), // disable the linetouchdata
+                          extraLinesData: ExtraLinesData(
+                            horizontalLines: [
+                              // Offset Data
+                              HorizontalLine(
+                                y:
+                                    ((Provider.of<ReferenceChanges>(
+                                                      context,
+                                                    ).Ref3Offset +
+                                                    0)
+                                                .abs() <
+                                            (Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref3uVperDivision *
+                                                (NOF_yGrids / 2)))
+                                        ? 20.0
+                                        : (Provider.of<ReferenceChanges>(
+                                              context,
+                                            ).Ref3Offset >
+                                            0)
+                                        ? ((Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref3uVperDivision *
+                                                (NOF_yGrids / 2)) -
+                                            (Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref3Offset +
+                                                0))
+                                        : (-Provider.of<ReferenceChanges>(
+                                                  context,
+                                                ).Ref3uVperDivision *
+                                                (NOF_yGrids / 2) -
+                                            Provider.of<ReferenceChanges>(
+                                              context,
+                                            ).Ref3Offset +
+                                            50),
+                                color: ref3GraphColor,
+                                strokeWidth: 0,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(left: 4),
+                                  show:
+                                      Provider.of<ReferenceChanges>(
+                                        context,
+                                        listen: true,
+                                      ).Ref3IsActive,
+                                  alignment: Alignment.centerLeft,
+                                  labelResolver: (p0) => '▶',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              // Trigger offset
                             ],
                           ),
                         ),

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'pages/home_page.dart';
 import 'pages/settings_pages/settings_widgets/definitions.dart';
 import 'package:window_manager/window_manager.dart';
+import 'pages/settings_pages/reference_widgets/defintionenReference.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => AppState()),
         ChangeNotifierProvider(create: (context) => MeasurementsChanges()),
+        ChangeNotifierProvider(create: (context) => ReferenceChanges()),
       ],
       child: MyApp(),
     ),
