@@ -75,8 +75,6 @@ List<Channel> channels = [channel1, channel2];
 
 String selectedTestChannel = 'Select Channel';
 
-
-
 // Acitvate Channel Widget
 double ActivateChannelFontSize = 35.0;
 Color ChannelEnableBackgroundColor = Colors.grey.shade100;
@@ -107,7 +105,7 @@ double max_uSperDivision = 10000000.0; // 1000 uS * 1000 mS * 10s
 
 double increment_uSperDivision = 1.0;
 
-double max_uVLevelOffset = 100000000;
+double max_uVLevelOffset = max_uVperDivision * NOF_yGrids / 2;
 double min_uVLevelOffset = -max_uVLevelOffset;
 
 // Trigger Offset Horizontal

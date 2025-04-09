@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_scope/pages/settings_pages/cursor_page/definitionenCursor.dart';
 import 'dart:math';
 import 'settings_pages/settings_widgets/definitions.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -87,6 +88,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   height: screenHeight * 0.6156,
                   child: Stack(
                     children: [
+                      // Background with grids
                       LineChart(
                         LineChartData(
                           backgroundColor: ChartBackgroundColor,
@@ -160,6 +162,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ),
+
                       // CH1
                       LineChart(
                         LineChartData(
@@ -565,6 +568,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ), // Trigger
+                      
                       // Ref1
                       LineChart(
                         LineChartData(
@@ -690,6 +694,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ), // Trigger
+                      
                       // Ref2
                       LineChart(
                         LineChartData(
@@ -815,6 +820,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ), // Trigger
+                      
                       // Ref3
                       LineChart(
                         LineChartData(
@@ -936,6 +942,157 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 ),
                               ),
                               // Trigger offset
+                            ],
+                          ),
+                        ),
+                      ), // Trigger
+                      
+                      // Cursor
+                      LineChart(
+                        LineChartData(
+                          backgroundColor: clear,
+                          clipData:
+                              FlClipData.all(), // Ensures that the line stays in the Chart
+                          baselineX: 0.0,
+                          baselineY: 0.0,
+                          maxY:
+                              (!Provider.of<CursorChanges>(
+                                    context,
+                                    listen: true,
+                                  ).cursorIsOnCH2)
+                                  ? Provider.of<AppState>(
+                                    context,
+                                  ).maxGraphVoltageValueCH1
+                                  : Provider.of<AppState>(
+                                    context,
+                                  ).maxGraphVoltageValueCH2,
+                          minY:
+                              (!Provider.of<CursorChanges>(
+                                    context,
+                                    listen: true,
+                                  ).cursorIsOnCH2)
+                                  ? Provider.of<AppState>(
+                                    context,
+                                  ).minGraphVoltageValueCH1
+                                  : Provider.of<AppState>(
+                                    context,
+                                  ).minGraphVoltageValueCH2,
+                          maxX:
+                              Provider.of<AppState>(context).maxGraphTimeValue,
+                          minX:
+                              Provider.of<AppState>(context).minGraphTimeValue,
+                          // Grid Data
+                          gridData: FlGridData(show: false),
+                          // Titles off
+                          titlesData: FlTitlesData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              show:
+                                  Provider.of<CursorChanges>(
+                                    context,
+                                    listen: true,
+                                  ).cursorIsEnabled,
+                              spots: List.empty(),
+                              color: ref3GraphColor,
+                              barWidth: 3.0,
+                              isCurved: false,
+                              dotData: FlDotData(show: false),
+                            ),
+                          ],
+                          lineTouchData: LineTouchData(
+                            enabled: false,
+                          ), // disable the linetouchdata
+                          extraLinesData: ExtraLinesData(
+                            verticalLines: [
+                              VerticalLine(
+                                x:
+                                    Provider.of<CursorChanges>(
+                                      context,
+                                    ).cursorX1uS_Value,
+                                color: cursorColor,
+                                strokeWidth: 2,
+                                label: VerticalLineLabel(
+                                  padding: EdgeInsets.only(top: 0),
+                                  show:
+                                      Provider.of<CursorChanges>(
+                                        context,
+                                        listen: true,
+                                      ).cursorIsEnabled,
+                                  alignment: Alignment.topCenter,
+                                  labelResolver: (p0) => 'X1',
+                                  style: TextStyle(
+                                    color: cursorLabelColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              VerticalLine(
+                                x:
+                                    Provider.of<CursorChanges>(
+                                      context,
+                                    ).cursorX2uS_Value,
+                                color: cursorColor,
+                                strokeWidth: 2,
+                                label: VerticalLineLabel(
+                                  padding: EdgeInsets.only(top: 0),
+                                  show:
+                                      Provider.of<CursorChanges>(
+                                        context,
+                                        listen: true,
+                                      ).cursorIsEnabled,
+                                  alignment: Alignment.topCenter,
+                                  labelResolver: (p0) => 'X2',
+                                  style: TextStyle(
+                                    color: cursorLabelColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                            horizontalLines: [
+                              // Offset Data
+                              HorizontalLine(
+                                y:
+                                    Provider.of<CursorChanges>(
+                                      context,
+                                      listen: true,
+                                    ).cursorY1uV_Value,
+                                color: cursorColor,
+                                strokeWidth: 2,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(right: 30),
+                                  show: true,
+                                  alignment: Alignment.centerRight,
+                                  labelResolver: (p0) => 'Y1',
+                                  style: TextStyle(
+                                    color: cursorLabelColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                              HorizontalLine(
+                                y:
+                                    Provider.of<CursorChanges>(
+                                      context,
+                                      listen: true,
+                                    ).cursorY2uV_Value,
+                                color: cursorColor,
+                                strokeWidth: 2,
+                                label: HorizontalLineLabel(
+                                  padding: EdgeInsets.only(right: 30),
+                                  show: true,
+                                  alignment: Alignment.centerRight,
+                                  labelResolver: (p0) => 'Y2',
+                                  style: TextStyle(
+                                    color: cursorLabelColor,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
