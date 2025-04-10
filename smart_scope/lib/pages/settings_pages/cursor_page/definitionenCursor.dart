@@ -20,7 +20,7 @@ double max_YOffset = 100000000 * 8 / 2;
 double min_YOffset = -max_YOffset;
 
 class CursorChanges extends ChangeNotifier {
-  bool cursorIsEnabled = true;
+  bool cursorIsEnabled = false;
 
   bool cursorIsOnCH2 = false;
 
@@ -106,9 +106,9 @@ class CursorChanges extends ChangeNotifier {
       return '${(cursorY1uV_Value).toStringAsFixed(2)} µV';
     } else if ((cursorY1uV_Value.abs() >= 1000) &&
         (cursorY1uV_Value.abs() < 1000000)) {
-      return '${(cursorY1uV_Value / 1000).toStringAsFixed(2)} mv';
+      return '${(cursorY1uV_Value / 1000).toStringAsFixed(2)} mV';
     } else {
-      return '${(cursorY1uV_Value / 1000000).toStringAsFixed(2)} v';
+      return '${(cursorY1uV_Value / 1000000).toStringAsFixed(2)} V';
     }
   }
 

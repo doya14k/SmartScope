@@ -252,6 +252,23 @@ class MeasurementsChanges extends ChangeNotifier {
   bool measCH1_Vavg = false;
   bool measCH1_Vrms = false;
 
+  bool get CH1_MeasurementActive {
+    return (measCH1_Vmax ||
+        measCH1_Vmin ||
+        measCH1_Vpp ||
+        measCH1_Vamp ||
+        measCH1_Vtop ||
+        measCH1_Vbase ||
+        measCH1_Vavg ||
+        measCH1_Vrms ||
+        measCH1_Period ||
+        measCH1_Frequency ||
+        measCH1_widthPos ||
+        measCH1_widthNeg ||
+        measCH1_DutyPos ||
+        measCH1_DutyNeg);
+  }
+
   update_measCH1_Vmax() {
     measCH1_Vmax = !measCH1_Vmax;
     print('CH1 Vmax: ${measCH1_Vmax}');
@@ -352,6 +369,23 @@ class MeasurementsChanges extends ChangeNotifier {
   bool measCH2_Vbase = false;
   bool measCH2_Vavg = false;
   bool measCH2_Vrms = false;
+
+  bool get CH2_MeasurementActive {
+    return (measCH2_Vmax ||
+        measCH2_Vmin ||
+        measCH2_Vpp ||
+        measCH2_Vamp ||
+        measCH2_Vtop ||
+        measCH2_Vbase ||
+        measCH2_Vavg ||
+        measCH2_Vrms ||
+        measCH2_Period ||
+        measCH2_Frequency ||
+        measCH2_widthPos ||
+        measCH2_widthNeg ||
+        measCH2_DutyPos ||
+        measCH2_DutyNeg);
+  }
 
   update_measCH2_Vmax() {
     measCH2_Vmax = !measCH2_Vmax;

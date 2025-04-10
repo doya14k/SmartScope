@@ -53,7 +53,7 @@ class SettingsMenu extends StatefulWidget {
   State<SettingsMenu> createState() => _SettingsMenuState();
 }
 
-int selectedIndex = 3;
+int selectedIndex = 0;
 
 class _SettingsMenuState extends State<SettingsMenu> {
   final List<Widget> pages = [

@@ -7,8 +7,8 @@ Color referencenotSelectedText = Colors.grey.shade50;
 Color cardBackgroundColor = Colors.grey.shade100;
 
 Color ref1GraphColor = Colors.green;
-Color ref2GraphColor = Colors.orange;
-Color ref3GraphColor = Colors.pink;
+Color ref2GraphColor = Colors.red;
+Color ref3GraphColor = Colors.purpleAccent;
 
 int selectedReference1Graph = 1;
 int selectedReference2Graph = 1;

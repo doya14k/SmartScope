@@ -184,32 +184,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           minX:
                               Provider.of<AppState>(context).minGraphTimeValue,
                           // Grid Data
-                          gridData: FlGridData(
-                            horizontalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).ch1_uVoltageValue) /
-                                    NOF_yGrids),
-                            verticalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).timeValue) /
-                                    NOF_xGrids),
-                            getDrawingHorizontalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                            getDrawingVerticalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                          ),
+                          gridData: FlGridData(show: false),
                           // Titles off
                           titlesData: FlTitlesData(show: false),
                           lineBarsData: [
@@ -386,32 +361,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           minX:
                               Provider.of<AppState>(context).minGraphTimeValue,
                           // Grid Data
-                          gridData: FlGridData(
-                            horizontalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).ch2_uVoltageValue) /
-                                    NOF_yGrids),
-                            verticalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).timeValue) /
-                                    NOF_xGrids),
-                            getDrawingHorizontalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                            getDrawingVerticalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                          ),
+                          gridData: FlGridData(show: false),
                           // Titles off
                           titlesData: FlTitlesData(show: false),
                           lineBarsData: [
@@ -568,7 +518,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ), // Trigger
-                      
                       // Ref1
                       LineChart(
                         LineChartData(
@@ -592,32 +541,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           minX:
                               Provider.of<AppState>(context).minGraphTimeValue,
                           // Grid Data
-                          gridData: FlGridData(
-                            horizontalInterval:
-                                ((2 *
-                                        Provider.of<ReferenceChanges>(
-                                          context,
-                                        ).Ref1uVperDivision) /
-                                    NOF_yGrids),
-                            verticalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).timeValue) /
-                                    NOF_xGrids),
-                            getDrawingHorizontalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                            getDrawingVerticalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                          ),
+                          gridData: FlGridData(show: false),
                           // Titles off
                           titlesData: FlTitlesData(show: false),
                           lineBarsData: [
@@ -694,7 +618,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ), // Trigger
-                      
                       // Ref2
                       LineChart(
                         LineChartData(
@@ -718,32 +641,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           minX:
                               Provider.of<AppState>(context).minGraphTimeValue,
                           // Grid Data
-                          gridData: FlGridData(
-                            horizontalInterval:
-                                ((2 *
-                                        Provider.of<ReferenceChanges>(
-                                          context,
-                                        ).Ref2uVperDivision) /
-                                    NOF_yGrids),
-                            verticalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).timeValue) /
-                                    NOF_xGrids),
-                            getDrawingHorizontalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                            getDrawingVerticalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                          ),
+                          gridData: FlGridData(show: false),
+
                           // Titles off
                           titlesData: FlTitlesData(show: false),
                           lineBarsData: [
@@ -820,7 +719,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ), // Trigger
-                      
                       // Ref3
                       LineChart(
                         LineChartData(
@@ -844,32 +742,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           minX:
                               Provider.of<AppState>(context).minGraphTimeValue,
                           // Grid Data
-                          gridData: FlGridData(
-                            horizontalInterval:
-                                ((2 *
-                                        Provider.of<ReferenceChanges>(
-                                          context,
-                                        ).Ref3uVperDivision) /
-                                    NOF_yGrids),
-                            verticalInterval:
-                                ((2 *
-                                        Provider.of<AppState>(
-                                          context,
-                                        ).timeValue) /
-                                    NOF_xGrids),
-                            getDrawingHorizontalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                            getDrawingVerticalLine:
-                                (value) => FlLine(
-                                  color: clear,
-                                  strokeWidth: 1.0,
-                                  dashArray: [4, 4],
-                                ),
-                          ),
+                          gridData: FlGridData(show: false),
                           // Titles off
                           titlesData: FlTitlesData(show: false),
                           lineBarsData: [
@@ -945,8 +818,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             ],
                           ),
                         ),
-                      ), // Trigger
-                      
+                      ),
+
                       // Cursor
                       LineChart(
                         LineChartData(
@@ -1102,6 +975,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                 ),
               ),
             ),
+            // Lower Data Menu
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -1112,465 +986,640 @@ class _MonitoringPageState extends State<MonitoringPage> {
                       padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
                       child: Row(
                         children: [
+                          // V/Div Anzeige
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                              child: Container(color: Colors.grey[200]),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(width: 2),
+                                ),
+                                child: Column(
+                                  children: [
+                                    AutoSizeText(
+                                      maxLines: 1,
+                                      'CH1',
+                                      minFontSize: 1,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'PrimaryFont',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenHeight * 0.02199,
+                                        color: channel1.channelColor,
+                                      ),
+                                    ),
+                                    AutoSizeText(
+                                      maxLines: 1,
+                                      '${Provider.of<AppState>(context, listen: true).voltageValueTextCH1}/Div',
+                                      minFontSize: 1,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'PrimaryFont',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenHeight * 0.0132,
+                                        color: channel1.channelColor,
+                                      ),
+                                    ),
+                                    Divider(),
+                                    AutoSizeText(
+                                      maxLines: 1,
+                                      'CH2',
+                                      minFontSize: 1,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'PrimaryFont',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenHeight * 0.02199,
+                                        color: channel2.channelColor,
+                                      ),
+                                    ),
+                                    AutoSizeText(
+                                      maxLines: 1,
+                                      '${Provider.of<AppState>(context, listen: true).voltageValueTextCH2}/Div',
+                                      minFontSize: 1,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontFamily: 'PrimaryFont',
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: screenHeight * 0.0132,
+                                        color: channel2.channelColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                             flex: 3,
                           ),
+                          // Measurements 1
                           Expanded(
                             flex: 12,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
-                              child: Container(
-                                color: channel1_lightBackgroundColor,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(child: SizedBox(), flex: 1),
-                                        AutoSizeText(
-                                          "Measurements CH1",
-                                          maxLines: 1,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontFamily: 'PrimaryFont',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: screenHeight * 0.022,
-                                            color: Colors.black,
-                                          ),
+                              child:
+                                  (Provider.of<MeasurementsChanges>(
+                                        context,
+                                        listen: true,
+                                      ).CH1_MeasurementActive)
+                                      ? Container(
+                                        color: channel1_lightBackgroundColor,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(),
+                                                  flex: 1,
+                                                ),
+                                                AutoSizeText(
+                                                  "Measurements CH1",
+                                                  maxLines: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontFamily: 'PrimaryFont',
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        screenHeight * 0.022,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: SizedBox(),
+                                                  flex: 10,
+                                                ),
+                                              ],
+                                            ),
+                                            Expanded(
+                                              child: GridView.count(
+                                                crossAxisCount: 2,
+                                                padding: EdgeInsets.fromLTRB(
+                                                  10,
+                                                  0,
+                                                  10,
+                                                  10,
+                                                ),
+                                                childAspectRatio:
+                                                    dataWindowHeight /
+                                                    dataWindowWidth,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                children: [
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Period)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Period_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Period",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Frequency)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Frequency_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Frequency",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "Hz",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_widthPos)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_widthPos_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Width +",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_widthNeg)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_widthNeg_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Width -",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_DutyPos)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_dutyPos_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Duty-Cycle +",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_DutyNeg)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_dutyNeg_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Duty-Cycle -",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Vmax)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Vmax_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Vmax",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Vmin)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Vmin_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Vmin",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Vpp)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Vpp_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Vpp",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Vamp)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Vamp_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Vamp",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Vtop)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Vtop_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Vtop",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Vbase)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Vbase_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Vbase",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Vavg)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Vavg_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Vavg",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH1_Vrms)
+                                                    MeasurementDataTemplate(
+                                                      key: ch1_Vrms_key,
+                                                      color:
+                                                          ch1_WindowDataColor,
+                                                      title: "Vrms",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Expanded(child: SizedBox(), flex: 10),
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: GridView.count(
-                                        crossAxisCount: 2,
-                                        padding: EdgeInsets.fromLTRB(
-                                          10,
-                                          0,
-                                          10,
-                                          10,
-                                        ),
-                                        childAspectRatio:
-                                            dataWindowHeight / dataWindowWidth,
-                                        scrollDirection: Axis.horizontal,
-                                        children: [
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Period)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Period_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Period",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Frequency)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Frequency_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Frequency",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "Hz",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_widthPos)
-                                            MeasurementDataTemplate(
-                                              key: ch1_widthPos_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Width +",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_widthNeg)
-                                            MeasurementDataTemplate(
-                                              key: ch1_widthNeg_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Width -",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_DutyPos)
-                                            MeasurementDataTemplate(
-                                              key: ch1_dutyPos_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Duty-Cycle +",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_DutyNeg)
-                                            MeasurementDataTemplate(
-                                              key: ch1_dutyNeg_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Duty-Cycle -",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Vmax)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Vmax_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Vmax",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Vmin)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Vmin_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Vmin",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Vpp)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Vpp_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Vpp",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Vamp)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Vamp_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Vamp",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Vtop)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Vtop_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Vtop",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Vbase)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Vbase_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Vbase",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Vavg)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Vavg_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Vavg",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH1_Vrms)
-                                            MeasurementDataTemplate(
-                                              key: ch1_Vrms_key,
-                                              color: ch1_WindowDataColor,
-                                              title: "Vrms",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                      )
+                                      : Container(color: clear2),
                             ),
                           ),
+
+                          // Measurements 2
                           Expanded(
                             flex: 12,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
-                              child: Container(
-                                color: channel2_lightBackgroundColor,
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Expanded(child: SizedBox(), flex: 1),
-                                        AutoSizeText(
-                                          "Measurements CH2",
-                                          maxLines: 1,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontFamily: 'PrimaryFont',
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: screenHeight * 0.022,
-                                            color: Colors.black,
-                                          ),
+                              child:
+                                  (Provider.of<MeasurementsChanges>(
+                                        context,
+                                        listen: true,
+                                      ).CH2_MeasurementActive)
+                                      ? Container(
+                                        color: channel2_lightBackgroundColor,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: SizedBox(),
+                                                  flex: 1,
+                                                ),
+                                                AutoSizeText(
+                                                  "Measurements CH2",
+                                                  maxLines: 1,
+                                                  textAlign: TextAlign.left,
+                                                  style: TextStyle(
+                                                    fontFamily: 'PrimaryFont',
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        screenHeight * 0.022,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: SizedBox(),
+                                                  flex: 10,
+                                                ),
+                                              ],
+                                            ),
+                                            Expanded(
+                                              child: GridView.count(
+                                                crossAxisCount: 2,
+                                                padding: EdgeInsets.fromLTRB(
+                                                  10,
+                                                  0,
+                                                  10,
+                                                  10,
+                                                ),
+                                                childAspectRatio:
+                                                    dataWindowHeight /
+                                                    dataWindowWidth,
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                children: [
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Period)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Period_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Period",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Frequency)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Frequency_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Frequency",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "Hz",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_widthPos)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_widthPos_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Width +",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_widthNeg)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_widthNeg_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Width -",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_DutyPos)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_dutyPos_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Duty-Cycle +",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_DutyNeg)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_dutyNeg_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Duty-Cycle -",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "s",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Vmax)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Vmax_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Vmax",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Vmin)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Vmin_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Vmin",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Vpp)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Vpp_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Vpp",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Vamp)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Vamp_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Vamp",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Vtop)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Vtop_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Vtop",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Vbase)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Vbase_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Vbase",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Vavg)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Vavg_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Vavg",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+
+                                                  if (Provider.of<
+                                                    MeasurementsChanges
+                                                  >(
+                                                    context,
+                                                    listen: true,
+                                                  ).measCH2_Vrms)
+                                                    MeasurementDataTemplate(
+                                                      key: ch2_Vrms_key,
+                                                      color:
+                                                          ch2_WindowDataColor,
+                                                      title: "Vrms",
+                                                      initialData: 0,
+                                                      decimalDigits: 1,
+                                                      unit: "V",
+                                                    ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Expanded(child: SizedBox(), flex: 10),
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: GridView.count(
-                                        crossAxisCount: 2,
-                                        padding: EdgeInsets.fromLTRB(
-                                          10,
-                                          0,
-                                          10,
-                                          10,
-                                        ),
-                                        childAspectRatio:
-                                            dataWindowHeight / dataWindowWidth,
-                                        scrollDirection: Axis.horizontal,
-                                        children: [
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Period)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Period_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Period",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Frequency)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Frequency_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Frequency",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "Hz",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_widthPos)
-                                            MeasurementDataTemplate(
-                                              key: ch2_widthPos_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Width +",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_widthNeg)
-                                            MeasurementDataTemplate(
-                                              key: ch2_widthNeg_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Width -",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_DutyPos)
-                                            MeasurementDataTemplate(
-                                              key: ch2_dutyPos_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Duty-Cycle +",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_DutyNeg)
-                                            MeasurementDataTemplate(
-                                              key: ch2_dutyNeg_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Duty-Cycle -",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "s",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Vmax)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Vmax_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Vmax",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Vmin)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Vmin_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Vmin",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Vpp)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Vpp_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Vpp",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Vamp)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Vamp_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Vamp",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Vtop)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Vtop_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Vtop",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Vbase)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Vbase_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Vbase",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Vavg)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Vavg_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Vavg",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-
-                                          if (Provider.of<MeasurementsChanges>(
-                                            context,
-                                            listen: true,
-                                          ).measCH2_Vrms)
-                                            MeasurementDataTemplate(
-                                              key: ch2_Vrms_key,
-                                              color: ch2_WindowDataColor,
-                                              title: "Vrms",
-                                              initialData: 0,
-                                              decimalDigits: 1,
-                                              unit: "V",
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                                      )
+                                      : Container(color: clear2),
                             ),
                           ),
                         ],
