@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_scope/pages/monitoring_page.dart';
 import 'package:smart_scope/pages/settings_pages/cursor_page/definitionenCursor.dart';
 import 'package:smart_scope/pages/settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'package:smart_scope/pages/usb_select.dart';
@@ -7,6 +8,7 @@ import 'pages/home_page.dart';
 import 'pages/settings_pages/settings_widgets/definitions.dart';
 import 'package:window_manager/window_manager.dart';
 import 'pages/settings_pages/reference_widgets/defintionenReference.dart';
+import 'usb_reader.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: USB_Select(),
-      initialRoute: '/HomePage',
+      initialRoute: '/USB_Select',
       routes: {
         '/USB_Select': (context) => USB_Select(),
         '/HomePage': (context) => HomePage(),
