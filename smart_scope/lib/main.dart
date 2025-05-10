@@ -32,6 +32,7 @@ void main() async {
         ChangeNotifierProvider(create: (context) => MeasurementsChanges()),
         ChangeNotifierProvider(create: (context) => ReferenceChanges()),
         ChangeNotifierProvider(create: (context) => CursorChanges()),
+        ChangeNotifierProvider(create: (context) => UsbProvider()),
       ],
       child: MyApp(),
     ),

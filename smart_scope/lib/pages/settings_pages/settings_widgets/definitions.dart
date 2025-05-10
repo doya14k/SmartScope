@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:serial_port_win32/serial_port_win32.dart';
+import 'package:smart_scope/usb_reader.dart';
 
 // Interface Layout
 Color AppBarBackroundColor = Colors.grey.shade300;
@@ -54,7 +55,7 @@ Channel channel1 = Channel(
   color: Colors.amber,
   index: 1,
   name: 'CH1',
-  uVperDiv: 2000,
+  uVperDiv: 500000,
   data: [],
   is1to1: true,
   isDC: true,
@@ -65,7 +66,7 @@ Channel channel2 = Channel(
   color: Colors.blue.shade300,
   index: 2,
   name: 'CH2',
-  uVperDiv: 2000,
+  uVperDiv: 500000,
   data: [],
   is1to1: true,
   isDC: true,
@@ -117,12 +118,18 @@ double max_TriggerVerticalOffset = max_uVperDivision * NOF_yGrids / 2;
 double min_TriggerVerticalOffset = -max_TriggerVerticalOffset;
 
 class AppState extends ChangeNotifier {
+  late UsbProvider usbProvider;
+
+  void setUsbProvider(UsbProvider newAppState) {
+    usbProvider = newAppState;
+  }
+
   double _ch1_uVoltageValue = channel1.uVperDivision; // 2000.0;
   double _ch2_uVoltageValue = channel2.uVperDivision; //2000.0;
   double timeValue = 2.0;
 
   double triggerHorizontalOffset = 0.0;
-  double triggerVerticalOffset = 0.0;
+  double triggerVerticalOffset = 1500000.0;
 
   double ch1_uVoltageLevelOffset = 0.0;
   double ch2_uVoltageLevelOffset = 0.0;
@@ -147,8 +154,8 @@ class AppState extends ChangeNotifier {
   }
 
   updateGraphTimeValue(double timeOffsetValue) {
-    maxGraphTimeValue = (timeValue * (NOF_xGrids / 2) - timeOffsetValue);
-    minGraphTimeValue = (-timeValue * (NOF_xGrids / 2) - timeOffsetValue);
+    maxGraphTimeValue = (timeValue * (NOF_xGrids / 2) + timeOffsetValue);
+    minGraphTimeValue = (-timeValue * (NOF_xGrids / 2) + timeOffsetValue);
     notifyListeners();
   }
 
@@ -182,10 +189,10 @@ class AppState extends ChangeNotifier {
     if (timeValue < 1) {
       timeValueText = '${(timeValue * 1000).toStringAsFixed(3)} ns';
       return timeValueText;
-    } else if ((timeValue > 1000) && (timeValue < 1000000)) {
+    } else if ((timeValue >= 1000) && (timeValue < 1000000)) {
       timeValueText = '${(timeValue / 1000).toStringAsFixed(3)} ms';
       return timeValueText;
-    } else if (timeValue > 1000000) {
+    } else if (timeValue >= 1000000) {
       timeValueText = '${(timeValue / 1000000).toStringAsFixed(3)} s';
       return timeValueText;
     } else {
@@ -331,7 +338,10 @@ class AppState extends ChangeNotifier {
           timeValue *= 1000000;
         }
         print('Data: $timeValue');
-        updateGraphTimeValue(triggerHorizontalOffset);
+        updateGraphTimeValue(
+          usbProvider.triggeredTime - triggerHorizontalOffset,
+        );
+
         notifyListeners();
         return;
       } else if ((timeText[i] == 'n') ||
@@ -350,7 +360,10 @@ class AppState extends ChangeNotifier {
           timeValue *= 1000000;
         }
         print('Data: $timeValue');
-        updateGraphTimeValue(triggerHorizontalOffset);
+        updateGraphTimeValue(
+          usbProvider.triggeredTime - triggerHorizontalOffset,
+        );
+
         notifyListeners();
         return;
       }
@@ -419,7 +432,7 @@ class AppState extends ChangeNotifier {
 
   void updateTimeValue(double newValue) {
     timeValue = newValue.clamp(min_uSperDivision, max_uSperDivision);
-    updateGraphTimeValue(triggerHorizontalOffset);
+    updateGraphTimeValue(usbProvider.triggeredTime - triggerHorizontalOffset);
     notifyListeners();
   }
 
@@ -464,7 +477,7 @@ class AppState extends ChangeNotifier {
     } else if (timeValue < min_uSperDivision) {
       timeValue = min_uSperDivision;
     }
-    updateGraphTimeValue(triggerHorizontalOffset);
+    updateGraphTimeValue(usbProvider.triggeredTime - triggerHorizontalOffset);
     notifyListeners();
   }
 
@@ -695,7 +708,7 @@ class AppState extends ChangeNotifier {
     } else if (triggerHorizontalOffset <= min_TriggerHorizontalOffset) {
       triggerHorizontalOffset = min_TriggerHorizontalOffset;
     }
-    updateGraphTimeValue(triggerHorizontalOffset);
+    updateGraphTimeValue(usbProvider.triggeredTime - triggerHorizontalOffset);
     notifyListeners();
   }
 
@@ -735,9 +748,11 @@ class AppState extends ChangeNotifier {
         } else if (offsetText[i + 1] == 's') {
           triggerHorizontalOffset *= 1000000;
         }
-        print('Data: $triggerHorizontalOffset');
+        print('Data1: $triggerHorizontalOffset');
         notifyListeners();
-        updateGraphTimeValue(triggerHorizontalOffset);
+        updateGraphTimeValue(
+          usbProvider.triggeredTime - triggerHorizontalOffset,
+        );
         return;
       } else if ((offsetText[i] == 'n') ||
           (offsetText[i] == 'u') ||
@@ -760,7 +775,10 @@ class AppState extends ChangeNotifier {
         }
         print('Data: $triggerHorizontalOffset');
         notifyListeners();
-        updateGraphTimeValue(triggerHorizontalOffset);
+        updateGraphTimeValue(
+          usbProvider.triggeredTime - triggerHorizontalOffset,
+        );
+
         return;
       }
     }
@@ -892,7 +910,7 @@ Color selectedStopBackgroundColor = Colors.red;
 // Trigger Channel
 Channel selectedTriggerChannel = channels[0];
 
-bool fallingTriggerSelected = true;
+bool risingTriggerSelected = true;
 
 Color triggerSwitchBackgroundColor = Colors.grey.shade400;
 

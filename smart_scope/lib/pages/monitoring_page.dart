@@ -10,19 +10,6 @@ import 'settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'settings_pages/reference_widgets/defintionenReference.dart';
 import 'package:smart_scope/usb_reader.dart';
 
-final List<int> messbereiche = [50, 25, 10, 5, 1];
-int selectedMessbereichIndex = 0;
-
-List<FlSpot> ch1_data = [];
-List<FlSpot> ch2_data = [];
-
-List<FlSpot> ref1_data = [];
-List<FlSpot> ref2_data = [];
-List<FlSpot> ref3_data = [];
-
-List<List<FlSpot>> dataChannel_lists = [ch1_data, ch2_data];
-List<List<FlSpot>> dataReference_lists = [ref1_data, ref2_data, ref3_data];
-
 List<FlSpot> generateSineWave({
   double numPoints = 300,
   double fine = 0.1,
@@ -66,6 +53,11 @@ class _MonitoringPageState extends State<MonitoringPage> {
 
   @override
   void initState() {
+    final appState = Provider.of<AppState>(context, listen: false);
+    Provider.of<UsbProvider>(context, listen: false).setAppState(appState);
+    final usbProvider = Provider.of<UsbProvider>(context, listen: false);
+    Provider.of<AppState>(context, listen: false).setUsbProvider(usbProvider);
+
     super.initState();
     plotData.sort((a, b) => a.x.compareTo(b.x)); // Sortiere nach x-Wert
     plotData2.sort((a, b) => a.x.compareTo(b.x)); // Sortiere nach x-Wert
@@ -75,8 +67,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
-    print(screenHeight);
-    print(screenWidth);
+    // print(screenHeight);
+    // print(screenWidth);
+    final usb = Provider.of<UsbProvider>(context, listen: true);
+
     return Expanded(
       child: Scaffold(
         body: Column(
@@ -89,7 +83,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      closePort();
+                      usb.closePort();
                       Navigator.pushReplacementNamed(context, '/USB_Select');
                     },
                     icon: Icon(Icons.arrow_back_sharp),
@@ -121,7 +115,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             width: screenWidth * 0.0260,
                             child: Center(
                               child: AutoSizeText(
-                                '±${messbereiche[selectedMessbereichIndex]} V',
+                                '±${usb.messbereiche[usb.selectedMessbereichIndex]} V',
                                 maxLines: 1,
                                 style: TextStyle(
                                   fontFamily: 'PrimaryFont',
@@ -135,11 +129,11 @@ class _MonitoringPageState extends State<MonitoringPage> {
                         ),
                       ),
                       itemBuilder: (context) {
-                        return List.generate(messbereiche.length, (index) {
+                        return List.generate(usb.messbereiche.length, (index) {
                           return PopupMenuItem(
                             value: index,
                             child: Text(
-                              '±${messbereiche[index]} V',
+                              '±${usb.messbereiche[index]} V',
                               style: TextStyle(
                                 fontFamily: 'PrimaryFont',
                                 fontWeight: FontWeight.normal,
@@ -152,8 +146,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
                       },
                       onSelected: (selectedIndex) {
                         setState(() {
-                          selectedMessbereichIndex = selectedIndex;
-                          print('${messbereiche[selectedMessbereichIndex]}');
+                          usb.selectedMessbereichIndex = selectedIndex;
+                          print(
+                            '${usb.messbereiche[usb.selectedMessbereichIndex]}',
+                          );
                         });
                       },
                     ),
@@ -259,10 +255,22 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               Provider.of<AppState>(
                                 context,
                               ).minGraphVoltageValueCH1,
-                          maxX:
-                              Provider.of<AppState>(context).maxGraphTimeValue,
                           minX:
-                              Provider.of<AppState>(context).minGraphTimeValue,
+                              (selecetTriggerModeIndex == 3)
+                                  ? (usb.stopwatch_elapsedMicroseconds -
+                                      (NOF_xGrids *
+                                          Provider.of<AppState>(
+                                            context,
+                                          ).timeValue))
+                                  : (Provider.of<AppState>(
+                                    context,
+                                  ).minGraphTimeValue ),
+                          maxX:
+                              (selecetTriggerModeIndex == 3)
+                                  ? usb.stopwatch_elapsedMicroseconds
+                                  : (Provider.of<AppState>(
+                                    context,
+                                  ).maxGraphTimeValue),
                           // Grid Data
                           gridData: FlGridData(show: false),
                           // Titles off
@@ -270,7 +278,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           lineBarsData: [
                             LineChartBarData(
                               show: channel1.channelIsActive,
-                              spots: plotData,
+                              spots: usb.ch1_data,
                               color: channel1.channelColor,
                               barWidth: 3.0,
                               isCurved: false,
@@ -285,12 +293,12 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               VerticalLine(
                                 x:
                                     ((Provider.of<AppState>(context).timeValue *
-                                                ((NOF_xGrids / 2) - 1)) >
+                                                ((NOF_xGrids / 2))) >
                                             (Provider.of<AppState>(
                                                   context,
                                                 ).triggerHorizontalOffset)
                                                 .abs())
-                                        ? 0
+                                        ? (usb.triggeredTime)
                                         : (Provider.of<AppState>(
                                               context,
                                             ).triggerHorizontalOffset <
@@ -314,10 +322,11 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 label: VerticalLineLabel(
                                   padding: EdgeInsets.only(top: 0),
                                   show:
-                                      Provider.of<AppState>(
-                                        context,
-                                        listen: true,
-                                      ).channel1IsTriggered,
+                                      ((Provider.of<AppState>(
+                                            context,
+                                            listen: true,
+                                          ).channel1IsTriggered) &&
+                                          (selecetTriggerModeIndex != 3)),
                                   alignment: Alignment.topCenter,
                                   labelResolver: (p0) => '▼',
                                   style: TextStyle(
@@ -373,217 +382,39 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               // Trigger offset
                               HorizontalLine(
                                 y:
-                                    ((Provider.of<AppState>(context).timeValue *
-                                                ((NOF_yGrids / 2) - 1)) >
-                                            (Provider.of<AppState>(
-                                                  context,
-                                                ).triggerVerticalOffset)
-                                                .abs())
-                                        ? 0
-                                        : (Provider.of<AppState>(
-                                              context,
-                                            ).triggerVerticalOffset <
-                                            0)
-                                        ? -Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_yGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).triggerVerticalOffset
-                                        : Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_yGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).triggerVerticalOffset,
-                                color: triggerColor,
-                                strokeWidth: 0.0,
-                                label: HorizontalLineLabel(
-                                  padding: EdgeInsets.only(top: 0),
-                                  show:
-                                      Provider.of<AppState>(
-                                        context,
-                                        listen: true,
-                                      ).channel1IsTriggered,
-                                  alignment: Alignment.centerRight,
-                                  labelResolver: (p0) => '◀',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      // CH1
-                      LineChart(
-                        LineChartData(
-                          backgroundColor: clear,
-                          clipData:
-                              FlClipData.all(), // Ensures that the line stays in the Chart
-                          baselineX: 0.0,
-                          baselineY: 0.0,
-                          maxY:
-                              Provider.of<AppState>(
-                                context,
-                              ).maxGraphVoltageValueCH1,
-                          minY:
-                              Provider.of<AppState>(
-                                context,
-                              ).minGraphVoltageValueCH1,
-                          maxX:
-                              Provider.of<AppState>(context).maxGraphTimeValue,
-                          minX:
-                              Provider.of<AppState>(context).minGraphTimeValue,
-                          // Grid Data
-                          gridData: FlGridData(show: false),
-                          // Titles off
-                          titlesData: FlTitlesData(show: false),
-                          lineBarsData: [
-                            LineChartBarData(
-                              show: channel1.channelIsActive,
-                              spots: ch1_data,
-                              color: channel1.channelColor,
-                              barWidth: 3.0,
-                              isCurved: false,
-                              dotData: FlDotData(show: false),
-                            ),
-                          ],
-                          lineTouchData: LineTouchData(
-                            enabled: false,
-                          ), // disable the linetouchdata
-                          extraLinesData: ExtraLinesData(
-                            verticalLines: [
-                              VerticalLine(
-                                x:
-                                    ((Provider.of<AppState>(context).timeValue *
-                                                ((NOF_xGrids / 2) - 1)) >
-                                            (Provider.of<AppState>(
-                                                  context,
-                                                ).triggerHorizontalOffset)
-                                                .abs())
-                                        ? 0
-                                        : (Provider.of<AppState>(
-                                              context,
-                                            ).triggerHorizontalOffset <
-                                            0)
-                                        ? -Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_xGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).triggerHorizontalOffset
-                                        : Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_xGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).triggerHorizontalOffset,
-                                color: triggerColor,
-                                strokeWidth: 0.0,
-                                label: VerticalLineLabel(
-                                  padding: EdgeInsets.only(top: 0),
-                                  show:
-                                      Provider.of<AppState>(
-                                        context,
-                                        listen: true,
-                                      ).channel1IsTriggered,
-                                  alignment: Alignment.topCenter,
-                                  labelResolver: (p0) => '▼',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                            horizontalLines: [
-                              HorizontalLine(
-                                y:
                                     ((Provider.of<AppState>(
                                                   context,
-                                                ).ch1_uVoltageLevelOffset)
-                                                .abs() <
-                                            (channel1.uVperDivision *
-                                                (NOF_yGrids / 2)))
-                                        ? 20.0
-                                        : (Provider.of<AppState>(
-                                              context,
-                                            ).ch1_uVoltageLevelOffset >
-                                            0)
-                                        ? ((Provider.of<AppState>(
-                                                  context,
                                                 ).ch1_uVoltageValue *
-                                                (NOF_yGrids / 2)) -
-                                            (Provider.of<AppState>(
-                                                  context,
-                                                ).ch1_uVoltageLevelOffset +
-                                                0))
-                                        : (-Provider.of<AppState>(
-                                                  context,
-                                                ).ch1_uVoltageValue *
-                                                (NOF_yGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).ch1_uVoltageLevelOffset +
-                                            50),
-                                color: channel1.channelColor,
-                                strokeWidth: 0,
-                                label: HorizontalLineLabel(
-                                  padding: EdgeInsets.only(right: 5),
-                                  show: channel1.channelIsActive,
-                                  alignment: Alignment.centerLeft,
-                                  labelResolver: (p0) => '▶',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              // Trigger offset
-                              HorizontalLine(
-                                y:
-                                    ((Provider.of<AppState>(context).timeValue *
-                                                ((NOF_yGrids / 2) - 1)) >
+                                                ((NOF_yGrids / 2))) >
                                             (Provider.of<AppState>(
                                                   context,
                                                 ).triggerVerticalOffset)
                                                 .abs())
-                                        ? 0
+                                        ? Provider.of<AppState>(
+                                          context,
+                                        ).triggerVerticalOffset
                                         : (Provider.of<AppState>(
                                               context,
                                             ).triggerVerticalOffset <
                                             0)
-                                        ? -Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_yGrids / 2) -
-                                            Provider.of<AppState>(
+                                        ? -(Provider.of<AppState>(
                                               context,
-                                            ).triggerVerticalOffset
+                                            ).ch1_uVoltageValue *
+                                            (NOF_yGrids / 2))
                                         : Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_yGrids / 2) -
-                                            Provider.of<AppState>(
                                               context,
-                                            ).triggerVerticalOffset,
+                                            ).ch1_uVoltageValue *
+                                            (NOF_yGrids / 2),
                                 color: triggerColor,
                                 strokeWidth: 0.0,
                                 label: HorizontalLineLabel(
                                   padding: EdgeInsets.only(top: 0),
                                   show:
-                                      Provider.of<AppState>(
-                                        context,
-                                        listen: true,
-                                      ).channel1IsTriggered,
+                                      ((Provider.of<AppState>(
+                                            context,
+                                            listen: true,
+                                          ).channel1IsTriggered) &&
+                                          (selecetTriggerModeIndex != 3)),
                                   alignment: Alignment.centerRight,
                                   labelResolver: (p0) => '◀',
                                   style: TextStyle(
@@ -639,7 +470,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               VerticalLine(
                                 x:
                                     ((Provider.of<AppState>(context).timeValue *
-                                                ((NOF_xGrids / 2) - 1)) >
+                                                ((NOF_xGrids / 2))) >
                                             (Provider.of<AppState>(
                                                   context,
                                                 ).triggerHorizontalOffset)

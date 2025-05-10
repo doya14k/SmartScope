@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_scope/usb_reader.dart';
 import 'definitions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,9 @@ class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
       appState.incrementTriggerHorizontalOffset(delta / 100);
       print('Delta ${delta / 100}');
       print('appState.timeValue ${appState.triggerHorizontalOffset}');
-      appState.updateGraphTimeValue(appState.triggerHorizontalOffset);
+      appState.updateGraphTimeValue(
+        Provider.of<UsbProvider>(context, listen: false).triggeredTime - appState.triggerHorizontalOffset,
+      );
     });
   }
 
@@ -130,55 +133,58 @@ class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Listener(
-                    onPointerSignal: (event) {
-                      if (event is PointerScrollEvent) {
-                        updateTime(event.scrollDelta.dy, context);
-                        print(
-                          Provider.of<AppState>(
-                            context,
-                            listen: false,
-                          ).triggerHorizontalOffset,
-                        );
-                      }
-                    },
-                    child: SliderTheme(
-                      data: SliderThemeData(
-                        trackShape: RectangularSliderTrackShape(),
-                        trackHeight: 5.0,
-                        activeTrackColor: Colors.grey,
-                        inactiveTrackColor: Colors.grey,
-                        thumbColor: Colors.black,
-                        thumbShape: RoundSliderThumbShape(
-                          enabledThumbRadius: 10,
-                        ),
-                      ),
-                      child: Slider(
-                        value: logTransform(
-                          Provider.of<AppState>(
-                            context,
-                          ).triggerHorizontalOffset,
-                          max_TriggerHorizontalOffset,
-                        ),
-                        min: 0,
-                        max: 1,
-                        divisions:
-                            (max_TriggerHorizontalOffset -
-                                    min_TriggerHorizontalOffset)
-                                .toInt(),
-                        onChanged: (double value) {
-                          double transformedValue = inverseLogTransform(
-                            value,
-                            max_TriggerHorizontalOffset,
-                          );
-                          Provider.of<AppState>(
-                            context,
-                            listen: false,
-                          ).updateTriggerHorizontalOffset(transformedValue);
+                  child: RotatedBox(
+                    quarterTurns: 0,
+                    child: Listener(
+                      onPointerSignal: (event) {
+                        if (event is PointerScrollEvent) {
+                          updateTime(-event.scrollDelta.dy, context);
                           print(
-                            '${Provider.of<AppState>(context, listen: false).triggerHorizontalOffset}',
+                            Provider.of<AppState>(
+                              context,
+                              listen: false,
+                            ).triggerHorizontalOffset,
                           );
-                        },
+                        }
+                      },
+                      child: SliderTheme(
+                        data: SliderThemeData(
+                          trackShape: RectangularSliderTrackShape(),
+                          trackHeight: 5.0,
+                          activeTrackColor: Colors.grey,
+                          inactiveTrackColor: Colors.grey,
+                          thumbColor: Colors.black,
+                          thumbShape: RoundSliderThumbShape(
+                            enabledThumbRadius: 10,
+                          ),
+                        ),
+                        child: Slider(
+                          value: logTransform(
+                            Provider.of<AppState>(
+                              context,
+                            ).triggerHorizontalOffset,
+                            max_TriggerHorizontalOffset,
+                          ),
+                          min: 0,
+                          max: 1,
+                          divisions:
+                              (max_TriggerHorizontalOffset -
+                                      min_TriggerHorizontalOffset)
+                                  .toInt(),
+                          onChanged: (double value) {
+                            double transformedValue = inverseLogTransform(
+                              value,
+                              max_TriggerHorizontalOffset,
+                            );
+                            Provider.of<AppState>(
+                              context,
+                              listen: false,
+                            ).updateTriggerHorizontalOffset(transformedValue);
+                            print(
+                              '${Provider.of<AppState>(context, listen: false).triggerHorizontalOffset}',
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

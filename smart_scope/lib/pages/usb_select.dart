@@ -4,6 +4,7 @@ import 'package:serial_port_win32/serial_port_win32.dart';
 import 'settings_pages/settings_widgets/definitions.dart';
 import 'package:smart_scope/usb_reader.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
 class USB_Select extends StatefulWidget {
   const USB_Select({super.key});
@@ -51,10 +52,11 @@ class _USB_SelectState extends State<USB_Select> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final usb = Provider.of<UsbProvider>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow,
-        toolbarHeight: 120,
+        toolbarHeight: 125,
         centerTitle: false,
         title: Text(
           'SmartScope',
@@ -184,7 +186,7 @@ class _USB_SelectState extends State<USB_Select> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            width: 400,
+            width: screenWidth * 0.20833333, // 400,
             child: Row(
               children: [
                 Expanded(
@@ -194,8 +196,9 @@ class _USB_SelectState extends State<USB_Select> {
                       Center(
                         child: Column(
                           children: [
-                            Text(
+                            AutoSizeText(
                               "Available Ports",
+                              maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'PrimaryFont',
                                 fontSize: 50,
@@ -204,8 +207,8 @@ class _USB_SelectState extends State<USB_Select> {
                               ),
                             ),
                             SizedBox(
-                              height: 500, // 500
-                              width: 400,
+                              height: screenHeight * 0.439753, // 500,
+                              width: screenWidth * 0.20833333, // 400,
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: AppBarBackroundColor,
@@ -240,7 +243,7 @@ class _USB_SelectState extends State<USB_Select> {
                                                 pressedPortSelector(
                                                   availablePorts[index],
                                                 );
-                                                openPort(availablePorts[index]);
+                                                usb.openPort(availablePorts[index]);
                                                 switchToMonitorPage();
                                               },
                                               child: TextButton(
@@ -289,7 +292,7 @@ class _USB_SelectState extends State<USB_Select> {
                                   width: selectedPort != null ? 100 : 0,
                                   child: FloatingActionButton(
                                     onPressed: () {
-                                      openPort(selectedPort!.portName);
+                                      usb.openPort(selectedPort!.portName);
                                       switchToMonitorPage();
                                     },
                                     backgroundColor: Colors.grey[400],

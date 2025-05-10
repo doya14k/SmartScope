@@ -128,7 +128,7 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   width: screenWidth * 0.0156,
                   height: screenHeight * 0.02638,
                   opacity:
-                      (fallingTriggerSelected)
+                      (risingTriggerSelected)
                           ? AlwaysStoppedAnimation(1)
                           : AlwaysStoppedAnimation(0.25),
                 ),
@@ -148,7 +148,7 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                         inactiveThumbColor: Colors.black,
                         thumbColor: WidgetStatePropertyAll(Colors.black),
                         thumbIcon:
-                            (fallingTriggerSelected)
+                            (risingTriggerSelected)
                                 ? WidgetStatePropertyAll(
                                   Icon(
                                     Icons.arrow_forward,
@@ -162,10 +162,10 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                                   ),
                                 ),
 
-                        value: fallingTriggerSelected,
+                        value: risingTriggerSelected,
                         onChanged: (newSelect) {
                           setState(() {
-                            fallingTriggerSelected = newSelect;
+                            risingTriggerSelected = newSelect;
                           });
                         },
                       ),
@@ -177,7 +177,7 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   width: screenWidth * 0.0156,
                   height: screenHeight * 0.02638,
                   opacity:
-                      (!fallingTriggerSelected)
+                      (!risingTriggerSelected)
                           ? AlwaysStoppedAnimation(1)
                           : AlwaysStoppedAnimation(0.25),
                 ),

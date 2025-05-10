@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'definitions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
+import 'package:smart_scope/usb_reader.dart';
 
 class TriggerStateSelector extends StatefulWidget {
   const TriggerStateSelector({super.key});
@@ -14,6 +16,7 @@ class _TriggerStateSelectorState extends State<TriggerStateSelector> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final usb = Provider.of<UsbProvider>(context, listen: true);
     return SizedBox(
       width: screenWidth * 0.1041,
       height: screenHeight * 0.143,
@@ -59,6 +62,7 @@ class _TriggerStateSelectorState extends State<TriggerStateSelector> {
                       selecetTriggerStateIndex = actualIndex;
                       if (actualIndex == 2) {
                         // Clear function hierhin
+                        usb.clearPlot();
                         selecetTriggerStateIndex = 1;
                       }
                       print(triggerStates[actualIndex]);
