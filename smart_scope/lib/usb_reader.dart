@@ -38,16 +38,62 @@ class UsbProvider extends ChangeNotifier {
   ];
   double currentTime = 0;
   double triggeredTime = 0;
+  double cutoff = 0;
+  double voltageValue_uV = 0;
 
   int selectedMessbereichIndex = 0;
   final List<int> messbereiche = [50, 25, 10, 5, 1];
+  bool singleTrigger = false;
+
+  void triggeringSignal(int channel) {
+    if (singleTrigger == false) {
+      if (channels[channel] == selectedTriggerChannel){
+      if (risingTriggerSelected) {
+        if ((last_dataFromChannel[channel] <= appState.triggerVerticalOffset) &&
+            (appState.triggerVerticalOffset < voltageValue_uV)) {
+          triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
+          print("Trigger pos");
+          print("TrHor: ${appState.triggerHorizontalOffset}");
+          appState.updateGraphTimeValue(
+            triggeredTime - appState.triggerHorizontalOffset,
+          );
+          if (selecetTriggerModeIndex == 1) {
+            // selecetTriggerStateIndex = 1;
+            singleTrigger = true;
+            print('singleTrigger');
+          }
+        }
+      } else if (!risingTriggerSelected) {
+        if ((last_dataFromChannel[channel] > appState.triggerVerticalOffset) &&
+            (appState.triggerVerticalOffset >= voltageValue_uV)) {
+          triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
+          print("Trigger neg");
+          print("TrHor: ${appState.triggerHorizontalOffset}");
+          appState.updateGraphTimeValue(
+            triggeredTime - appState.triggerHorizontalOffset,
+          );
+          if (selecetTriggerModeIndex == 1) {
+            singleTrigger = true;
+            print('singleTrigger');
+          }
+        }
+      }}
+    }
+    if (singleTrigger == true) {
+      if (currentTime > appState.maxGraphTimeValue) {
+        singleTrigger == false;
+        selecetTriggerStateIndex = 1;
+      }
+    }
+  }
 
   void clearPlot() {
     stopwatch.reset();
     stopwatch.start();
-
     ch1_data = [FlSpot(0, 0)];
     ch2_data = [FlSpot(0, 0)];
+    singleTrigger = false;
+    appState.updateGraphTimeValue(appState.timeValue * (NOF_xGrids / 2));
 
     notifyListeners();
   }
@@ -79,6 +125,7 @@ class UsbProvider extends ChangeNotifier {
 
   void startReading() {
     if (selectedPort == null || !selectedPort!.isOpened) return;
+    singleTrigger = false;
 
     readTimer = Timer.periodic(Duration(microseconds: 1), (timer) async {
       Uint8List? data = await selectedPort!.readBytes(
@@ -87,7 +134,7 @@ class UsbProvider extends ChangeNotifier {
       );
 
       if (data.isNotEmpty) {
-        String receivedString = String.fromCharCodes(data).trim();
+        // String receivedString = String.fromCharCodes(data).trim();
         int? adcValue;
         int? adcLowBits;
         int? adcHighBits;
@@ -105,47 +152,39 @@ class UsbProvider extends ChangeNotifier {
 
           if (adcLowBits != null && adcHighBits != null) {
             adcValue = (adcHighBits! << 6) | adcLowBits!;
-            double voltageValue_uV =
+            voltageValue_uV =
                 (adcValue.toDouble() * 2 * (1.5 * 1000000) / 4096.0) - 1.5;
 
             currentTime = stopwatch.elapsedMicroseconds.toDouble();
-            dataChannelLists[channel].add(FlSpot(currentTime, voltageValue_uV));
+            cutoff = triggeredTime - (200 * 1000000);
 
-            if (selecetTriggerModeIndex == 3) {
-              double cutoff = currentTime - (200 * 1000000);
-              dataChannelLists[channel].removeWhere(
-                (point) => point.x < cutoff,
+            if (selecetTriggerStateIndex == 0) {
+              dataChannelLists[channel].add(
+                FlSpot(currentTime, voltageValue_uV),
               );
-            }
-            // if (last_dataFromChannel[channel] != []) {
-            else if (selecetTriggerModeIndex == 2) {
-              // Normal Trigger
-              if (risingTriggerSelected) {
-                if ((last_dataFromChannel[channel] <=
-                        appState.triggerVerticalOffset) &&
-                    (appState.triggerVerticalOffset < voltageValue_uV)) {
-                  triggeredTime =
-                      (currentTime + last_timeFromChannel[channel]) / 2;
-                  print("Trigger pos");
-                  print("TrHor: ${appState.triggerHorizontalOffset}");
-                  appState.updateGraphTimeValue(
-                    triggeredTime - appState.triggerHorizontalOffset,
-                  );
-                }
-              } else if (!risingTriggerSelected) {
-                if ((last_dataFromChannel[channel] >
-                        appState.triggerVerticalOffset) &&
-                    (appState.triggerVerticalOffset >= voltageValue_uV)) {
-                  print("Trigger neg");
-                }
+
+              if (selecetTriggerModeIndex == 3) {
+              } else if (selecetTriggerModeIndex == 2) {
+                // Normal Trigger
+                triggeringSignal(channel);
+              } else if (selecetTriggerModeIndex == 1) {
+                // Single_trigger
+                triggeringSignal(channel);
+              } else if (selecetTriggerModeIndex == 0) {
+                // Auto Trigger
               }
-            } else if (selecetTriggerModeIndex == 1) {
-              // Single_trigger
+            } else if (selecetTriggerStateIndex == 1) {
+              stopwatch.reset();
             }
-            // }
+
+            dataChannelLists[channel].removeWhere((point) => point.x < cutoff);
 
             last_dataFromChannel[channel] = voltageValue_uV;
             last_timeFromChannel[channel] = currentTime;
+
+            // print(
+            //   'minX ${appState.minGraphTimeValue}, maxX ${appState.maxGraphTimeValue}, minY ${appState.minGraphVoltageValueCH1}, maxY ${appState.maxGraphVoltageValueCH1}',
+            // );
 
             adcLowBits = null;
             adcHighBits = null;

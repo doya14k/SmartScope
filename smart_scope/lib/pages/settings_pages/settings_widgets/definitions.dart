@@ -900,7 +900,7 @@ List<String> triggerMode = ['Auto', 'Single', 'Normal', 'Roll'];
 int selecetTriggerModeIndex = 2;
 
 List<String> triggerStates = ['Run', 'Stop', 'Clear'];
-int selecetTriggerStateIndex = 1;
+int selecetTriggerStateIndex = 0;
 
 Color selectedTriggerModeBackgroundColor = Colors.grey.shade500;
 Color selectedTriggerStateBackgroundColor = Colors.grey.shade500;

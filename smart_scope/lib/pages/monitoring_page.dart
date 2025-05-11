@@ -59,8 +59,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
     Provider.of<AppState>(context, listen: false).setUsbProvider(usbProvider);
 
     super.initState();
-    plotData.sort((a, b) => a.x.compareTo(b.x)); // Sortiere nach x-Wert
-    plotData2.sort((a, b) => a.x.compareTo(b.x)); // Sortiere nach x-Wert
+    plotData.sort((a, b) => a.x.compareTo(b.x)); 
+    plotData2.sort((a, b) => a.x.compareTo(b.x));
   }
 
   @override
