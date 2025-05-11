@@ -59,7 +59,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
     Provider.of<AppState>(context, listen: false).setUsbProvider(usbProvider);
 
     super.initState();
-    plotData.sort((a, b) => a.x.compareTo(b.x)); 
+    plotData.sort((a, b) => a.x.compareTo(b.x));
     plotData2.sort((a, b) => a.x.compareTo(b.x));
   }
 
@@ -264,7 +264,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                           ).timeValue))
                                   : (Provider.of<AppState>(
                                     context,
-                                  ).minGraphTimeValue ),
+                                  ).minGraphTimeValue),
                           maxX:
                               (selecetTriggerModeIndex == 3)
                                   ? usb.stopwatch_elapsedMicroseconds
@@ -444,10 +444,22 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               Provider.of<AppState>(
                                 context,
                               ).minGraphVoltageValueCH2,
-                          maxX:
-                              Provider.of<AppState>(context).maxGraphTimeValue,
                           minX:
-                              Provider.of<AppState>(context).minGraphTimeValue,
+                              (selecetTriggerModeIndex == 3)
+                                  ? (usb.stopwatch_elapsedMicroseconds -
+                                      (NOF_xGrids *
+                                          Provider.of<AppState>(
+                                            context,
+                                          ).timeValue))
+                                  : (Provider.of<AppState>(
+                                    context,
+                                  ).minGraphTimeValue),
+                          maxX:
+                              (selecetTriggerModeIndex == 3)
+                                  ? usb.stopwatch_elapsedMicroseconds
+                                  : (Provider.of<AppState>(
+                                    context,
+                                  ).maxGraphTimeValue),
                           // Grid Data
                           gridData: FlGridData(show: false),
                           // Titles off
@@ -455,7 +467,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           lineBarsData: [
                             LineChartBarData(
                               show: channel2.channelIsActive,
-                              spots: plotData2,
+                              spots: usb.ch2_data,
                               color: channel2.channelColor,
                               barWidth: 3.0,
                               isCurved: false,
@@ -499,10 +511,11 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 label: VerticalLineLabel(
                                   padding: EdgeInsets.only(top: 0),
                                   show:
-                                      Provider.of<AppState>(
-                                        context,
-                                        listen: true,
-                                      ).channel2IsTriggered,
+                                      ((Provider.of<AppState>(
+                                            context,
+                                            listen: true,
+                                          ).channel2IsTriggered) &&
+                                          (selecetTriggerModeIndex != 3)),
                                   alignment: Alignment.topCenter,
                                   labelResolver: (p0) => '▼',
                                   style: TextStyle(
@@ -560,40 +573,39 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               // Trigger offset
                               HorizontalLine(
                                 y:
-                                    ((Provider.of<AppState>(context).timeValue *
-                                                ((NOF_yGrids / 2) - 1)) >
+                                    ((Provider.of<AppState>(
+                                                  context,
+                                                ).ch2_uVoltageValue *
+                                                ((NOF_yGrids / 2))) >
                                             (Provider.of<AppState>(
                                                   context,
                                                 ).triggerVerticalOffset)
                                                 .abs())
-                                        ? 0
+                                        ? Provider.of<AppState>(
+                                          context,
+                                        ).triggerVerticalOffset
                                         : (Provider.of<AppState>(
                                               context,
                                             ).triggerVerticalOffset <
                                             0)
-                                        ? -Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_yGrids / 2) -
-                                            Provider.of<AppState>(
+                                        ? -(Provider.of<AppState>(
                                               context,
-                                            ).triggerVerticalOffset
+                                            ).ch2_uVoltageValue *
+                                            (NOF_yGrids / 2))
                                         : Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_yGrids / 2) -
-                                            Provider.of<AppState>(
                                               context,
-                                            ).triggerVerticalOffset,
+                                            ).ch2_uVoltageValue *
+                                            (NOF_yGrids / 2),
                                 color: triggerColor,
                                 strokeWidth: 0.0,
                                 label: HorizontalLineLabel(
                                   padding: EdgeInsets.only(top: 0),
                                   show:
-                                      Provider.of<AppState>(
-                                        context,
-                                        listen: true,
-                                      ).channel2IsTriggered,
+                                      ((Provider.of<AppState>(
+                                            context,
+                                            listen: true,
+                                          ).channel1IsTriggered) &&
+                                          (selecetTriggerModeIndex != 3)),
                                   alignment: Alignment.centerRight,
                                   labelResolver: (p0) => '◀',
                                   style: TextStyle(
@@ -605,7 +617,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             ],
                           ),
                         ),
-                      ), // Trigger
+                      ),
+
                       // Ref1
                       LineChart(
                         LineChartData(
