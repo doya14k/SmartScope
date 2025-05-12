@@ -257,17 +257,21 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               ).minGraphVoltageValueCH1,
                           minX:
                               (selecetTriggerModeIndex == 3)
-                                  ? (usb.stopwatch_elapsedMicroseconds -
-                                      (NOF_xGrids *
-                                          Provider.of<AppState>(
-                                            context,
-                                          ).timeValue))
+                                  ? (selecetTriggerStateIndex == 0)
+                                      ? (usb.stopwatch_elapsedMicroseconds -
+                                          (NOF_xGrids *
+                                              Provider.of<AppState>(
+                                                context,
+                                              ).timeValue))
+                                      : -1
                                   : (Provider.of<AppState>(
                                     context,
                                   ).minGraphTimeValue),
                           maxX:
                               (selecetTriggerModeIndex == 3)
-                                  ? usb.stopwatch_elapsedMicroseconds
+                                  ? (selecetTriggerStateIndex == 0)
+                                      ? usb.stopwatch_elapsedMicroseconds
+                                      : 0
                                   : (Provider.of<AppState>(
                                     context,
                                   ).maxGraphTimeValue),
@@ -448,17 +452,21 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               ).minGraphVoltageValueCH2,
                           minX:
                               (selecetTriggerModeIndex == 3)
-                                  ? (usb.stopwatch_elapsedMicroseconds -
-                                      (NOF_xGrids *
-                                          Provider.of<AppState>(
-                                            context,
-                                          ).timeValue))
+                                  ? (selecetTriggerStateIndex == 0)
+                                      ? (usb.stopwatch_elapsedMicroseconds -
+                                          (NOF_xGrids *
+                                              Provider.of<AppState>(
+                                                context,
+                                              ).timeValue))
+                                      : -1
                                   : (Provider.of<AppState>(
                                     context,
                                   ).minGraphTimeValue),
                           maxX:
                               (selecetTriggerModeIndex == 3)
-                                  ? usb.stopwatch_elapsedMicroseconds
+                                  ? (selecetTriggerStateIndex == 0)
+                                      ? usb.stopwatch_elapsedMicroseconds
+                                      : 0
                                   : (Provider.of<AppState>(
                                     context,
                                   ).maxGraphTimeValue),

@@ -42,7 +42,7 @@ class UsbProvider extends ChangeNotifier {
   double cutoff = 0;
   List<double> voltageValue_uV_fromChannel = [0, 0];
 
-  static const double samplesPerDivision = 1000;
+  static const double samplesPerDivision = 500;
 
   int selectedMessbereichIndex = 0;
   final List<int> messbereiche = [50, 25, 10, 5, 1];
@@ -97,6 +97,8 @@ class UsbProvider extends ChangeNotifier {
 
   void clearPlot() {
     stopwatch.reset();
+    currentTime = 0;
+    triggeredTime = 0;
     lastSample[0] = 0;
     lastSample[1] = 0;
     stopwatch.start();
@@ -169,9 +171,12 @@ class UsbProvider extends ChangeNotifier {
             adcValue = (adcHighBits << 6) | adcLowBits;
 
             if ((lastSample[channel] <= (currentTime - sampleInterval))) {
-              //   print(
-              //     "CurrentTime: $currentTime, lastSample $lastSample, SampleInterval: $sampleInterval, Channel $channel",
-              //   );
+              // print(
+              //   "CurrentTime: $currentTime, lastSample $lastSample, SampleInterval: $sampleInterval, Channel $channel",
+              // );
+              double delta = currentTime - lastSample[channel];
+              print(delta);
+
               // print("NewSample");
               lastSample[channel] = currentTime;
 
@@ -181,33 +186,33 @@ class UsbProvider extends ChangeNotifier {
                       2 *
                       (1.5 * 1000000) /
                       4096.0); // adcValue * (2 * Messbereich in uV) / 0xFFF
+              dataChannelLists[channel].add(
+                FlSpot(currentTime, voltageValue_uV_fromChannel[channel]),
+              );
 
               if (selecetTriggerStateIndex == 0) {
-                dataChannelLists[channel].add(
-                  FlSpot(currentTime, voltageValue_uV_fromChannel[channel]),
-                );
                 if (selecetTriggerModeIndex == 3) {
                   // cutoff calculated for Roll Mode
                   cutoff =
                       currentTime - (appState.timeValue * (NOF_xGrids + 1));
                   // Roll Mode
                   // Graph Range is being adjusted in monitoring_page
-                } else if (selecetTriggerModeIndex == 2) {
-                  // Normal Trigger
-                  triggeringSignal(channel);
-                } else if (selecetTriggerModeIndex == 1) {
-                  // Single_trigger
-                  triggeringSignal(channel);
-                } else if (selecetTriggerModeIndex == 0) {
-                  // Auto Trigger
+                } else {
+                  // Trigger Event
+                  if (selecetTriggerModeIndex == 2) {
+                    // Normal Trigger
+                    triggeringSignal(channel);
+                  } else if (selecetTriggerModeIndex == 1) {
+                    // Single_trigger
+                    triggeringSignal(channel);
+                  } else if (selecetTriggerModeIndex == 0) {
+                    // Auto Trigger
+                  }
                 }
-
-                // cutoff for Trigger Modes
-                cutoff =
-                    (triggeredTime - appState.triggerHorizontalOffset) -
-                    (appState.timeValue * ((NOF_xGrids / 2) + 1));
-              } else if (selecetTriggerStateIndex == 1) {
+              } else if (selecetTriggerStateIndex == 2) {
                 stopwatch.reset();
+                currentTime = 0;
+                triggeredTime = 0;
                 lastSample[0] = 0;
                 lastSample[1] = 0;
               }
@@ -217,6 +222,32 @@ class UsbProvider extends ChangeNotifier {
             dataChannelLists[0].removeWhere((point) => point.x < cutoff);
             dataChannelLists[1].removeWhere((point) => point.x < cutoff);
 
+            if (selecetTriggerModeIndex != 3) {
+              // cutoff for Trigger Modes
+              cutoff =
+                  (triggeredTime - appState.triggerHorizontalOffset) -
+                  (appState.timeValue * ((NOF_xGrids / 2) + 1));
+
+              // cutoff new data when triggering which out of range
+              dataChannelLists[0].removeWhere(
+                (point) =>
+                    ((point.x > appState.maxGraphTimeValue) &&
+                        (point.x <
+                            ((currentTime - appState.triggerHorizontalOffset) -
+                                (appState.timeValue *
+                                    ((NOF_xGrids / 2) + 1))))),
+              );
+              dataChannelLists[1].removeWhere(
+                (point) =>
+                    ((point.x > appState.maxGraphTimeValue) &&
+                        (point.x <
+                            ((currentTime - appState.triggerHorizontalOffset) -
+                                (appState.timeValue *
+                                    ((NOF_xGrids / 2) + 1))))),
+              );
+            }
+            print('Stored Data Points ${dataChannelLists[channel].length}');
+
             // Remove the first dummy point
             if (dataChannelLists[0].length >= 2) {
               dataChannelLists[0].removeWhere((point) => point.x == 0);
@@ -224,6 +255,7 @@ class UsbProvider extends ChangeNotifier {
             if (dataChannelLists[1].length >= 2) {
               dataChannelLists[1].removeWhere((point) => point.x == 0);
             }
+
             last_dataFromChannel[channel] =
                 voltageValue_uV_fromChannel[channel];
             last_timeFromChannel[channel] = currentTime;
@@ -249,6 +281,8 @@ class UsbProvider extends ChangeNotifier {
     ref2_data = [FlSpot(0, 0)];
     ref3_data = [FlSpot(0, 0)];
     stopwatch.reset();
+    currentTime = 0;
+    triggeredTime = 0;
     lastSample[0] = 0;
     lastSample[1] = 0;
 

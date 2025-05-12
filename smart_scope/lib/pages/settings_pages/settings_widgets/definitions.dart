@@ -126,16 +126,16 @@ class AppState extends ChangeNotifier {
 
   double _ch1_uVoltageValue = channel1.uVperDivision; // 2000.0;
   double _ch2_uVoltageValue = channel2.uVperDivision; //2000.0;
-  double timeValue = 2.0;
+  double timeValue = 200000.0;
 
   double triggerHorizontalOffset = 0.0;
   double triggerVerticalOffset = 1500000.0;
 
-  double ch1_uVoltageLevelOffset = 0.0;
-  double ch2_uVoltageLevelOffset = 0.0;
+  double ch1_uVoltageLevelOffset = -1500000.0;
+  double ch2_uVoltageLevelOffset = -1500000.0;
 
-  double maxGraphTimeValue = 2.0 * (NOF_xGrids / 2);
-  double minGraphTimeValue = -2.0 * (NOF_xGrids / 2);
+  double maxGraphTimeValue = 200000.0 * (NOF_xGrids / 2); // timeValue
+  double minGraphTimeValue = -200000.0 * (NOF_xGrids / 2); // timeValue
 
   double maxGraphVoltageValueCH1 = channel1.uVperDivision * (NOF_yGrids / 2);
   double minGraphVoltageValueCH1 = -channel1.uVperDivision * (NOF_yGrids / 2);

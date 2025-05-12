@@ -64,8 +64,7 @@ class _TriggerStateSelectorState extends State<TriggerStateSelector> {
                         // Clear function hierhin
                         usb.clearPlot();
                         selecetTriggerStateIndex = 1;
-                      }
-                      else if (actualIndex == 0){
+                      } else if (actualIndex == 0) {
                         usb.clearPlot();
                       }
                       print(triggerStates[actualIndex]);
