@@ -292,31 +292,31 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             verticalLines: [
                               VerticalLine(
                                 x:
-                                    ((Provider.of<AppState>(context).timeValue *
-                                                ((NOF_xGrids / 2))) >
+                                    ((Provider.of<AppState>(
+                                                  context,
+                                                ).maxGraphTimeValue) >
+                                                ((usb.triggeredTime -
+                                                    Provider.of<AppState>(
+                                                      context,
+                                                    ).triggerHorizontalOffset)) &&
                                             (Provider.of<AppState>(
                                                   context,
-                                                ).triggerHorizontalOffset)
-                                                .abs())
+                                                ).minGraphTimeValue) <
+                                                ((usb.triggeredTime -
+                                                    Provider.of<AppState>(
+                                                      context,
+                                                    ).triggerHorizontalOffset)))
                                         ? (usb.triggeredTime)
                                         : (Provider.of<AppState>(
                                               context,
                                             ).triggerHorizontalOffset <
                                             0)
-                                        ? -Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_xGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).triggerHorizontalOffset
+                                        ? Provider.of<AppState>(
+                                          context,
+                                        ).minGraphTimeValue
                                         : Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_xGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).triggerHorizontalOffset,
+                                          context,
+                                        ).maxGraphTimeValue,
                                 color: triggerColor,
                                 strokeWidth: 0.0,
                                 label: VerticalLineLabel(
@@ -384,12 +384,16 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 y:
                                     ((Provider.of<AppState>(
                                                   context,
-                                                ).ch1_uVoltageValue *
-                                                ((NOF_yGrids / 2))) >
+                                                ).maxGraphVoltageValueCH1) >
+                                                (Provider.of<AppState>(
+                                                  context,
+                                                ).triggerVerticalOffset) &&
                                             (Provider.of<AppState>(
                                                   context,
-                                                ).triggerVerticalOffset)
-                                                .abs())
+                                                ).minGraphVoltageValueCH1) <
+                                                (Provider.of<AppState>(
+                                                  context,
+                                                ).triggerVerticalOffset))
                                         ? Provider.of<AppState>(
                                           context,
                                         ).triggerVerticalOffset
@@ -397,14 +401,12 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                               context,
                                             ).triggerVerticalOffset <
                                             0)
-                                        ? -(Provider.of<AppState>(
-                                              context,
-                                            ).ch1_uVoltageValue *
-                                            (NOF_yGrids / 2))
-                                        : Provider.of<AppState>(
-                                              context,
-                                            ).ch1_uVoltageValue *
-                                            (NOF_yGrids / 2),
+                                        ? (Provider.of<AppState>(
+                                          context,
+                                        ).minGraphVoltageValueCH1)
+                                        : (Provider.of<AppState>(
+                                          context,
+                                        ).maxGraphVoltageValueCH1),
                                 color: triggerColor,
                                 strokeWidth: 0.0,
                                 label: HorizontalLineLabel(
@@ -481,31 +483,31 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             verticalLines: [
                               VerticalLine(
                                 x:
-                                    ((Provider.of<AppState>(context).timeValue *
-                                                ((NOF_xGrids / 2))) >
+                                    ((Provider.of<AppState>(
+                                                  context,
+                                                ).maxGraphTimeValue) >
+                                                ((usb.triggeredTime -
+                                                    Provider.of<AppState>(
+                                                      context,
+                                                    ).triggerHorizontalOffset)) &&
                                             (Provider.of<AppState>(
                                                   context,
-                                                ).triggerHorizontalOffset)
-                                                .abs())
-                                        ? 0
+                                                ).minGraphTimeValue) <
+                                                ((usb.triggeredTime -
+                                                    Provider.of<AppState>(
+                                                      context,
+                                                    ).triggerHorizontalOffset)))
+                                        ? (usb.triggeredTime)
                                         : (Provider.of<AppState>(
                                               context,
                                             ).triggerHorizontalOffset <
                                             0)
-                                        ? -Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_xGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).triggerHorizontalOffset
+                                        ? Provider.of<AppState>(
+                                          context,
+                                        ).minGraphTimeValue
                                         : Provider.of<AppState>(
-                                                  context,
-                                                ).timeValue *
-                                                (NOF_xGrids / 2) -
-                                            Provider.of<AppState>(
-                                              context,
-                                            ).triggerHorizontalOffset,
+                                          context,
+                                        ).maxGraphTimeValue,
                                 color: triggerColor,
                                 strokeWidth: 0.0,
                                 label: VerticalLineLabel(
@@ -575,12 +577,16 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 y:
                                     ((Provider.of<AppState>(
                                                   context,
-                                                ).ch2_uVoltageValue *
-                                                ((NOF_yGrids / 2))) >
+                                                ).maxGraphVoltageValueCH2) >
+                                                (Provider.of<AppState>(
+                                                  context,
+                                                ).triggerVerticalOffset) &&
                                             (Provider.of<AppState>(
                                                   context,
-                                                ).triggerVerticalOffset)
-                                                .abs())
+                                                ).minGraphVoltageValueCH2) <
+                                                (Provider.of<AppState>(
+                                                  context,
+                                                ).triggerVerticalOffset))
                                         ? Provider.of<AppState>(
                                           context,
                                         ).triggerVerticalOffset
@@ -588,14 +594,12 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                               context,
                                             ).triggerVerticalOffset <
                                             0)
-                                        ? -(Provider.of<AppState>(
-                                              context,
-                                            ).ch2_uVoltageValue *
-                                            (NOF_yGrids / 2))
-                                        : Provider.of<AppState>(
-                                              context,
-                                            ).ch2_uVoltageValue *
-                                            (NOF_yGrids / 2),
+                                        ? (Provider.of<AppState>(
+                                          context,
+                                        ).minGraphVoltageValueCH2)
+                                        : (Provider.of<AppState>(
+                                          context,
+                                        ).maxGraphVoltageValueCH2),
                                 color: triggerColor,
                                 strokeWidth: 0.0,
                                 label: HorizontalLineLabel(
@@ -604,7 +608,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                       ((Provider.of<AppState>(
                                             context,
                                             listen: true,
-                                          ).channel1IsTriggered) &&
+                                          ).channel2IsTriggered) &&
                                           (selecetTriggerModeIndex != 3)),
                                   alignment: Alignment.centerRight,
                                   labelResolver: (p0) => '◀',

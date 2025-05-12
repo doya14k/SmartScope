@@ -164,25 +164,34 @@ class UsbProvider extends ChangeNotifier {
           currentTime = stopwatch.elapsedMicroseconds.toDouble();
           double sampleInterval =
               (appState.timeValue / samplesPerDivision); //10;
-          // print("CurrentTime: $currentTime, lastSample $lastSample");
 
           if (adcLowBits != null && adcHighBits != null) {
             adcValue = (adcHighBits << 6) | adcLowBits;
 
             if ((lastSample[channel] <= (currentTime - sampleInterval))) {
-              print("NewSample $sampleInterval");
+              //   print(
+              //     "CurrentTime: $currentTime, lastSample $lastSample, SampleInterval: $sampleInterval, Channel $channel",
+              //   );
+              // print("NewSample");
               lastSample[channel] = currentTime;
+
               // Spannungswert wird hier berechnet
               voltageValue_uV_fromChannel[channel] =
-                  (adcValue.toDouble() * 2 * (1.5 * 1000000) / 4096.0) - 1.5;
-
-              cutoff = triggeredTime - (120 * 1000000);
+                  (adcValue.toDouble() *
+                      2 *
+                      (1.5 * 1000000) /
+                      4096.0); // adcValue * (2 * Messbereich in uV) / 0xFFF
 
               if (selecetTriggerStateIndex == 0) {
                 dataChannelLists[channel].add(
                   FlSpot(currentTime, voltageValue_uV_fromChannel[channel]),
                 );
                 if (selecetTriggerModeIndex == 3) {
+                  // cutoff calculated for Roll Mode
+                  cutoff =
+                      currentTime - (appState.timeValue * (NOF_xGrids + 1));
+                  // Roll Mode
+                  // Graph Range is being adjusted in monitoring_page
                 } else if (selecetTriggerModeIndex == 2) {
                   // Normal Trigger
                   triggeringSignal(channel);
@@ -192,15 +201,29 @@ class UsbProvider extends ChangeNotifier {
                 } else if (selecetTriggerModeIndex == 0) {
                   // Auto Trigger
                 }
+
+                // cutoff for Trigger Modes
+                cutoff =
+                    (triggeredTime - appState.triggerHorizontalOffset) -
+                    (appState.timeValue * ((NOF_xGrids / 2) + 1));
               } else if (selecetTriggerStateIndex == 1) {
                 stopwatch.reset();
                 lastSample[0] = 0;
                 lastSample[1] = 0;
               }
             }
-            dataChannelLists[0].removeWhere((point) => point.x < cutoff);
-            dataChannelLists[0].removeWhere((point) => point.x < cutoff);
 
+            // Cutoff of old data
+            dataChannelLists[0].removeWhere((point) => point.x < cutoff);
+            dataChannelLists[1].removeWhere((point) => point.x < cutoff);
+
+            // Remove the first dummy point
+            if (dataChannelLists[0].length >= 2) {
+              dataChannelLists[0].removeWhere((point) => point.x == 0);
+            }
+            if (dataChannelLists[1].length >= 2) {
+              dataChannelLists[1].removeWhere((point) => point.x == 0);
+            }
             last_dataFromChannel[channel] =
                 voltageValue_uV_fromChannel[channel];
             last_timeFromChannel[channel] = currentTime;
@@ -219,6 +242,16 @@ class UsbProvider extends ChangeNotifier {
   }
 
   void closePort() async {
+    ch1_data = [FlSpot(0, 0)];
+    ch2_data = [FlSpot(0, 0)];
+
+    ref1_data = [FlSpot(0, 0)];
+    ref2_data = [FlSpot(0, 0)];
+    ref3_data = [FlSpot(0, 0)];
+    stopwatch.reset();
+    lastSample[0] = 0;
+    lastSample[1] = 0;
+
     if (readTimer != null) {
       readTimer!.cancel();
       readTimer = null;
@@ -236,15 +269,7 @@ class UsbProvider extends ChangeNotifier {
     if (!dataController.isClosed) {
       dataController.close();
     }
-    ch1_data = [FlSpot(0, 0)];
-    ch2_data = [FlSpot(0, 0)];
 
-    ref1_data = [FlSpot(0, 0)];
-    ref2_data = [FlSpot(0, 0)];
-    ref3_data = [FlSpot(0, 0)];
-    stopwatch.reset();
-    lastSample[0] = 0;
-    lastSample[1] = 0;
     notifyListeners();
   }
 }

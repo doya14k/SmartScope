@@ -323,11 +323,10 @@ class AppState extends ChangeNotifier {
 
   convertTimeText2Value(String timeText) {
     String timeTextNumbersOnly;
-
     for (int i = 0; i < timeText.length; i++) {
       if ((timeText[i] == ' ')) {
-        timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
-        timeValue = double.parse(timeTextNumbersOnly);
+        timeTextNumbersOnly = (timeText.replaceRange(i, timeText.length, ''));
+        timeValue = double.parse(timeTextNumbersOnly).abs();
         if (timeText[i + 1] == 'n') {
           timeValue *= 0.001;
         } else if ((timeText[i + 1] == 'u') || (timeText[i + 1] == 'µ')) {
@@ -363,7 +362,7 @@ class AppState extends ChangeNotifier {
         updateGraphTimeValue(
           usbProvider.triggeredTime - triggerHorizontalOffset,
         );
-
+        timeValue = timeValue.abs();
         notifyListeners();
         return;
       }
