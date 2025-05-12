@@ -32,7 +32,7 @@ class _ReferencePageState extends State<ReferencePage> {
         SizedBox(height: screenHeight * 0.01759),
         Row(
           children: [
-            Expanded(child: SizedBox(), flex: 5),
+            Expanded(flex: 5, child: SizedBox()),
             Expanded(
               flex: 50,
               child: Row(
@@ -126,7 +126,7 @@ class _ReferencePageState extends State<ReferencePage> {
                 ],
               ),
             ),
-            Expanded(child: SizedBox(), flex: 20),
+            Expanded(flex: 20, child: SizedBox()),
           ],
         ),
         SizedBox(height: screenHeight * 0.01759),

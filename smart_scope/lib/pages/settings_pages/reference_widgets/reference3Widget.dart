@@ -73,7 +73,7 @@ class _Reference3State extends State<Reference3> {
       children: [
         Row(
           children: [
-            Expanded(child: SizedBox(), flex: 2),
+            Expanded(flex: 2, child: SizedBox()),
             Expanded(
               flex: 25,
               child: Row(
@@ -188,7 +188,7 @@ class _Reference3State extends State<Reference3> {
                 ],
               ),
             ),
-            Expanded(child: SizedBox(), flex: 10),
+            Expanded(flex: 10, child: SizedBox()),
           ],
         ),
         Expanded(child: SizedBox()),
@@ -366,7 +366,7 @@ class _Reference3State extends State<Reference3> {
                                         ).convertTriggerVerticalOffsetText2Value_Ref3(
                                           inputText,
                                         );
-                                        print('$inputText');
+                                        print(inputText);
                                       });
                                     },
                                   ),

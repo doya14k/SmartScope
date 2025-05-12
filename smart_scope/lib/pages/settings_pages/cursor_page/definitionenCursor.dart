@@ -295,8 +295,8 @@ class CursorChanges extends ChangeNotifier {
     }
   }
 
-  void incrementX1_Offset(double delta, double reference_uSperdivision) {
-    cursorX1uS_Value += ((reference_uSperdivision / 50) * delta);
+  void incrementX1_Offset(double delta, double referenceUsperdivision) {
+    cursorX1uS_Value += ((referenceUsperdivision / 50) * delta);
     if (cursorX1uS_Value > max_XOffset) {
       cursorX1uS_Value = max_XOffset;
     } else if (cursorX1uS_Value <= min_XOffset) {
@@ -305,8 +305,8 @@ class CursorChanges extends ChangeNotifier {
     notifyListeners();
   }
 
-  void incrementX2_Offset(double delta, double reference_uSperdivision) {
-    cursorX2uS_Value += ((reference_uSperdivision / 50) * delta);
+  void incrementX2_Offset(double delta, double referenceUsperdivision) {
+    cursorX2uS_Value += ((referenceUsperdivision / 50) * delta);
     if (cursorX2uS_Value > max_XOffset) {
       cursorX2uS_Value = max_XOffset;
     } else if (cursorX2uS_Value <= min_XOffset) {
@@ -315,8 +315,8 @@ class CursorChanges extends ChangeNotifier {
     notifyListeners();
   }
 
-  void incrementY1_Offset(double delta, double reference_uVperdivision) {
-    cursorY1uV_Value += ((reference_uVperdivision / 50) * delta);
+  void incrementY1_Offset(double delta, double referenceUvperdivision) {
+    cursorY1uV_Value += ((referenceUvperdivision / 50) * delta);
     if (cursorY1uV_Value > max_YOffset) {
       cursorY1uV_Value = max_YOffset;
     } else if (cursorY1uV_Value <= min_YOffset) {
@@ -325,8 +325,8 @@ class CursorChanges extends ChangeNotifier {
     notifyListeners();
   }
 
-  void incrementY2_Offset(double delta, double reference_uSperdivision) {
-    cursorY2uV_Value += ((reference_uSperdivision / 50) * delta);
+  void incrementY2_Offset(double delta, double referenceUsperdivision) {
+    cursorY2uV_Value += ((referenceUsperdivision / 50) * delta);
     if (cursorY2uV_Value > max_YOffset) {
       cursorY2uV_Value = max_YOffset;
     } else if (cursorY2uV_Value <= min_YOffset) {

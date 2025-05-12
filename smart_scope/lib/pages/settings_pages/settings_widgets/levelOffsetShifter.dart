@@ -118,7 +118,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                                   context,
                                   listen: false,
                                 ).convertCH1OffsetText2Value(inputText);
-                                print('$inputText');
+                                print(inputText);
                               });
                             },
                           ),
@@ -253,7 +253,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                                   context,
                                   listen: false,
                                 ).convertCH2OffsetText2Value(inputText);
-                                print('$inputText');
+                                print(inputText);
                               });
                             },
                           ),
@@ -391,7 +391,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                                 ).convertTriggerVerticalOffsetText2Value(
                                   inputText,
                                 );
-                                print('$inputText');
+                                print(inputText);
                               });
                             },
                           ),

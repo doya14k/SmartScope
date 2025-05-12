@@ -73,7 +73,7 @@ class ReferenceChanges extends ChangeNotifier {
     maxGraphVoltageValueRef1 = (Ref1uVperDivision * (8 / 2)) - Ref1Offset;
     minGraphVoltageValueRef1 = -(Ref1uVperDivision * (8 / 2)) - Ref1Offset;
 
-    print('Max: ${maxGraphVoltageValueRef1}');
+    print('Max: $maxGraphVoltageValueRef1');
 
     maxGraphVoltageValueRef2 = (Ref2uVperDivision * (8 / 2)) - Ref2Offset;
     minGraphVoltageValueRef2 = -(Ref2uVperDivision * (8 / 2)) - Ref2Offset;

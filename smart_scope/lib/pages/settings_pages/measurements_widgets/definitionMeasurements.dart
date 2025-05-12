@@ -133,7 +133,7 @@ class _MeasurementDataTemplateState extends State<MeasurementDataTemplate> {
               Expanded(
                 flex: 7,
                 child: AutoSizeText(
-                  '${widget.title}',
+                  widget.title,
                   minFontSize: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -148,7 +148,7 @@ class _MeasurementDataTemplateState extends State<MeasurementDataTemplate> {
               Expanded(
                 flex: 10,
                 child: AutoSizeText(
-                  '${Data2Text(_data, widget.decimalDigits, widget.unit)}',
+                  Data2Text(_data, widget.decimalDigits, widget.unit),
                   minFontSize: 1,
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -209,37 +209,37 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH1_Period() {
     measCH1_Period = !measCH1_Period;
-    print('CH1 Period: ${measCH1_Period}');
+    print('CH1 Period: $measCH1_Period');
     notifyListeners();
   }
 
   update_measCH1_Frequency() {
     measCH1_Frequency = !measCH1_Frequency;
-    print('CH1 Frequency: ${measCH1_Frequency}');
+    print('CH1 Frequency: $measCH1_Frequency');
     notifyListeners();
   }
 
   update_measCH1_widthPos() {
     measCH1_widthPos = !measCH1_widthPos;
-    print('CH1 Width+: ${measCH1_widthPos}');
+    print('CH1 Width+: $measCH1_widthPos');
     notifyListeners();
   }
 
   update_measCH1_widthNeg() {
     measCH1_widthNeg = !measCH1_widthNeg;
-    print('CH1 Width-: ${measCH1_widthNeg}');
+    print('CH1 Width-: $measCH1_widthNeg');
     notifyListeners();
   }
 
   update_measCH1_dutyPos() {
     measCH1_DutyPos = !measCH1_DutyPos;
-    print('CH1 Duty-Cycle +: ${measCH1_DutyPos}');
+    print('CH1 Duty-Cycle +: $measCH1_DutyPos');
     notifyListeners();
   }
 
   update_measCH1_dutyNeg() {
     measCH1_DutyNeg = !measCH1_DutyNeg;
-    print('CH1 Duty-Cycle -: ${measCH1_DutyNeg}');
+    print('CH1 Duty-Cycle -: $measCH1_DutyNeg');
     notifyListeners();
   }
 
@@ -271,50 +271,50 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH1_Vmax() {
     measCH1_Vmax = !measCH1_Vmax;
-    print('CH1 Vmax: ${measCH1_Vmax}');
+    print('CH1 Vmax: $measCH1_Vmax');
     notifyListeners();
   }
 
   update_measCH1_Vmin() {
     measCH1_Vmin = !measCH1_Vmin;
-    print('CH1 Vmin: ${measCH1_Vmin}');
+    print('CH1 Vmin: $measCH1_Vmin');
     notifyListeners();
   }
 
   update_measCH1_Vpp() {
     measCH1_Vpp = !measCH1_Vpp;
-    print('CH1 Vpp: ${measCH1_Vpp}');
+    print('CH1 Vpp: $measCH1_Vpp');
     ch2_Vpp_key.currentState?.updateData(10.0);
     notifyListeners();
   }
 
   update_measCH1_Vamp() {
     measCH1_Vamp = !measCH1_Vamp;
-    print('CH1 Vamp: ${measCH1_Vamp}');
+    print('CH1 Vamp: $measCH1_Vamp');
     notifyListeners();
   }
 
   update_measCH1_Vtop() {
     measCH1_Vtop = !measCH1_Vtop;
-    print('CH1 Vtop: ${measCH1_Vtop}');
+    print('CH1 Vtop: $measCH1_Vtop');
     notifyListeners();
   }
 
   update_measCH1_Vbase() {
     measCH1_Vbase = !measCH1_Vbase;
-    print('CH1 Vbase: ${measCH1_Vbase}');
+    print('CH1 Vbase: $measCH1_Vbase');
     notifyListeners();
   }
 
   update_measCH1_Vavg() {
     measCH1_Vavg = !measCH1_Vavg;
-    print('CH1 Vavg: ${measCH1_Vavg}');
+    print('CH1 Vavg: $measCH1_Vavg');
     notifyListeners();
   }
 
   update_measCH1_Vrms() {
     measCH1_Vrms = !measCH1_Vrms;
-    print('CH1 Vrms: ${measCH1_Vrms}');
+    print('CH1 Vrms: $measCH1_Vrms');
     notifyListeners();
   }
 
@@ -327,37 +327,37 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH2_Period() {
     measCH2_Period = !measCH2_Period;
-    print('CH2 Period: ${measCH2_Period}');
+    print('CH2 Period: $measCH2_Period');
     notifyListeners();
   }
 
   update_measCH2_Frequency() {
     measCH2_Frequency = !measCH2_Frequency;
-    print('CH2 Frequency: ${measCH2_Frequency}');
+    print('CH2 Frequency: $measCH2_Frequency');
     notifyListeners();
   }
 
   update_measCH2_widthPos() {
     measCH2_widthPos = !measCH2_widthPos;
-    print('CH2 Width+: ${measCH2_widthPos}');
+    print('CH2 Width+: $measCH2_widthPos');
     notifyListeners();
   }
 
   update_measCH2_widthNeg() {
     measCH2_widthNeg = !measCH2_widthNeg;
-    print('CH2 Width-: ${measCH2_widthNeg}');
+    print('CH2 Width-: $measCH2_widthNeg');
     notifyListeners();
   }
 
   update_measCH2_dutyPos() {
     measCH2_DutyPos = !measCH2_DutyPos;
-    print('CH2 Duty-Cycle +: ${measCH2_DutyPos}');
+    print('CH2 Duty-Cycle +: $measCH2_DutyPos');
     notifyListeners();
   }
 
   update_measCH2_dutyNeg() {
     measCH2_DutyNeg = !measCH2_DutyNeg;
-    print('CH2 Duty-Cycle -: ${measCH2_DutyNeg}');
+    print('CH2 Duty-Cycle -: $measCH2_DutyNeg');
     notifyListeners();
   }
 
@@ -389,49 +389,49 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH2_Vmax() {
     measCH2_Vmax = !measCH2_Vmax;
-    print('CH2 Vmax: ${measCH2_Vmax}');
+    print('CH2 Vmax: $measCH2_Vmax');
     notifyListeners();
   }
 
   update_measCH2_Vmin() {
     measCH2_Vmin = !measCH2_Vmin;
-    print('CH2 Vmin: ${measCH2_Vmin}');
+    print('CH2 Vmin: $measCH2_Vmin');
     notifyListeners();
   }
 
   update_measCH2_Vpp() {
     measCH2_Vpp = !measCH2_Vpp;
-    print('CH2 Vpp: ${measCH2_Vpp}');
+    print('CH2 Vpp: $measCH2_Vpp');
     notifyListeners();
   }
 
   update_measCH2_Vamp() {
     measCH2_Vamp = !measCH2_Vamp;
-    print('CH2 Vamp: ${measCH2_Vamp}');
+    print('CH2 Vamp: $measCH2_Vamp');
     notifyListeners();
   }
 
   update_measCH2_Vtop() {
     measCH2_Vtop = !measCH2_Vtop;
-    print('CH2 Vtop: ${measCH2_Vtop}');
+    print('CH2 Vtop: $measCH2_Vtop');
     notifyListeners();
   }
 
   update_measCH2_Vbase() {
     measCH2_Vbase = !measCH2_Vbase;
-    print('CH2 Vbase: ${measCH2_Vbase}');
+    print('CH2 Vbase: $measCH2_Vbase');
     notifyListeners();
   }
 
   update_measCH2_Vavg() {
     measCH2_Vavg = !measCH2_Vavg;
-    print('CH2 Vavg: ${measCH2_Vavg}');
+    print('CH2 Vavg: $measCH2_Vavg');
     notifyListeners();
   }
 
   update_measCH2_Vrms() {
     measCH2_Vrms = !measCH2_Vrms;
-    print('CH2 Vrms: ${measCH2_Vrms}');
+    print('CH2 Vrms: $measCH2_Vrms');
     notifyListeners();
   }
 }

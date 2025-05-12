@@ -42,6 +42,8 @@ class UsbProvider extends ChangeNotifier {
   double cutoff = 0;
   List<double> voltageValue_uV_fromChannel = [0, 0];
 
+  static const double samplesPerDivision = 1000;
+
   int selectedMessbereichIndex = 0;
   final List<int> messbereiche = [50, 25, 10, 5, 1];
   bool singleTrigger = false;
@@ -160,14 +162,15 @@ class UsbProvider extends ChangeNotifier {
             adcHighBits = dataBits;
           }
           currentTime = stopwatch.elapsedMicroseconds.toDouble();
-          double sampleInterval = 100000;
+          double sampleInterval =
+              (appState.timeValue / samplesPerDivision); //10;
           // print("CurrentTime: $currentTime, lastSample $lastSample");
 
           if (adcLowBits != null && adcHighBits != null) {
-            adcValue = (adcHighBits! << 6) | adcLowBits!;
+            adcValue = (adcHighBits << 6) | adcLowBits;
 
             if ((lastSample[channel] <= (currentTime - sampleInterval))) {
-              print("NewSample");
+              print("NewSample $sampleInterval");
               lastSample[channel] = currentTime;
               // Spannungswert wird hier berechnet
               voltageValue_uV_fromChannel[channel] =

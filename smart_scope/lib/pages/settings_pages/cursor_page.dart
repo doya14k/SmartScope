@@ -227,7 +227,7 @@ class _CursorPageState extends State<CursorPage> {
                                                 context,
                                                 listen: false,
                                               ).convertText2Value_X1(inputText);
-                                              print('$inputText');
+                                              print(inputText);
                                             });
                                           },
                                         ),
@@ -380,7 +380,7 @@ class _CursorPageState extends State<CursorPage> {
                                                 context,
                                                 listen: false,
                                               ).convertText2Value_X2(inputText);
-                                              print('$inputText');
+                                              print(inputText);
                                             });
                                           },
                                         ),
@@ -533,7 +533,7 @@ class _CursorPageState extends State<CursorPage> {
                                                 context,
                                                 listen: false,
                                               ).convertText2Value_Y1(inputText);
-                                              print('$inputText');
+                                              print(inputText);
                                             });
                                           },
                                         ),
@@ -686,7 +686,7 @@ class _CursorPageState extends State<CursorPage> {
                                                 context,
                                                 listen: false,
                                               ).convertText2Value_Y2(inputText);
-                                              print('$inputText');
+                                              print(inputText);
                                             });
                                           },
                                         ),

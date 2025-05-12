@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_scope/pages/monitoring_page.dart';
 import 'package:smart_scope/pages/settings_pages/cursor_page/definitionenCursor.dart';
 import 'package:smart_scope/pages/settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'package:smart_scope/pages/usb_select.dart';

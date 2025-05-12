@@ -1089,6 +1089,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                         children: [
                           // V/Div Anzeige
                           Expanded(
+                            flex: 3,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
                               child: Container(
@@ -1150,7 +1151,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 ),
                               ),
                             ),
-                            flex: 3,
                           ),
                           // Measurements 1
                           Expanded(
@@ -1169,8 +1169,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                             Row(
                                               children: [
                                                 Expanded(
-                                                  child: SizedBox(),
                                                   flex: 1,
+                                                  child: SizedBox(),
                                                 ),
                                                 AutoSizeText(
                                                   "Measurements CH1",
@@ -1185,8 +1185,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                                   ),
                                                 ),
                                                 Expanded(
-                                                  child: SizedBox(),
                                                   flex: 10,
+                                                  child: SizedBox(),
                                                 ),
                                               ],
                                             ),
@@ -1455,8 +1455,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                             Row(
                                               children: [
                                                 Expanded(
-                                                  child: SizedBox(),
                                                   flex: 1,
+                                                  child: SizedBox(),
                                                 ),
                                                 AutoSizeText(
                                                   "Measurements CH2",
@@ -1471,8 +1471,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                                   ),
                                                 ),
                                                 Expanded(
-                                                  child: SizedBox(),
                                                   flex: 10,
+                                                  child: SizedBox(),
                                                 ),
                                               ],
                                             ),
