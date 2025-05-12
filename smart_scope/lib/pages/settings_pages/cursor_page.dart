@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_scope/pages/settings_pages/cursor_page/definitionenCursor.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_scope/pages/settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'dart:math';
 
 import 'package:smart_scope/pages/settings_pages/settings_widgets/definitions.dart';
@@ -168,7 +169,7 @@ class _CursorPageState extends State<CursorPage> {
                 child: Card(
                   color: cardBackgroundColorCursor,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
@@ -784,6 +785,225 @@ class _CursorPageState extends State<CursorPage> {
                                 ],
                               ),
                             ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: screenHeight * 0.3518,
+                width: screenWidth * 0.15625,
+                child: Card(
+                  color:
+                      (!Provider.of<CursorChanges>(
+                            context,
+                            listen: true,
+                          ).cursorIsOnCH2)
+                          ? channel1_lightBackgroundColor
+                          : channel2_lightBackgroundColor,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AutoSizeText(
+                        (!Provider.of<CursorChanges>(
+                              context,
+                              listen: true,
+                            ).cursorIsOnCH2)
+                            ? "Measurements for CH1"
+                            : "Measurements for CH2",
+                        maxLines: 1,
+                        style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          fontFamily: 'PrimaryFont',
+                          fontWeight: FontWeight.bold,
+                          fontSize: screenHeight * 0.0219877,
+                          color: Colors.black,
+                        ),
+                      ),
+                      Divider(height: 1, color: Colors.black),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AutoSizeText(
+                            "X1",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                          AutoSizeText(
+                            "= ${Provider.of<CursorChanges>(context, listen: false).Value2Text_X1}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(height: 1, color: Colors.black),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AutoSizeText(
+                            "X2",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                          AutoSizeText(
+                            "= ${Provider.of<CursorChanges>(context, listen: false).Value2Text_X2}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(height: 1, color: Colors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AutoSizeText(
+                            "Y1",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                          AutoSizeText(
+                            "= ${Provider.of<CursorChanges>(context, listen: false).Value2Text_Y1}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(height: 1, color: Colors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AutoSizeText(
+                            "Y2",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                          AutoSizeText(
+                            "= ${Provider.of<CursorChanges>(context, listen: false).Value2Text_Y2}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(height: 1, color: Colors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AutoSizeText(
+                            "X2 - X1",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                          AutoSizeText(
+                            "= ${Provider.of<CursorChanges>(context, listen: false).Value2Text_deltaX}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(height: 1, color: Colors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AutoSizeText(
+                            "Y2 - Y1",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                          AutoSizeText(
+                            "= ${Provider.of<CursorChanges>(context, listen: false).Value2Text_deltaY}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(height: 1, color: Colors.black),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          AutoSizeText(
+                            "1/|ΔX|",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
+                          ),
+                          AutoSizeText(
+                            "= ${Provider.of<CursorChanges>(context, listen: false).Value2Text_deltaX_frequency}",
+                            maxLines: 1,
+                            style: TextStyle(
+                              fontFamily: 'PrimaryFont',
+                              fontWeight: FontWeight.normal,
+                              fontSize: screenHeight * 0.01759,
+                              color: Colors.black,
+                            ),
                           ),
                         ],
                       ),

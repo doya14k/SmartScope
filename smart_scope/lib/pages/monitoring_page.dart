@@ -58,6 +58,9 @@ class _MonitoringPageState extends State<MonitoringPage> {
     final usbProvider = Provider.of<UsbProvider>(context, listen: false);
     Provider.of<AppState>(context, listen: false).setUsbProvider(usbProvider);
 
+    // appState.updatedCH1_LevelOffset(appState.ch1_uVoltageLevelOffset);
+    // appState.updatedCH2_LevelOffset(appState.ch2_uVoltageLevelOffset);
+
     super.initState();
     plotData.sort((a, b) => a.x.compareTo(b.x));
     plotData2.sort((a, b) => a.x.compareTo(b.x));
@@ -994,7 +997,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 x:
                                     Provider.of<CursorChanges>(
                                       context,
-                                    ).cursorX1uS_Value,
+                                    ).cursorX1uS_Value +
+                                    usb.triggeredTime,
                                 color: cursorColor,
                                 strokeWidth: 2,
                                 label: VerticalLineLabel(
@@ -1017,7 +1021,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 x:
                                     Provider.of<CursorChanges>(
                                       context,
-                                    ).cursorX2uS_Value,
+                                    ).cursorX2uS_Value +
+                                    usb.triggeredTime,
                                 color: cursorColor,
                                 strokeWidth: 2,
                                 label: VerticalLineLabel(

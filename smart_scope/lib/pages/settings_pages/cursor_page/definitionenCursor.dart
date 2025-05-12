@@ -24,10 +24,10 @@ class CursorChanges extends ChangeNotifier {
 
   bool cursorIsOnCH2 = false;
 
-  double cursorX1uS_Value = -1.0;
-  double cursorX2uS_Value = 1.0;
-  double cursorY1uV_Value = 1000.0;
-  double cursorY2uV_Value = -1000.0;
+  double cursorX1uS_Value = -100000.0;
+  double cursorX2uS_Value = 100000.0;
+  double cursorY1uV_Value = 100000.0;
+  double cursorY2uV_Value = -100000.0;
 
   void toggleCursorEnabled() {
     cursorIsEnabled = !cursorIsEnabled;
@@ -101,6 +101,18 @@ class CursorChanges extends ChangeNotifier {
     }
   }
 
+  String get Value2Text_deltaX {
+    double deltaX = cursorX2uS_Value - cursorX1uS_Value;
+
+    if ((deltaX.abs() < 1000) && (deltaX.abs() >= 0.0)) {
+      return '${(deltaX).toStringAsFixed(2)} µs';
+    } else if ((deltaX.abs() >= 1000) && (deltaX.abs() < 1000000)) {
+      return '${(deltaX / 1000).toStringAsFixed(2)} ms';
+    } else {
+      return '${(deltaX / 1000000).toStringAsFixed(2)} s';
+    }
+  }
+
   String get Value2Text_Y1 {
     if ((cursorY1uV_Value.abs() < 1000) && (cursorY1uV_Value.abs() >= 0.0)) {
       return '${(cursorY1uV_Value).toStringAsFixed(2)} µV';
@@ -120,6 +132,40 @@ class CursorChanges extends ChangeNotifier {
       return '${(cursorY2uV_Value / 1000).toStringAsFixed(2)} mV';
     } else {
       return '${(cursorY2uV_Value / 1000000).toStringAsFixed(2)} V';
+    }
+  }
+
+  String get Value2Text_deltaY {
+    double deltaY = cursorY2uV_Value - cursorY1uV_Value;
+
+    if ((deltaY.abs() < 1000) && (deltaY.abs() >= 0.0)) {
+      return '${(deltaY).toStringAsFixed(2)} µV';
+    } else if ((deltaY.abs() >= 1000) && (deltaY.abs() < 1000000)) {
+      return '${(deltaY / 1000).toStringAsFixed(2)} mV';
+    } else {
+      return '${(deltaY / 1000000).toStringAsFixed(2)} V';
+    }
+  }
+
+  String get Value2Text_deltaX_frequency {
+    double deltaX = cursorX2uS_Value - cursorX1uS_Value;
+    deltaX = (deltaX.abs() / 1000000);
+    if (deltaX == 0) {
+      return 'false input';
+    }
+
+    double frequency_Hz = 1 / deltaX;
+
+    if (frequency_Hz < 1) {
+      return '${(frequency_Hz * 1000).toStringAsFixed(2)} mHz';
+    } else if ((frequency_Hz <= 1) && (frequency_Hz < 1000)) {
+      return '${(frequency_Hz * 1).toStringAsFixed(2)} Hz';
+    } else if ((frequency_Hz <= 1000) && (frequency_Hz < 1000000)) {
+      return '${(frequency_Hz / 1000).toStringAsFixed(2)} kHz';
+    } else if ((frequency_Hz <= 1000000) && (frequency_Hz < 1000000000)) {
+      return '${(frequency_Hz / 1000000).toStringAsFixed(2)} MHz';
+    } else {
+      return '${(frequency_Hz / 1000000000).toStringAsFixed(2)} GHz';
     }
   }
 
