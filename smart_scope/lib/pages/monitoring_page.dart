@@ -258,7 +258,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           minX:
                               (selecetTriggerModeIndex == 3)
                                   ? (selecetTriggerStateIndex == 0)
-                                      ? (usb.stopwatch_elapsedMicroseconds -
+                                      ? (usb.currentTime -
                                           (NOF_xGrids *
                                               Provider.of<AppState>(
                                                 context,
@@ -270,7 +270,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           maxX:
                               (selecetTriggerModeIndex == 3)
                                   ? (selecetTriggerStateIndex == 0)
-                                      ? usb.stopwatch_elapsedMicroseconds
+                                      ? usb.currentTime
                                       : 0
                                   : (Provider.of<AppState>(
                                     context,

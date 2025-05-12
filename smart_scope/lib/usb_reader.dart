@@ -174,8 +174,8 @@ class UsbProvider extends ChangeNotifier {
               // print(
               //   "CurrentTime: $currentTime, lastSample $lastSample, SampleInterval: $sampleInterval, Channel $channel",
               // );
-              double delta = currentTime - lastSample[channel];
-              print(delta);
+              // double delta = currentTime - lastSample[channel];
+              // print(delta);
 
               // print("NewSample");
               lastSample[channel] = currentTime;
@@ -186,15 +186,24 @@ class UsbProvider extends ChangeNotifier {
                       2 *
                       (1.5 * 1000000) /
                       4096.0); // adcValue * (2 * Messbereich in uV) / 0xFFF
-              dataChannelLists[channel].add(
-                FlSpot(currentTime, voltageValue_uV_fromChannel[channel]),
-              );
+
+              if (!((selecetTriggerModeIndex == 3) &&
+                  (selecetTriggerStateIndex == 1))) {
+                dataChannelLists[channel].add(
+                  FlSpot(currentTime, voltageValue_uV_fromChannel[channel]),
+                );
+              }
 
               if (selecetTriggerStateIndex == 0) {
                 if (selecetTriggerModeIndex == 3) {
                   // cutoff calculated for Roll Mode
                   cutoff =
-                      currentTime - (appState.timeValue * (NOF_xGrids + 1));
+                      currentTime - (appState.timeValue * ((NOF_xGrids) + 1));
+
+                  dataChannelLists[channel].removeWhere(
+                    (point) => point.x < (cutoff),
+                  );
+
                   // Roll Mode
                   // Graph Range is being adjusted in monitoring_page
                 } else {
@@ -218,26 +227,19 @@ class UsbProvider extends ChangeNotifier {
               }
             }
 
-            // Cutoff of old data
-            dataChannelLists[0].removeWhere((point) => point.x < cutoff);
-            dataChannelLists[1].removeWhere((point) => point.x < cutoff);
-
             if (selecetTriggerModeIndex != 3) {
               // cutoff for Trigger Modes
               cutoff =
                   (triggeredTime - appState.triggerHorizontalOffset) -
                   (appState.timeValue * ((NOF_xGrids / 2) + 1));
 
-              // cutoff new data when triggering which out of range
-              dataChannelLists[0].removeWhere(
-                (point) =>
-                    ((point.x > appState.maxGraphTimeValue) &&
-                        (point.x <
-                            ((currentTime - appState.triggerHorizontalOffset) -
-                                (appState.timeValue *
-                                    ((NOF_xGrids / 2) + 1))))),
+              // // Cutoff of old data
+              dataChannelLists[channel].removeWhere(
+                (point) => point.x < (cutoff),
               );
-              dataChannelLists[1].removeWhere(
+
+              // cutoff new data when triggering which out of range
+              dataChannelLists[channel].removeWhere(
                 (point) =>
                     ((point.x > appState.maxGraphTimeValue) &&
                         (point.x <
@@ -246,6 +248,13 @@ class UsbProvider extends ChangeNotifier {
                                     ((NOF_xGrids / 2) + 1))))),
               );
             }
+
+            // // Cutoff of old data
+            // dataChannelLists[0].removeWhere((point) => point.x < cutoff);
+            // dataChannelLists[channel].removeWhere(
+            //   (point) => point.x < (cutoff),
+            // );
+
             print('Stored Data Points ${dataChannelLists[channel].length}');
 
             // Remove the first dummy point

@@ -25,7 +25,7 @@ class _ChannelEnableState extends State<ChannelEnable> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Aciviate Channel",
+                "Activate Channel",
                 style: TextStyle(
                   fontFamily: 'PrimaryFont',
                   fontWeight: FontWeight.bold,

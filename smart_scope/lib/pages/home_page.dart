@@ -76,7 +76,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
       appBar: AppBar(
         backgroundColor: AppBarBackroundColor,
         title: Text(
-          "Settings-Menu",
+          "Menu",
           style: TextStyle(
             fontFamily: 'PrimaryFont',
             fontSize: screenHeight * 0.04,
