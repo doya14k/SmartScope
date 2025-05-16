@@ -19,6 +19,9 @@ class _USB_SelectState extends State<USB_Select> {
   final ScrollController _scrollController = ScrollController();
   @override
   void initState() {
+    final appState = Provider.of<AppState>(context, listen: false);
+    Provider.of<UsbProvider>(context, listen: false).setAppState(appState);
+
     super.initState();
     updatePorts();
   }
@@ -187,138 +190,127 @@ class _USB_SelectState extends State<USB_Select> {
         children: [
           SizedBox(
             width: screenWidth * 0.20833333, // 400,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Center(
-                        child: Column(
-                          children: [
-                            AutoSizeText(
-                              "Available Ports",
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontFamily: 'PrimaryFont',
-                                fontSize: 50,
-                                decoration: TextDecoration.underline,
-                                fontWeight: FontWeight.bold,
+            child: Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Center(
+                    child: Column(
+                      children: [
+                        AutoSizeText(
+                          "Available Ports",
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontFamily: 'PrimaryFont',
+                            fontSize: 50,
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.439753, // 500,
+                          width: screenWidth * 0.20833333, // 400,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: AppBarBackroundColor,
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: MonitorBackroundColor,
+                                width: 2,
                               ),
                             ),
-                            SizedBox(
-                              height: screenHeight * 0.439753, // 500,
-                              width: screenWidth * 0.20833333, // 400,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: AppBarBackroundColor,
-                                  borderRadius: BorderRadius.circular(15),
-                                  border: Border.all(
-                                    color: MonitorBackroundColor,
-                                    width: 2,
-                                  ),
-                                ),
-                                child: Scrollbar(
-                                  controller: _scrollController,
-                                  scrollbarOrientation:
-                                      ScrollbarOrientation.right,
-                                  thumbVisibility: true,
-                                  thickness: 15.0,
-                                  trackVisibility: false,
-                                  child: ListView.builder(
-                                    controller: _scrollController,
-                                    itemCount: availablePorts.length,
-                                    itemBuilder: (
-                                      BuildContext context,
-                                      int index,
-                                    ) {
-                                      return Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            child: GestureDetector(
-                                              behavior: HitTestBehavior.opaque,
-                                              onDoubleTap: () {
-                                                pressedPortSelector(
-                                                  availablePorts[index],
-                                                );
-                                                usb.openPort(availablePorts[index]);
-                                                switchToMonitorPage();
-                                              },
-                                              child: TextButton(
-                                                style: ButtonStyle(
-                                                  backgroundColor:
-                                                      WidgetStatePropertyAll(
-                                                        selectedPort?.portName ==
-                                                                availablePorts[index]
-                                                            ? MonitorBackroundColor
-                                                            : Colors
-                                                                .transparent,
-                                                      ),
-                                                  animationDuration:
-                                                      Duration.zero,
-                                                  splashFactory:
-                                                      NoSplash.splashFactory,
-                                                ),
-                                                onPressed: () {
-                                                  pressedPortSelector(
-                                                    availablePorts[index],
-                                                  );
-                                                },
-                                                child: Text(
-                                                  availablePorts[index],
-                                                  style: TextStyle(
-                                                    fontSize: 40,
-                                                    fontFamily: 'PrimaryFont',
-                                                    color: Colors.black,
+                            child: Scrollbar(
+                              controller: _scrollController,
+                              scrollbarOrientation: ScrollbarOrientation.right,
+                              thumbVisibility: true,
+                              thickness: 15.0,
+                              trackVisibility: false,
+                              child: ListView.builder(
+                                controller: _scrollController,
+                                itemCount: availablePorts.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          behavior: HitTestBehavior.opaque,
+                                          onDoubleTap: () {
+                                            pressedPortSelector(
+                                              availablePorts[index],
+                                            );
+                                            usb.openPort(availablePorts[index]);
+                                            switchToMonitorPage();
+                                          },
+                                          child: TextButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  WidgetStatePropertyAll(
+                                                    selectedPort?.portName ==
+                                                            availablePorts[index]
+                                                        ? MonitorBackroundColor
+                                                        : Colors.transparent,
                                                   ),
-                                                ),
+                                              animationDuration: Duration.zero,
+                                              splashFactory:
+                                                  NoSplash.splashFactory,
+                                            ),
+                                            onPressed: () {
+                                              pressedPortSelector(
+                                                availablePorts[index],
+                                              );
+                                            },
+                                            child: Text(
+                                              availablePorts[index],
+                                              style: TextStyle(
+                                                fontSize: 40,
+                                                fontFamily: 'PrimaryFont',
+                                                color: Colors.black,
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      );
-                                    },
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            SizedBox(
+                              height: selectedPort != null ? 30 : 0,
+                              width: selectedPort != null ? 100 : 0,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  usb.openPort(selectedPort!.portName);
+                                  switchToMonitorPage();
+                                },
+                                backgroundColor: Colors.grey[400],
+                                hoverColor: Colors.grey[450],
+                                child: Text(
+                                  "Apply",
+                                  style: TextStyle(
+                                    fontFamily: 'PrimaryFont',
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic,
+                                    letterSpacing: 1,
                                   ),
                                 ),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                SizedBox(
-                                  height: selectedPort != null ? 30 : 0,
-                                  width: selectedPort != null ? 100 : 0,
-                                  child: FloatingActionButton(
-                                    onPressed: () {
-                                      usb.openPort(selectedPort!.portName);
-                                      switchToMonitorPage();
-                                    },
-                                    backgroundColor: Colors.grey[400],
-                                    hoverColor: Colors.grey[450],
-                                    child: Text(
-                                      "Apply",
-                                      style: TextStyle(
-                                        fontFamily: 'PrimaryFont',
-                                        fontSize: 15,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.italic,
-                                        letterSpacing: 1,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
