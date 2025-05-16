@@ -69,6 +69,12 @@ class _SettingsMenuState extends State<SettingsMenu> {
     });
   }
 
+  final List<String> pages_name = [
+    "Signal-Settings",
+    "Measurements",
+    "Reference",
+    "Cursor",
+  ];
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -76,7 +82,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
       appBar: AppBar(
         backgroundColor: AppBarBackroundColor,
         title: Text(
-          "Menu",
+          "${pages_name[selectedIndex]}",
           style: TextStyle(
             fontFamily: 'PrimaryFont',
             fontSize: screenHeight * 0.04,

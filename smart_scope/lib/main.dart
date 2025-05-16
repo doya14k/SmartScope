@@ -47,6 +47,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
+  void initState() {
+    final appState = Provider.of<AppState>(context, listen: false);
+    Provider.of<UsbProvider>(context, listen: false).setAppState(appState);
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return MaterialApp(
       // home: USB_Select(),

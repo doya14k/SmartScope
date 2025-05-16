@@ -80,82 +80,228 @@ class _MonitoringPageState extends State<MonitoringPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      usb.closePort();
-                      Navigator.pushReplacementNamed(context, '/USB_Select');
-                    },
-                    icon: Icon(Icons.arrow_back_sharp),
-                    tooltip: 'Return to Port-Select',
-                  ),
-                  Spacer(),
-                  AutoSizeText(
-                    'Messbereich:',
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontFamily: 'PrimaryFont',
-                      fontWeight: FontWeight.normal,
-                      fontSize: screenHeight * 0.021687,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: PopupMenuButton(
-                      tooltip: 'Messbereich',
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          usb.closePort();
+                          Navigator.pushReplacementNamed(
+                            context,
+                            '/USB_Select',
+                          );
+                        },
+                        icon: Icon(Icons.arrow_back_sharp),
+                        tooltip: 'Return to Port-Select',
+                      ),
+                      Spacer(),
+                      AutoSizeText(
+                        'Messbereich:',
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontFamily: 'PrimaryFont',
+                          fontWeight: FontWeight.normal,
+                          fontSize: screenHeight * 0.021687,
+                          color: Colors.black,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-                          child: SizedBox(
-                            height: screenHeight * 0.02638,
-                            width: screenWidth * 0.0260,
-                            child: Center(
-                              child: AutoSizeText(
-                                '±${usb.messbereiche[usb.selectedMessbereichIndex]} V',
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontFamily: 'PrimaryFont',
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 25,
-                                  color: Colors.black,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: PopupMenuButton(
+                          tooltip: 'Messbereich',
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+                              child: SizedBox(
+                                height: screenHeight * 0.02638,
+                                width: screenWidth * 0.0260,
+                                child: Center(
+                                  child: AutoSizeText(
+                                    '±${usb.messbereiche[usb.selectedMessbereichIndex]} V',
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontFamily: 'PrimaryFont',
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 25,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
+                          itemBuilder: (context) {
+                            return List.generate(usb.messbereiche.length, (
+                              index,
+                            ) {
+                              return PopupMenuItem(
+                                value: index,
+                                child: Text(
+                                  '±${usb.messbereiche[index]} V',
+                                  style: TextStyle(
+                                    fontFamily: 'PrimaryFont',
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                          onSelected: (selectedIndex) {
+                            setState(() {
+                              usb.selectedMessbereichIndex = selectedIndex;
+                              print(
+                                '${usb.messbereiche[usb.selectedMessbereichIndex]}',
+                              );
+                            });
+                          },
                         ),
                       ),
-                      itemBuilder: (context) {
-                        return List.generate(usb.messbereiche.length, (index) {
-                          return PopupMenuItem(
-                            value: index,
-                            child: Text(
-                              '±${usb.messbereiche[index]} V',
-                              style: TextStyle(
-                                fontFamily: 'PrimaryFont',
-                                fontWeight: FontWeight.normal,
-                                fontSize: 20,
-                                color: Colors.black,
-                              ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(flex: 1,
+                        child: Container()
+                      ),
+                      // s/Div Anzeige
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
                             ),
-                          );
-                        });
-                      },
-                      onSelected: (selectedIndex) {
-                        setState(() {
-                          usb.selectedMessbereichIndex = selectedIndex;
-                          print(
-                            '${usb.messbereiche[usb.selectedMessbereichIndex]}',
-                          );
-                        });
-                      },
-                    ),
+                            child: Column(
+                              children: [
+                                AutoSizeText(
+                                  maxLines: 1,
+                                  'Time',
+                                  minFontSize: 1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'PrimaryFont',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenHeight * 0.02199,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                AutoSizeText(
+                                  maxLines: 1,
+                                  '${Provider.of<AppState>(context, listen: true).timeValue2Text}/Div',
+                                  minFontSize: 1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'PrimaryFont',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenHeight * 0.0132,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                                            Expanded(flex: 9, child: Container()),
+
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                            ),
+                            child: Column(
+                              children: [
+                                AutoSizeText(
+                                  maxLines: 1,
+                                  'Trigger ▼',
+                                  minFontSize: 1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'PrimaryFont',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenHeight * 0.02199,
+                                    color: triggerColor,
+                                  ),
+                                ),
+                                AutoSizeText(
+                                  maxLines: 1,
+                                  '${Provider.of<AppState>(context, listen: true).triggerHorizontalOffsetValue2Text}',
+                                  minFontSize: 1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'PrimaryFont',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenHeight * 0.0132,
+                                    color: triggerColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(flex: 1,
+                        child: Container()
+                      ),
+
+
+                      Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(width: 2),
+                            ),
+                            child: Column(
+                              children: [
+                                AutoSizeText(
+                                  maxLines: 1,
+                                  'Trigger ◀',
+                                  minFontSize: 1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'PrimaryFont',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenHeight * 0.02199,
+                                    color: triggerColor,
+                                  ),
+                                ),
+                                AutoSizeText(
+                                  maxLines: 1,
+                                  '${Provider.of<AppState>(context, listen: true).triggerVerticalOffsetValue2Text}',
+                                  minFontSize: 1,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontFamily: 'PrimaryFont',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: screenHeight * 0.0132,
+                                    color: triggerColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(flex: 1,
+                        child: Container()
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -241,7 +387,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ),
-
                       // CH1
                       LineChart(
                         LineChartData(
@@ -436,7 +581,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ),
-
                       // CH2
                       LineChart(
                         LineChartData(
@@ -633,7 +777,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ),
-
                       // Ref1
                       LineChart(
                         LineChartData(
@@ -935,7 +1078,6 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ),
-
                       // Cursor
                       LineChart(
                         LineChartData(
