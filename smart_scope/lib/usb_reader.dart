@@ -136,6 +136,7 @@ class UsbProvider extends ChangeNotifier {
       print("Fehler beim Öffnen des Ports $portName");
     }
   }
+double lastCleanupTime = 0; // in Mikrosekunden
 
   void startReading() {
     if (selectedPort == null || !selectedPort!.isOpened) return;
@@ -164,13 +165,14 @@ class UsbProvider extends ChangeNotifier {
             adcHighBits = dataBits;
           }
           currentTime = stopwatch.elapsedMicroseconds.toDouble();
-          double sampleInterval =
-              (appState.timeValue / samplesPerDivision); //10;
-
           if (adcLowBits != null && adcHighBits != null) {
             adcValue = (adcHighBits << 6) | adcLowBits;
 
-            if ((lastSample[channel] <= (currentTime - sampleInterval))) {
+            double sampleInterval =
+                (appState.timeValue / samplesPerDivision); //10;
+
+            if ((currentTime - lastSample[channel]) >=
+                (appState.timeValue / samplesPerDivision)) {
               // print(
               //   "CurrentTime: $currentTime, lastSample $lastSample, SampleInterval: $sampleInterval, Channel $channel",
               // );
@@ -186,6 +188,13 @@ class UsbProvider extends ChangeNotifier {
                       2 *
                       (1.5 * 1000000) /
                       4096.0); // adcValue * (2 * Messbereich in uV) / 0xFFF
+              // Spannungswert wird hier berechnet
+              // voltageValue_uV_fromChannel[channel] =
+              //     ((adcValue.toDouble() *
+              //             2 *
+              //             (messbereiche[selectedMessbereichIndex] * 1000000) /
+              //             4096.0) -
+              //         (messbereiche[selectedMessbereichIndex] * 1000000));
 
               if (!((selecetTriggerModeIndex == 3) &&
                   (selecetTriggerStateIndex == 1))) {
@@ -197,12 +206,15 @@ class UsbProvider extends ChangeNotifier {
               if (selecetTriggerStateIndex == 0) {
                 if (selecetTriggerModeIndex == 3) {
                   // cutoff calculated for Roll Mode
-                  cutoff =
-                      currentTime - (appState.timeValue * ((NOF_xGrids) + 1));
+                  cutoff = currentTime - (appState.timeValue * ((NOF_xGrids)));
 
-                  dataChannelLists[channel].removeWhere(
-                    (point) => point.x < (cutoff),
-                  );
+// nur alle 1s Daten herauslöschen
+                  if ((currentTime - lastCleanupTime) >= 1000000) {
+                    dataChannelLists[channel].removeWhere(
+                      (point) => point.x < cutoff,
+                    );
+                    lastCleanupTime = currentTime;
+                  }
 
                   // Roll Mode
                   // Graph Range is being adjusted in monitoring_page

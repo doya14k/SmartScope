@@ -55,7 +55,6 @@ class _MyAppState extends State<MyApp> {
 
   Widget build(BuildContext context) {
     return MaterialApp(
-      // home: USB_Select(),
       initialRoute: '/USB_Select',
       routes: {
         '/USB_Select': (context) => USB_Select(),

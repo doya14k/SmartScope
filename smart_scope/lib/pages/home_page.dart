@@ -75,6 +75,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
     "Reference",
     "Cursor",
   ];
+  
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
