@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 Color clear3 = Colors.transparent;
 Color referenceSelectedBackground = Colors.grey.shade400;
@@ -10,9 +11,9 @@ Color ref1GraphColor = Colors.green;
 Color ref2GraphColor = Colors.red;
 Color ref3GraphColor = Colors.purpleAccent;
 
-int selectedReference1Graph = 1;
-int selectedReference2Graph = 1;
-int selectedReference3Graph = 1;
+int selectedReference1Graph = 0;
+int selectedReference2Graph = 0;
+int selectedReference3Graph = 0;
 
 double max_uV_RefLevelOffset = 100000000;
 double min_uV_RefLevelOffset = -max_uV_RefLevelOffset;
@@ -25,22 +26,40 @@ class ReferenceChanges extends ChangeNotifier {
   bool ref2GraphisActive = false;
   bool ref3GraphisActive = false;
 
+  List<FlSpot> ref1_data = [FlSpot(0, 0)];
+  List<FlSpot> ref2_data = [FlSpot(0, 0)];
+  List<FlSpot> ref3_data = [FlSpot(0, 0)];
+  List<List<FlSpot>> get dataReferenceLists => [
+    ref1_data,
+    ref2_data,
+    ref3_data,
+  ];
+
   double Ref1Offset = 0;
   double Ref2Offset = 0;
   double Ref3Offset = 0;
 
-  double Ref1uVperDivision = 2000;
-  double Ref2uVperDivision = 2000;
-  double Ref3uVperDivision = 2000;
+  double Ref1uVperDivision = 200000;
+  double Ref2uVperDivision = 200000;
+  double Ref3uVperDivision = 200000;
 
-  double maxGraphVoltageValueRef1 = 2000 * (8 / 2);
-  double minGraphVoltageValueRef1 = -2000 * (8 / 2);
+  double maxGraphVoltageValueRef1 = 200000 * (8 / 2);
+  double minGraphVoltageValueRef1 = -200000 * (8 / 2);
 
-  double maxGraphVoltageValueRef2 = 2000 * (8 / 2);
-  double minGraphVoltageValueRef2 = -2000 * (8 / 2);
+  double maxGraphVoltageValueRef2 = 200000 * (8 / 2);
+  double minGraphVoltageValueRef2 = -200000 * (8 / 2);
 
-  double maxGraphVoltageValueRef3 = 2000 * (8 / 2);
-  double minGraphVoltageValueRef3 = -2000 * (8 / 2);
+  double maxGraphVoltageValueRef3 = 200000 * (8 / 2);
+  double minGraphVoltageValueRef3 = -200000 * (8 / 2);
+
+  double minGraphTimeValueRef1 = -200000 * (12 / 2);
+  double maxGraphTimeValueRef1 = -200000 * (12 / 2);
+
+  double minGraphTimeValueRef2 = -200000 * (12 / 2);
+  double maxGraphTimeValueRef2 = -200000 * (12 / 2);
+
+  double minGraphTimeValueRef3 = -200000 * (12 / 2);
+  double maxGraphTimeValueRef3 = -200000 * (12 / 2);
 
   updateRef1IsAcitve(bool newState) {
     ref1GraphisActive = newState;
@@ -67,6 +86,69 @@ class ReferenceChanges extends ChangeNotifier {
 
   bool get Ref3IsActive {
     return ref3GraphisActive;
+  }
+
+  void saveReference1Data(
+    List<FlSpot> data,
+    double offset,
+    double uVperDiv,
+    double minTime,
+    double maxTime,
+    double minVolt,
+    double maxVolt,
+  ) {
+    print("Ref1 time saved: $minTime - $maxTime");
+    ref1_data = List<FlSpot>.from(data);
+    Ref1Offset = offset;
+    Ref1uVperDivision = uVperDiv;
+    minGraphTimeValueRef1 = minTime;
+    maxGraphTimeValueRef1 = maxTime;
+    minGraphVoltageValueRef1 = minVolt;
+    maxGraphVoltageValueRef1 = maxVolt;
+    updateGraphVoltageValue();
+    notifyListeners();
+  }
+
+  void saveReference2Data(
+    List<FlSpot> data,
+    double offset,
+    double uVperDiv,
+    double minTime,
+    double maxTime,
+    double minVolt,
+    double maxVolt,
+  ) {
+    print("Ref2 time saved: $minTime - $maxTime");
+    ref2_data = List<FlSpot>.from(data);
+    Ref2Offset = offset;
+    Ref2uVperDivision = uVperDiv;
+    minGraphTimeValueRef2 = minTime;
+    maxGraphTimeValueRef2 = maxTime;
+    minGraphVoltageValueRef2 = minVolt;
+    maxGraphVoltageValueRef2 = maxVolt;
+    updateGraphVoltageValue();
+    notifyListeners();
+  }
+
+    void saveReference3Data(
+    List<FlSpot> data,
+    double offset,
+    double uVperDiv,
+    double minTime,
+    double maxTime,
+    double minVolt,
+    double maxVolt,
+  ) {
+    print("Ref3 time saved: $minTime - $maxTime");
+    ref3_data = List<FlSpot>.from(data);
+    Ref3Offset = offset;
+    Ref3uVperDivision = uVperDiv;
+    minGraphTimeValueRef3 = minTime;
+    maxGraphTimeValueRef3 = maxTime;
+    minGraphVoltageValueRef3 = minVolt;
+    maxGraphVoltageValueRef3 = maxVolt;
+    updateGraphVoltageValue();
+    notifyListeners();
   }
 
   updateGraphVoltageValue() {
@@ -133,6 +215,11 @@ class ReferenceChanges extends ChangeNotifier {
         } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
           Ref1Offset *= 1000000;
         }
+        if (Ref1Offset > (max_uV_RefLevelOffset)) {
+          Ref1Offset = max_uV_RefLevelOffset;
+        } else if (Ref1Offset <= min_uV_RefLevelOffset) {
+          Ref1Offset = min_uV_RefLevelOffset;
+        }
         print('Data: $Ref1Offset');
         updateGraphVoltageValue();
         notifyListeners();
@@ -155,6 +242,11 @@ class ReferenceChanges extends ChangeNotifier {
           Ref1Offset *= 1000;
         } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
           Ref1Offset *= 1000000;
+        }
+        if (Ref1Offset > (max_uV_RefLevelOffset)) {
+          Ref1Offset = max_uV_RefLevelOffset;
+        } else if (Ref1Offset <= min_uV_RefLevelOffset) {
+          Ref1Offset = min_uV_RefLevelOffset;
         }
         print('Data: $Ref1Offset');
         updateGraphVoltageValue();
@@ -219,6 +311,11 @@ class ReferenceChanges extends ChangeNotifier {
         } else if ((voltagText[i + 1] == 'v') || (voltagText[i + 1] == 'V')) {
           Ref1uVperDivision *= 1000000;
         }
+        if (Ref1uVperDivision > max_uV_RefperDivision) {
+          Ref1uVperDivision = max_uV_RefperDivision;
+        } else if (Ref1uVperDivision < min_uV_RefperDivision) {
+          Ref1uVperDivision = min_uV_RefperDivision;
+        }
         print('Data: $Ref1uVperDivision');
         updateGraphVoltageValue();
         notifyListeners();
@@ -239,6 +336,11 @@ class ReferenceChanges extends ChangeNotifier {
           Ref1uVperDivision *= 1000;
         } else if ((voltagText[i] == 'v') || (voltagText[i] == 'V')) {
           Ref1uVperDivision *= 1000000;
+        }
+        if (Ref1uVperDivision > max_uV_RefperDivision) {
+          Ref1uVperDivision = max_uV_RefperDivision;
+        } else if (Ref1uVperDivision < min_uV_RefperDivision) {
+          Ref1uVperDivision = min_uV_RefperDivision;
         }
         print('Data: $Ref1uVperDivision');
         updateGraphVoltageValue();
@@ -312,6 +414,11 @@ class ReferenceChanges extends ChangeNotifier {
         } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
           Ref2Offset *= 1000000;
         }
+        if (Ref2Offset > (max_uV_RefLevelOffset)) {
+          Ref2Offset = max_uV_RefLevelOffset;
+        } else if (Ref2Offset <= min_uV_RefLevelOffset) {
+          Ref2Offset = min_uV_RefLevelOffset;
+        }
         print('Data: $Ref2Offset');
         updateGraphVoltageValue();
         notifyListeners();
@@ -334,6 +441,11 @@ class ReferenceChanges extends ChangeNotifier {
           Ref2Offset *= 1000;
         } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
           Ref2Offset *= 1000000;
+        }
+        if (Ref2Offset > (max_uV_RefLevelOffset)) {
+          Ref2Offset = max_uV_RefLevelOffset;
+        } else if (Ref2Offset <= min_uV_RefLevelOffset) {
+          Ref2Offset = min_uV_RefLevelOffset;
         }
         print('Data: $Ref2Offset');
         updateGraphVoltageValue();
@@ -398,6 +510,13 @@ class ReferenceChanges extends ChangeNotifier {
         } else if ((voltagText[i + 1] == 'v') || (voltagText[i + 1] == 'V')) {
           Ref2uVperDivision *= 1000000;
         }
+
+        if (Ref2uVperDivision > max_uV_RefperDivision) {
+          Ref2uVperDivision = max_uV_RefperDivision;
+        } else if (Ref2uVperDivision < min_uV_RefperDivision) {
+          Ref2uVperDivision = min_uV_RefperDivision;
+        }
+
         print('Data: $Ref2uVperDivision');
         updateGraphVoltageValue();
         notifyListeners();
@@ -419,6 +538,12 @@ class ReferenceChanges extends ChangeNotifier {
         } else if ((voltagText[i] == 'v') || (voltagText[i] == 'V')) {
           Ref2uVperDivision *= 1000000;
         }
+        if (Ref2uVperDivision > max_uV_RefperDivision) {
+          Ref2uVperDivision = max_uV_RefperDivision;
+        } else if (Ref2uVperDivision < min_uV_RefperDivision) {
+          Ref2uVperDivision = min_uV_RefperDivision;
+        }
+
         print('Data: $Ref2uVperDivision');
         updateGraphVoltageValue();
         notifyListeners();
@@ -491,6 +616,11 @@ class ReferenceChanges extends ChangeNotifier {
         } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
           Ref3Offset *= 1000000;
         }
+        if (Ref3Offset > (max_uV_RefLevelOffset)) {
+          Ref3Offset = max_uV_RefLevelOffset;
+        } else if (Ref3Offset <= min_uV_RefLevelOffset) {
+          Ref3Offset = min_uV_RefLevelOffset;
+        }
         print('Data: $Ref3Offset');
         updateGraphVoltageValue();
         notifyListeners();
@@ -513,6 +643,11 @@ class ReferenceChanges extends ChangeNotifier {
           Ref3Offset *= 1000;
         } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
           Ref3Offset *= 1000000;
+        }
+        if (Ref3Offset > (max_uV_RefLevelOffset)) {
+          Ref3Offset = max_uV_RefLevelOffset;
+        } else if (Ref3Offset <= min_uV_RefLevelOffset) {
+          Ref3Offset = min_uV_RefLevelOffset;
         }
         print('Data: $Ref3Offset');
         updateGraphVoltageValue();
@@ -577,6 +712,12 @@ class ReferenceChanges extends ChangeNotifier {
         } else if ((voltagText[i + 1] == 'v') || (voltagText[i + 1] == 'V')) {
           Ref3uVperDivision *= 1000000;
         }
+        if (Ref3uVperDivision > max_uV_RefperDivision) {
+          Ref3uVperDivision = max_uV_RefperDivision;
+        } else if (Ref3uVperDivision < min_uV_RefperDivision) {
+          Ref3uVperDivision = min_uV_RefperDivision;
+        }
+
         print('Data: $Ref3uVperDivision');
         updateGraphVoltageValue();
         notifyListeners();
@@ -597,6 +738,11 @@ class ReferenceChanges extends ChangeNotifier {
           Ref3uVperDivision *= 1000;
         } else if ((voltagText[i] == 'v') || (voltagText[i] == 'V')) {
           Ref3uVperDivision *= 1000000;
+        }
+        if (Ref3uVperDivision > max_uV_RefperDivision) {
+          Ref3uVperDivision = max_uV_RefperDivision;
+        } else if (Ref3uVperDivision < min_uV_RefperDivision) {
+          Ref3uVperDivision = min_uV_RefperDivision;
         }
         print('Data: $Ref3uVperDivision');
         updateGraphVoltageValue();

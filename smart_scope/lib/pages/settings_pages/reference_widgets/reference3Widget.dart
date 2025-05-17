@@ -2,8 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_scope/pages/settings_pages/settings_widgets/definitions.dart';
 import 'defintionenReference.dart';
 import 'dart:math';
+import 'package:provider/provider.dart';
+import 'package:smart_scope/usb_reader.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 class Reference3 extends StatefulWidget {
   const Reference3({super.key});
@@ -68,6 +72,11 @@ class _Reference3State extends State<Reference3> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
+    final usb = Provider.of<UsbProvider>(context, listen: false);
+    final ref = Provider.of<ReferenceChanges>(context, listen: false);
+    final appState = Provider.of<AppState>(context, listen: false);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -92,7 +101,7 @@ class _Reference3State extends State<Reference3> {
                           width: screenWidth * 0.03125,
                           child: Center(
                             child: AutoSizeText(
-                              "CH$selectedReference1Graph",
+                              "CH${selectedReference3Graph + 1}",
                               maxLines: 1,
                               style: TextStyle(
                                 fontFamily: 'PrimaryFont',
@@ -123,9 +132,8 @@ class _Reference3State extends State<Reference3> {
                     },
                     onSelected: (selectedIndex) {
                       setState(() {
-                        selectedIndex++;
                         print(selectedIndex);
-                        selectedReference1Graph = selectedIndex;
+                        selectedReference3Graph = selectedIndex;
                       });
                     },
                   ),
@@ -135,16 +143,43 @@ class _Reference3State extends State<Reference3> {
                       backgroundColor: clear3,
                     ),
                     onPressed: () {
-                      Provider.of<ReferenceChanges>(
-                        context,
-                        listen: false,
-                      ).updateRef3IsAcitve(true);
-                      print(
+                      setState(() {
                         Provider.of<ReferenceChanges>(
                           context,
                           listen: false,
-                        ).Ref3IsActive,
-                      );
+                        ).updateRef3IsAcitve(true);
+                        print(
+                          Provider.of<ReferenceChanges>(
+                            context,
+                            listen: false,
+                          ).Ref3IsActive,
+                        );
+
+                        print(ref.Ref3IsActive);
+                        // Convert channel plot data to ref data
+                        ref.saveReference3Data(
+                          usb.dataChannelLists[selectedReference3Graph],
+                          (selectedReference3Graph == 0)
+                              ? appState.ch1_uVoltageLevelOffset
+                              : appState.ch2_uVoltageLevelOffset,
+                          (selectedReference3Graph == 0)
+                              ? channel1.uVperDivision
+                              : channel2.uVperDivision,
+                          (selecetTriggerModeIndex == 3)
+                              ? (usb.currentTime -
+                                  (NOF_xGrids * appState.timeValue))
+                              : (appState.minGraphTimeValue),
+                          (selecetTriggerModeIndex == 3)
+                              ? usb.currentTime
+                              : (appState.maxGraphTimeValue),
+                          (selectedReference3Graph == 0)
+                              ? appState.minGraphVoltageValueCH1
+                              : appState.minGraphVoltageValueCH2,
+                          (selectedReference3Graph == 0)
+                              ? appState.maxGraphVoltageValueCH1
+                              : appState.maxGraphVoltageValueCH2,
+                        );
+                      });
                     },
                     child: AutoSizeText(
                       "Save",
@@ -163,16 +198,29 @@ class _Reference3State extends State<Reference3> {
                       backgroundColor: clear3,
                     ),
                     onPressed: () {
-                      Provider.of<ReferenceChanges>(
-                        context,
-                        listen: false,
-                      ).updateRef3IsAcitve(false);
-                      print(
+                      setState(() {
                         Provider.of<ReferenceChanges>(
                           context,
                           listen: false,
-                        ).Ref3IsActive,
-                      );
+                        ).updateRef3IsAcitve(false);
+                        print(
+                          Provider.of<ReferenceChanges>(
+                            context,
+                            listen: false,
+                          ).Ref3IsActive,
+                        );
+                        List<FlSpot> empty_dummy = [FlSpot(0, 0)];
+
+                        ref.saveReference3Data(
+                          empty_dummy,
+                          ref.Ref3Offset,
+                          ref.Ref3uVperDivision,
+                          0,
+                          0,
+                          ref.minGraphVoltageValueRef3,
+                          ref.maxGraphVoltageValueRef3,
+                        );
+                      });
                     },
                     child: AutoSizeText(
                       "Clear",

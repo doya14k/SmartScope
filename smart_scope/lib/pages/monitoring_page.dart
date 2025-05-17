@@ -170,9 +170,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Expanded(flex: 1,
-                        child: Container()
-                      ),
+                      Expanded(flex: 1, child: Container()),
                       // s/Div Anzeige
                       Expanded(
                         flex: 2,
@@ -213,7 +211,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ),
-                                            Expanded(flex: 9, child: Container()),
+                      Expanded(flex: 9, child: Container()),
 
                       Expanded(
                         flex: 2,
@@ -254,10 +252,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ),
-                      Expanded(flex: 1,
-                        child: Container()
-                      ),
-
+                      Expanded(flex: 1, child: Container()),
 
                       Expanded(
                         flex: 2,
@@ -298,9 +293,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                           ),
                         ),
                       ),
-                      Expanded(flex: 1,
-                        child: Container()
-                      ),
+                      Expanded(flex: 1, child: Container()),
                     ],
                   ),
                 ],
@@ -785,20 +778,24 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               FlClipData.all(), // Ensures that the line stays in the Chart
                           baselineX: 0.0,
                           baselineY: 0.0,
-                          maxY:
-                              Provider.of<ReferenceChanges>(
-                                context,
-                                listen: true,
-                              ).maxGraphVoltageValueRef1,
                           minY:
                               Provider.of<ReferenceChanges>(
                                 context,
                                 listen: true,
                               ).minGraphVoltageValueRef1,
-                          maxX:
-                              Provider.of<AppState>(context).maxGraphTimeValue,
+                          maxY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).maxGraphVoltageValueRef1,
                           minX:
-                              Provider.of<AppState>(context).minGraphTimeValue,
+                              Provider.of<ReferenceChanges>(
+                                context,
+                              ).minGraphTimeValueRef1,
+                          maxX:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                              ).maxGraphTimeValueRef1,
                           // Grid Data
                           gridData: FlGridData(show: false),
                           // Titles off
@@ -810,7 +807,11 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                     context,
                                     listen: true,
                                   ).Ref1IsActive,
-                              spots: plotData2,
+                              spots:
+                                  Provider.of<ReferenceChanges>(
+                                    context,
+                                    listen: true,
+                                  ).ref1_data,
                               color: ref1GraphColor,
                               barWidth: 3.0,
                               isCurved: false,
@@ -867,7 +868,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                   alignment: Alignment.centerLeft,
                                   labelResolver: (p0) => '▶',
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -885,20 +886,24 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               FlClipData.all(), // Ensures that the line stays in the Chart
                           baselineX: 0.0,
                           baselineY: 0.0,
-                          maxY:
-                              Provider.of<ReferenceChanges>(
-                                context,
-                                listen: true,
-                              ).maxGraphVoltageValueRef2,
                           minY:
                               Provider.of<ReferenceChanges>(
                                 context,
                                 listen: true,
                               ).minGraphVoltageValueRef2,
-                          maxX:
-                              Provider.of<AppState>(context).maxGraphTimeValue,
+                          maxY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).maxGraphVoltageValueRef2,
                           minX:
-                              Provider.of<AppState>(context).minGraphTimeValue,
+                              Provider.of<ReferenceChanges>(
+                                context,
+                              ).minGraphTimeValueRef2,
+                          maxX:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                              ).maxGraphTimeValueRef2,
                           // Grid Data
                           gridData: FlGridData(show: false),
 
@@ -911,7 +916,11 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                     context,
                                     listen: true,
                                   ).Ref2IsActive,
-                              spots: plotData2,
+                              spots: 
+                                  Provider.of<ReferenceChanges>(
+                                    context,
+                                    listen: true,
+                                  ).ref2_data,
                               color: ref2GraphColor,
                               barWidth: 3.0,
                               isCurved: false,
@@ -968,7 +977,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                   alignment: Alignment.centerLeft,
                                   labelResolver: (p0) => '▶',
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -986,20 +995,24 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               FlClipData.all(), // Ensures that the line stays in the Chart
                           baselineX: 0.0,
                           baselineY: 0.0,
-                          maxY:
-                              Provider.of<ReferenceChanges>(
-                                context,
-                                listen: true,
-                              ).maxGraphVoltageValueRef3,
                           minY:
                               Provider.of<ReferenceChanges>(
                                 context,
                                 listen: true,
                               ).minGraphVoltageValueRef3,
-                          maxX:
-                              Provider.of<AppState>(context).maxGraphTimeValue,
+                          maxY:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                                listen: true,
+                              ).maxGraphVoltageValueRef3,
                           minX:
-                              Provider.of<AppState>(context).minGraphTimeValue,
+                              Provider.of<ReferenceChanges>(
+                                context,
+                              ).minGraphTimeValueRef3,
+                          maxX:
+                              Provider.of<ReferenceChanges>(
+                                context,
+                              ).maxGraphTimeValueRef3,
                           // Grid Data
                           gridData: FlGridData(show: false),
                           // Titles off
@@ -1011,7 +1024,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                     context,
                                     listen: true,
                                   ).Ref3IsActive,
-                              spots: plotData2,
+                              spots: Provider.of<ReferenceChanges>(
+                                    context,
+                                    listen: true,
+                                  ).ref3_data,
                               color: ref3GraphColor,
                               barWidth: 3.0,
                               isCurved: false,
@@ -1068,7 +1084,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                   alignment: Alignment.centerLeft,
                                   labelResolver: (p0) => '▶',
                                   style: TextStyle(
-                                    fontSize: 10,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),

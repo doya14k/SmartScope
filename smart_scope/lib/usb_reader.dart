@@ -23,19 +23,11 @@ class UsbProvider extends ChangeNotifier {
   List<FlSpot> ch1_data = [FlSpot(0, 0)];
   List<FlSpot> ch2_data = [FlSpot(0, 0)];
 
-  List<FlSpot> ref1_data = [FlSpot(0, 0)];
-  List<FlSpot> ref2_data = [FlSpot(0, 0)];
-  List<FlSpot> ref3_data = [FlSpot(0, 0)];
-
   List<double> last_dataFromChannel = [0, 0];
   List<double> last_timeFromChannel = [0, 0];
 
   List<List<FlSpot>> get dataChannelLists => [ch1_data, ch2_data];
-  List<List<FlSpot>> get dataReferenceLists => [
-    ref1_data,
-    ref2_data,
-    ref3_data,
-  ];
+
   double currentTime = 0;
   List<double> lastSample = [0, 0];
   double triggeredTime = 0;
@@ -261,7 +253,7 @@ class UsbProvider extends ChangeNotifier {
             //   (point) => point.x < (cutoff),
             // );
 
-            print('Stored Data Points ${dataChannelLists[channel].length}');
+            // print('Stored Data Points ${dataChannelLists[channel].length}');
 
             // Remove the first dummy point
             if (dataChannelLists[0].length >= 2) {
@@ -292,9 +284,6 @@ class UsbProvider extends ChangeNotifier {
     ch1_data = [FlSpot(0, 0)];
     ch2_data = [FlSpot(0, 0)];
 
-    ref1_data = [FlSpot(0, 0)];
-    ref2_data = [FlSpot(0, 0)];
-    ref3_data = [FlSpot(0, 0)];
     stopwatch.reset();
     currentTime = 0;
     triggeredTime = 0;

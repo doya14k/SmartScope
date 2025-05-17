@@ -245,6 +245,11 @@ class AppState extends ChangeNotifier {
         } else if ((voltagText[i + 1] == 'v') || (voltagText[i + 1] == 'V')) {
           _ch1_uVoltageValue *= 1000000;
         }
+        if (_ch1_uVoltageValue > max_uVperDivision) {
+          _ch1_uVoltageValue = max_uVperDivision;
+        } else if (_ch1_uVoltageValue < min_uVperDivision) {
+          _ch1_uVoltageValue = min_uVperDivision;
+        }
         print('Data: $_ch1_uVoltageValue');
         updateGraphVoltageValue();
         notifyListeners();
@@ -265,6 +270,11 @@ class AppState extends ChangeNotifier {
           _ch1_uVoltageValue *= 1000;
         } else if ((voltagText[i] == 'v') || (voltagText[i] == 'V')) {
           _ch1_uVoltageValue *= 1000000;
+        }
+        if (_ch1_uVoltageValue > max_uVperDivision) {
+          _ch1_uVoltageValue = max_uVperDivision;
+        } else if (_ch1_uVoltageValue < min_uVperDivision) {
+          _ch1_uVoltageValue = min_uVperDivision;
         }
         print('Data: $_ch1_uVoltageValue');
         updateGraphVoltageValue();
@@ -292,6 +302,11 @@ class AppState extends ChangeNotifier {
         } else if ((voltagText[i + 1] == 'v') || (voltagText[i + 1] == 'V')) {
           _ch2_uVoltageValue *= 1000000;
         }
+        if (_ch2_uVoltageValue > max_uVperDivision) {
+          _ch2_uVoltageValue = max_uVperDivision;
+        } else if (_ch2_uVoltageValue < min_uVperDivision) {
+          _ch2_uVoltageValue = min_uVperDivision;
+        }
         print('Data: $_ch2_uVoltageValue');
         updateGraphVoltageValue();
         notifyListeners();
@@ -312,6 +327,11 @@ class AppState extends ChangeNotifier {
           _ch2_uVoltageValue *= 1000;
         } else if ((voltagText[i] == 'v') || (voltagText[i] == 'V')) {
           _ch2_uVoltageValue *= 1000000;
+        }
+        if (_ch2_uVoltageValue > max_uVperDivision) {
+          _ch2_uVoltageValue = max_uVperDivision;
+        } else if (_ch2_uVoltageValue < min_uVperDivision) {
+          _ch2_uVoltageValue = min_uVperDivision;
         }
         print('Data: $_ch2_uVoltageValue');
         updateGraphVoltageValue();
@@ -336,6 +356,12 @@ class AppState extends ChangeNotifier {
         } else if (timeText[i + 1] == 's') {
           timeValue *= 1000000;
         }
+        timeValue = timeValue.abs();
+        if (timeValue > max_uSperDivision) {
+          timeValue = max_uSperDivision;
+        } else if (timeValue < min_uSperDivision) {
+          timeValue = min_uSperDivision;
+        }
         print('Data: $timeValue');
         updateGraphTimeValue(
           usbProvider.triggeredTime - triggerHorizontalOffset,
@@ -358,6 +384,7 @@ class AppState extends ChangeNotifier {
         } else if (timeText[i] == 's') {
           timeValue *= 1000000;
         }
+
         print('Data: $timeValue');
         updateGraphTimeValue(
           usbProvider.triggeredTime - triggerHorizontalOffset,
@@ -593,6 +620,11 @@ class AppState extends ChangeNotifier {
         } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
           ch2_uVoltageLevelOffset *= 1000000;
         }
+        if (ch2_uVoltageLevelOffset > (max_uVLevelOffset)) {
+          ch2_uVoltageLevelOffset = (max_uVLevelOffset);
+        } else if (ch2_uVoltageLevelOffset <= min_uVLevelOffset) {
+          ch2_uVoltageLevelOffset = min_uVLevelOffset;
+        }
         print('Data: $ch2_uVoltageLevelOffset');
         updateGraphVoltageValue();
         notifyListeners();
@@ -615,6 +647,11 @@ class AppState extends ChangeNotifier {
           ch2_uVoltageLevelOffset *= 1000;
         } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
           ch2_uVoltageLevelOffset *= 1000000;
+        }
+        if (ch2_uVoltageLevelOffset > (max_uVLevelOffset)) {
+          ch2_uVoltageLevelOffset = (max_uVLevelOffset);
+        } else if (ch2_uVoltageLevelOffset <= min_uVLevelOffset) {
+          ch2_uVoltageLevelOffset = min_uVLevelOffset;
         }
         print('Data: $ch2_uVoltageLevelOffset');
         updateGraphVoltageValue();
@@ -650,6 +687,11 @@ class AppState extends ChangeNotifier {
         } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
           ch1_uVoltageLevelOffset *= 1000000;
         }
+        if (ch1_uVoltageLevelOffset > (max_uVLevelOffset)) {
+          ch1_uVoltageLevelOffset = (max_uVLevelOffset);
+        } else if (ch1_uVoltageLevelOffset <= min_uVLevelOffset) {
+          ch1_uVoltageLevelOffset = min_uVLevelOffset;
+        }
         print('Data: $ch1_uVoltageLevelOffset');
         updateGraphVoltageValue();
         notifyListeners();
@@ -672,6 +714,11 @@ class AppState extends ChangeNotifier {
           ch1_uVoltageLevelOffset *= 1000;
         } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
           ch1_uVoltageLevelOffset *= 1000000;
+        }
+        if (ch1_uVoltageLevelOffset > (max_uVLevelOffset)) {
+          ch1_uVoltageLevelOffset = (max_uVLevelOffset);
+        } else if (ch1_uVoltageLevelOffset <= min_uVLevelOffset) {
+          ch1_uVoltageLevelOffset = min_uVLevelOffset;
         }
         print('Data: $ch1_uVoltageLevelOffset');
         updateGraphVoltageValue();
@@ -752,6 +799,11 @@ class AppState extends ChangeNotifier {
         } else if (offsetText[i + 1] == 's') {
           triggerHorizontalOffset *= 1000000;
         }
+        if (triggerHorizontalOffset > (max_TriggerHorizontalOffset)) {
+          triggerHorizontalOffset = max_TriggerHorizontalOffset;
+        } else if (triggerHorizontalOffset <= min_TriggerHorizontalOffset) {
+          triggerHorizontalOffset = min_TriggerHorizontalOffset;
+        }
         print('Data1: $triggerHorizontalOffset');
         notifyListeners();
         updateGraphTimeValue(
@@ -776,6 +828,11 @@ class AppState extends ChangeNotifier {
           triggerHorizontalOffset *= 1000;
         } else if (offsetText[i] == 's') {
           triggerHorizontalOffset *= 1000000;
+        }
+        if (triggerHorizontalOffset > (max_TriggerHorizontalOffset)) {
+          triggerHorizontalOffset = max_TriggerHorizontalOffset;
+        } else if (triggerHorizontalOffset <= min_TriggerHorizontalOffset) {
+          triggerHorizontalOffset = min_TriggerHorizontalOffset;
         }
         print('Data: $triggerHorizontalOffset');
         notifyListeners();
@@ -867,6 +924,11 @@ class AppState extends ChangeNotifier {
         } else if ((offsetText[i + 1] == 'v') || (offsetText[i + 1] == 'V')) {
           triggerVerticalOffset *= 1000000;
         }
+        if (triggerVerticalOffset > max_TriggerVerticalOffset) {
+          triggerVerticalOffset = max_TriggerVerticalOffset;
+        } else if (triggerVerticalOffset <= min_TriggerVerticalOffset) {
+          triggerVerticalOffset = min_TriggerVerticalOffset;
+        }
         print('Data: $triggerVerticalOffset');
         notifyListeners();
         return;
@@ -888,6 +950,11 @@ class AppState extends ChangeNotifier {
           triggerVerticalOffset *= 1000;
         } else if ((offsetText[i] == 'v') || (offsetText[i] == 'V')) {
           triggerVerticalOffset *= 1000000;
+        }
+        if (triggerVerticalOffset > max_TriggerVerticalOffset) {
+          triggerVerticalOffset = max_TriggerVerticalOffset;
+        } else if (triggerVerticalOffset <= min_TriggerVerticalOffset) {
+          triggerVerticalOffset = min_TriggerVerticalOffset;
         }
         print('Data: $triggerVerticalOffset');
         notifyListeners();
