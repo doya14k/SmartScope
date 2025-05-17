@@ -63,7 +63,6 @@ class UsbProvider extends ChangeNotifier {
               triggeredTime - appState.triggerHorizontalOffset,
             );
             if (selecetTriggerModeIndex == 1) {
-              // selecetTriggerStateIndex = 1;
               singleTrigger = true;
               print('singleTrigger');
             }
@@ -86,8 +85,7 @@ class UsbProvider extends ChangeNotifier {
           }
         }
       }
-    }
-    if (singleTrigger == true) {
+    } else if (singleTrigger == true) {
       if (currentTime > appState.maxGraphTimeValue) {
         singleTrigger == false;
         selecetTriggerStateIndex = 1;
@@ -136,7 +134,6 @@ class UsbProvider extends ChangeNotifier {
       print("Fehler beim Öffnen des Ports $portName");
     }
   }
-double lastCleanupTime = 0; // in Mikrosekunden
 
   void startReading() {
     if (selectedPort == null || !selectedPort!.isOpened) return;
@@ -206,15 +203,12 @@ double lastCleanupTime = 0; // in Mikrosekunden
               if (selecetTriggerStateIndex == 0) {
                 if (selecetTriggerModeIndex == 3) {
                   // cutoff calculated for Roll Mode
-                  cutoff = currentTime - (appState.timeValue * ((NOF_xGrids)));
+                  cutoff =
+                      currentTime - (appState.timeValue * ((NOF_xGrids + 1)));
 
-// nur alle 1s Daten herauslöschen
-                  if ((currentTime - lastCleanupTime) >= 1000000) {
-                    dataChannelLists[channel].removeWhere(
-                      (point) => point.x < cutoff,
-                    );
-                    lastCleanupTime = currentTime;
-                  }
+                  dataChannelLists[channel].removeWhere(
+                    (point) => point.x < (cutoff),
+                  );
 
                   // Roll Mode
                   // Graph Range is being adjusted in monitoring_page

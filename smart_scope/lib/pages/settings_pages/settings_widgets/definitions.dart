@@ -363,6 +363,11 @@ class AppState extends ChangeNotifier {
           usbProvider.triggeredTime - triggerHorizontalOffset,
         );
         timeValue = timeValue.abs();
+        if (timeValue > max_uSperDivision) {
+          timeValue = max_uSperDivision;
+        } else if (timeValue < min_uSperDivision) {
+          timeValue = min_uSperDivision;
+        }
         notifyListeners();
         return;
       }

@@ -65,7 +65,8 @@ class _TriggerStateSelectorState extends State<TriggerStateSelector> {
                         usb.clearPlot();
                         selecetTriggerStateIndex = 1;
                       } else if (actualIndex == 0) {
-                        usb.clearPlot();
+                        // usb.clearPlot();
+                        usb.singleTrigger = false;
                       }
                       print(triggerStates[actualIndex]);
                     });
