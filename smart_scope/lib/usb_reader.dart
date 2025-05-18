@@ -5,12 +5,19 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:serial_port_win32/serial_port_win32.dart';
 import 'pages/settings_pages/settings_widgets/definitions.dart';
 import 'package:provider/provider.dart';
+import 'pages/settings_pages/measurements_widgets/definitionMeasurements.dart';
 
 class UsbProvider extends ChangeNotifier {
   late AppState appState;
 
   void setAppState(AppState newAppState) {
     appState = newAppState;
+  }
+
+  late MeasurementsChanges measurementState;
+
+  void setMeasurementState(MeasurementsChanges newMeasurementState) {
+    measurementState = newMeasurementState;
   }
 
   SerialPort? selectedPort;
@@ -94,6 +101,9 @@ class UsbProvider extends ChangeNotifier {
     stopwatch.start();
     ch1_data = [FlSpot(0, 0)];
     ch2_data = [FlSpot(0, 0)];
+
+    measurementState.updateCH1Data();
+
     singleTrigger = false;
     appState.updateGraphTimeValue(appState.timeValue * (NOF_xGrids / 2));
 
@@ -157,17 +167,8 @@ class UsbProvider extends ChangeNotifier {
           if (adcLowBits != null && adcHighBits != null) {
             adcValue = (adcHighBits << 6) | adcLowBits;
 
-            double sampleInterval =
-                (appState.timeValue / samplesPerDivision); //10;
-
             if ((currentTime - lastSample[channel]) >=
                 (appState.timeValue / samplesPerDivision)) {
-              // print(
-              //   "CurrentTime: $currentTime, lastSample $lastSample, SampleInterval: $sampleInterval, Channel $channel",
-              // );
-              // double delta = currentTime - lastSample[channel];
-              // print(delta);
-
               // print("NewSample");
               lastSample[channel] = currentTime;
 
@@ -190,10 +191,14 @@ class UsbProvider extends ChangeNotifier {
                 dataChannelLists[channel].add(
                   FlSpot(currentTime, voltageValue_uV_fromChannel[channel]),
                 );
+                measurementState.updateCH1Data();
               }
 
               if (selecetTriggerStateIndex == 0) {
                 if (selecetTriggerModeIndex == 3) {
+                  // Roll Mode
+                  // Graph Range is being adjusted in monitoring_page
+
                   // cutoff calculated for Roll Mode
                   cutoff =
                       currentTime - (appState.timeValue * ((NOF_xGrids + 1)));
@@ -201,9 +206,6 @@ class UsbProvider extends ChangeNotifier {
                   dataChannelLists[channel].removeWhere(
                     (point) => point.x < (cutoff),
                   );
-
-                  // Roll Mode
-                  // Graph Range is being adjusted in monitoring_page
                 } else {
                   // Trigger Event
                   if (selecetTriggerModeIndex == 2) {
@@ -246,13 +248,6 @@ class UsbProvider extends ChangeNotifier {
                                     ((NOF_xGrids / 2) + 1))))),
               );
             }
-
-            // // Cutoff of old data
-            // dataChannelLists[0].removeWhere((point) => point.x < cutoff);
-            // dataChannelLists[channel].removeWhere(
-            //   (point) => point.x < (cutoff),
-            // );
-
             // print('Stored Data Points ${dataChannelLists[channel].length}');
 
             // Remove the first dummy point
@@ -283,6 +278,7 @@ class UsbProvider extends ChangeNotifier {
   void closePort() async {
     ch1_data = [FlSpot(0, 0)];
     ch2_data = [FlSpot(0, 0)];
+    measurementState.updateCH1Data();
 
     stopwatch.reset();
     currentTime = 0;

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:smart_scope/usb_reader.dart';
 
 // Channel Parameters
 Color channel1_lightBackgroundColor = Colors.amber.shade200;
@@ -168,6 +169,12 @@ class _MeasurementDataTemplateState extends State<MeasurementDataTemplate> {
 }
 
 class MeasurementsChanges extends ChangeNotifier {
+  late UsbProvider usbProvider;
+
+  void setUsbProvider_measurements(UsbProvider newUsbProvider) {
+    usbProvider = newUsbProvider;
+  }
+
   // Data Variables Time
   double ch1_Period = 0;
   double ch1_Frequency = 0;
@@ -206,6 +213,13 @@ class MeasurementsChanges extends ChangeNotifier {
   bool measCH1_widthNeg = false;
   bool measCH1_DutyPos = false;
   bool measCH1_DutyNeg = false;
+
+  update_measCH1_Period_data() {}
+  update_measCH1_Frequency_data() {}
+  update_measCH1_widthPos_data() {}
+  update_measCH1_widthNeg_data() {}
+  update_measCH1_dutyPos_data() {}
+  update_measCH1_dutyNeg_data() {}
 
   update_measCH1_Period() {
     measCH1_Period = !measCH1_Period;
@@ -268,6 +282,20 @@ class MeasurementsChanges extends ChangeNotifier {
         measCH1_DutyPos ||
         measCH1_DutyNeg);
   }
+
+  update_measCH1_Vmax_data() {
+    List<double> voltageValues = usbProvider.ch2_data.map((p) => p.y).toList();
+    ch1_Vmax = (voltageValues.reduce(max) / 1000000);
+    notifyListeners();
+  }
+
+  update_measCH1_Vmin_data() {}
+  update_measCH1_Vpp_data() {}
+  update_measCH1_Vamp_data() {}
+  update_measCH1_Vtop_data() {}
+  update_measCH1_Vbase_data() {}
+  update_measCH1_Vavg_data() {}
+  update_measCH1_Vrms_data() {}
 
   update_measCH1_Vmax() {
     measCH1_Vmax = !measCH1_Vmax;
@@ -433,5 +461,59 @@ class MeasurementsChanges extends ChangeNotifier {
     measCH2_Vrms = !measCH2_Vrms;
     print('CH2 Vrms: $measCH2_Vrms');
     notifyListeners();
+  }
+
+  updateCH1Data() {
+    // Time
+    if (measCH1_Period) {
+      update_measCH1_Period_data();
+    }
+
+    if (measCH1_Frequency) {
+      update_measCH1_Period_data();
+      update_measCH1_Frequency_data();
+    }
+    if (measCH1_widthPos) {
+      update_measCH1_Period_data();
+      update_measCH1_widthPos_data();
+    }
+    if (measCH1_widthNeg) {
+      update_measCH1_Period_data();
+      update_measCH1_widthNeg_data();
+    }
+    if (measCH1_DutyPos) {
+      update_measCH1_Period_data();
+      update_measCH1_dutyPos_data();
+    }
+    if (measCH1_DutyNeg) {
+      update_measCH1_Period_data();
+      update_measCH1_dutyNeg_data();
+    }
+
+    // Voltage
+    if (measCH1_Vmax) {
+      update_measCH1_Vmax_data();
+    }
+    if (measCH1_Vmin) {
+      update_measCH1_Vmin_data();
+    }
+    if (measCH1_Vpp) {
+      update_measCH1_Vpp_data();
+    }
+    if (measCH1_Vamp) {
+      update_measCH1_Vamp_data();
+    }
+    if (measCH1_Vtop) {
+      update_measCH1_Vtop_data();
+    }
+    if (measCH1_Vbase) {
+      update_measCH1_Vbase_data();
+    }
+    if (measCH1_Vavg) {
+      update_measCH1_Vavg_data();
+    }
+    if (measCH1_Vrms) {
+      update_measCH1_Vrms_data();
+    }
   }
 }

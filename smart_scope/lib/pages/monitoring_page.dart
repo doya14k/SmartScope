@@ -10,6 +10,7 @@ import 'settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'settings_pages/reference_widgets/defintionenReference.dart';
 import 'package:smart_scope/usb_reader.dart';
 
+
 List<FlSpot> generateSineWave({
   double numPoints = 300,
   double fine = 0.1,
@@ -57,7 +58,11 @@ class _MonitoringPageState extends State<MonitoringPage> {
     Provider.of<UsbProvider>(context, listen: false).setAppState(appState);
     final usbProvider = Provider.of<UsbProvider>(context, listen: false);
     Provider.of<AppState>(context, listen: false).setUsbProvider(usbProvider);
-
+Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurements(usbProvider);
+    final measurementProvider = Provider.of<MeasurementsChanges>(context, listen: false);
+    Provider.of<UsbProvider>(context, listen: false).setMeasurementState(measurementProvider);
+  
+  
     // appState.updatedCH1_LevelOffset(appState.ch1_uVoltageLevelOffset);
     // appState.updatedCH2_LevelOffset(appState.ch2_uVoltageLevelOffset);
 
@@ -73,6 +78,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
     // print(screenHeight);
     // print(screenWidth);
     final usb = Provider.of<UsbProvider>(context, listen: true);
+    final measurements = Provider.of<MeasurementsChanges>(context, listen: true);
 
     return Expanded(
       child: Scaffold(
@@ -1487,8 +1493,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                                       color:
                                                           ch1_WindowDataColor,
                                                       title: "Vmax",
-                                                      initialData: 0,
-                                                      decimalDigits: 1,
+                                                      initialData: measurements.ch1_Vmax,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
