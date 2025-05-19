@@ -156,7 +156,7 @@ class AppState extends ChangeNotifier {
   updateGraphTimeValue(double timeOffsetValue) {
     maxGraphTimeValue = (timeValue * (NOF_xGrids / 2) + timeOffsetValue);
     minGraphTimeValue = (-timeValue * (NOF_xGrids / 2) + timeOffsetValue);
-    notifyListeners();
+    // notifyListeners();
   }
 
   updateGraphVoltageValue() {

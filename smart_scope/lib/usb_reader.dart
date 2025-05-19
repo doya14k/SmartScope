@@ -60,11 +60,12 @@ class UsbProvider extends ChangeNotifier {
                   voltageValue_uV_fromChannel[channel])) {
             triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
             print("Trigger pos");
-            print("TrHor: ${appState.triggerHorizontalOffset}");
-            print("TrVer: ${voltageValue_uV_fromChannel[channel]}");
+            // print("TrHor: ${appState.triggerHorizontalOffset}");
+            // print("TrVer: ${voltageValue_uV_fromChannel[channel]}");
             appState.updateGraphTimeValue(
               triggeredTime - appState.triggerHorizontalOffset,
             );
+
             // Neue Berechnungen der Messdaten
             measurementState.updateMeasurementData();
             if (selecetTriggerModeIndex == 1) {

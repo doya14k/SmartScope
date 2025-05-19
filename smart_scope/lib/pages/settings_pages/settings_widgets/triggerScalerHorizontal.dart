@@ -73,6 +73,7 @@ class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    print("horScaler new");
     return SizedBox(
       width: screenWidth * 0.177,
       height: screenHeight * 0.119,
