@@ -214,8 +214,88 @@ class MeasurementsChanges extends ChangeNotifier {
   bool measCH1_DutyPos = false;
   bool measCH1_DutyNeg = false;
 
-  update_measCH1_Period_data() {}
-  update_measCH1_Frequency_data() {}
+  update_measCH1_Period_data() {
+    List<double> voltageValues = usbProvider.ch1_data.map((p) => p.y).toList();
+    List<double> timeValues = usbProvider.ch1_data.map((p) => p.x).toList();
+
+    double lastVoltageComparingValue = voltageValues[0];
+    bool risingSignal = true;
+
+    // Alle Einträge der List durchgehen
+    for (
+      int comparing_index = 1;
+      comparing_index < voltageValues.length;
+      comparing_index++
+    ) {
+      print('Compare ${timeValues[comparing_index]}');
+
+      if ((voltageValues[comparing_index] - (lastVoltageComparingValue)) >= 0) {
+        risingSignal = false;
+      }
+
+      for (
+        int searching_index = (comparing_index);
+        searching_index < voltageValues.length;
+        searching_index++
+      ) {
+        double lastSearchingVoltage = voltageValues[searching_index - 1];
+        double currentSearchingVoltage = voltageValues[searching_index];
+        print('Search ${lastSearchingVoltage}');
+
+        if (risingSignal) {
+          // the comparing voltage is in between the searching voltage
+
+          if ((currentSearchingVoltage < voltageValues[comparing_index - 1]) &&
+              (lastSearchingVoltage >= voltageValues[comparing_index - 1])) {
+            // oldTime index -> comparing_index - 1
+            // newTime index -> searching_index - 1
+            // delta Time = timeValue[searching] - timeValue[comparing]
+
+            print('Found ${lastSearchingVoltage}');
+
+            ch1_Period =
+                ((timeValues[searching_index - 1] -
+                        timeValues[comparing_index - 1]) /
+                    1000000);
+
+            ch1_Period_key.currentState?.updateData(ch1_Period);
+            return;
+          }
+        } else {
+          if ((currentSearchingVoltage >= voltageValues[comparing_index - 1]) &&
+              (lastSearchingVoltage < voltageValues[comparing_index - 1])) {
+            // oldTime index -> comparing_index - 1
+            // newTime index -> searching_index - 1
+            // delta Time = timeValue[searching] - timeValue[comparing]
+            print('Found ${lastSearchingVoltage}');
+
+            ch1_Period =
+                ((timeValues[searching_index - 1] -
+                        timeValues[comparing_index - 1]) /
+                    1000000);
+
+            ch1_Period_key.currentState?.updateData(ch1_Period);
+            return;
+          }
+        }
+      }
+
+      lastVoltageComparingValue = voltageValues[comparing_index];
+    }
+
+    print("no periodic signal found");
+    ch1_Period_key.currentState?.updateData(1);
+  }
+
+  update_measCH1_Frequency_data() {
+    if (ch1_Period != 0) {
+      ch1_Frequency = 1 / ch1_Period;
+    } else {
+      ch1_Frequency = 0;
+    }
+    ch1_Frequency_key.currentState?.updateData(ch1_Frequency);
+  }
+
   update_measCH1_widthPos_data() {}
   update_measCH1_widthNeg_data() {}
   update_measCH1_dutyPos_data() {}
@@ -284,14 +364,38 @@ class MeasurementsChanges extends ChangeNotifier {
   }
 
   update_measCH1_Vmax_data() {
-    List<double> voltageValues = usbProvider.ch2_data.map((p) => p.y).toList();
+    List<double> voltageValues = usbProvider.ch1_data.map((p) => p.y).toList();
     ch1_Vmax = (voltageValues.reduce(max) / 1000000);
+
+    ch1_Vmax_key.currentState?.updateData(ch1_Vmax);
+
     notifyListeners();
   }
 
-  update_measCH1_Vmin_data() {}
-  update_measCH1_Vpp_data() {}
-  update_measCH1_Vamp_data() {}
+  update_measCH1_Vmin_data() {
+    List<double> voltageValues = usbProvider.ch1_data.map((p) => p.y).toList();
+    ch1_Vmin = (voltageValues.reduce(min) / 1000000);
+
+    ch1_Vmin_key.currentState?.updateData(ch1_Vmin);
+  }
+
+  update_measCH1_Vpp_data() {
+    List<double> voltageValues = usbProvider.ch1_data.map((p) => p.y).toList();
+    ch1_Vpp = (voltageValues.reduce(max) - voltageValues.reduce(min)) / 1000000;
+
+    ch1_Vpp_key.currentState?.updateData(ch1_Vpp);
+  }
+
+  update_measCH1_Vamp_data() {
+    List<double> voltageValues = usbProvider.ch1_data.map((p) => p.y).toList();
+
+    ch1_Vamp =
+        (voltageValues.reduce(max) -
+            (voltageValues.reduce(max) + voltageValues.reduce(min)) / 2) /
+        1000000;
+    ch1_Vamp_key.currentState?.updateData(ch1_Vamp);
+  }
+
   update_measCH1_Vtop_data() {}
   update_measCH1_Vbase_data() {}
   update_measCH1_Vavg_data() {}

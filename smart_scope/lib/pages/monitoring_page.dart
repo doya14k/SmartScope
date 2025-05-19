@@ -10,7 +10,6 @@ import 'settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'settings_pages/reference_widgets/defintionenReference.dart';
 import 'package:smart_scope/usb_reader.dart';
 
-
 List<FlSpot> generateSineWave({
   double numPoints = 300,
   double fine = 0.1,
@@ -58,11 +57,19 @@ class _MonitoringPageState extends State<MonitoringPage> {
     Provider.of<UsbProvider>(context, listen: false).setAppState(appState);
     final usbProvider = Provider.of<UsbProvider>(context, listen: false);
     Provider.of<AppState>(context, listen: false).setUsbProvider(usbProvider);
-Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurements(usbProvider);
-    final measurementProvider = Provider.of<MeasurementsChanges>(context, listen: false);
-    Provider.of<UsbProvider>(context, listen: false).setMeasurementState(measurementProvider);
-  
-  
+    Provider.of<MeasurementsChanges>(
+      context,
+      listen: false,
+    ).setUsbProvider_measurements(usbProvider);
+    final measurementProvider = Provider.of<MeasurementsChanges>(
+      context,
+      listen: false,
+    );
+    Provider.of<UsbProvider>(
+      context,
+      listen: false,
+    ).setMeasurementState(measurementProvider);
+
     // appState.updatedCH1_LevelOffset(appState.ch1_uVoltageLevelOffset);
     // appState.updatedCH2_LevelOffset(appState.ch2_uVoltageLevelOffset);
 
@@ -78,7 +85,10 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
     // print(screenHeight);
     // print(screenWidth);
     final usb = Provider.of<UsbProvider>(context, listen: true);
-    final measurements = Provider.of<MeasurementsChanges>(context, listen: true);
+    final measurements = Provider.of<MeasurementsChanges>(
+      context,
+      listen: true,
+    );
 
     return Expanded(
       child: Scaffold(
@@ -922,7 +932,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                     context,
                                     listen: true,
                                   ).Ref2IsActive,
-                              spots: 
+                              spots:
                                   Provider.of<ReferenceChanges>(
                                     context,
                                     listen: true,
@@ -1030,7 +1040,8 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                     context,
                                     listen: true,
                                   ).Ref3IsActive,
-                              spots: Provider.of<ReferenceChanges>(
+                              spots:
+                                  Provider.of<ReferenceChanges>(
                                     context,
                                     listen: true,
                                   ).ref3_data,
@@ -1398,7 +1409,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Period",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1414,7 +1425,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Frequency",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "Hz",
                                                     ),
 
@@ -1430,7 +1441,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Width +",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1446,7 +1457,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Width -",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1462,7 +1473,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Duty-Cycle +",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1478,7 +1489,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Duty-Cycle -",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1493,7 +1504,8 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                       color:
                                                           ch1_WindowDataColor,
                                                       title: "Vmax",
-                                                      initialData: measurements.ch1_Vmax,
+                                                      initialData:
+                                                          measurements.ch1_Vmax,
                                                       decimalDigits: 2,
                                                       unit: "V",
                                                     ),
@@ -1510,7 +1522,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Vmin",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1526,7 +1538,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Vpp",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1542,7 +1554,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Vamp",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1558,7 +1570,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Vtop",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1574,7 +1586,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Vbase",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1590,7 +1602,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Vavg",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1606,7 +1618,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch1_WindowDataColor,
                                                       title: "Vrms",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
                                                 ],
@@ -1684,7 +1696,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Period",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1700,7 +1712,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Frequency",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "Hz",
                                                     ),
 
@@ -1716,7 +1728,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Width +",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1732,7 +1744,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Width -",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1748,7 +1760,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Duty-Cycle +",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1764,7 +1776,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Duty-Cycle -",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "s",
                                                     ),
 
@@ -1780,7 +1792,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Vmax",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1796,7 +1808,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Vmin",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1812,7 +1824,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Vpp",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1828,7 +1840,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Vamp",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1844,7 +1856,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Vtop",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1860,7 +1872,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Vbase",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1876,7 +1888,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Vavg",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
 
@@ -1892,7 +1904,7 @@ Provider.of<MeasurementsChanges>(context, listen: false).setUsbProvider_measurem
                                                           ch2_WindowDataColor,
                                                       title: "Vrms",
                                                       initialData: 0,
-                                                      decimalDigits: 1,
+                                                      decimalDigits: 2,
                                                       unit: "V",
                                                     ),
                                                 ],
