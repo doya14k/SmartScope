@@ -50,6 +50,14 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     final appState = Provider.of<AppState>(context, listen: false);
     Provider.of<UsbProvider>(context, listen: false).setAppState(appState);
+    final measurementProvider = Provider.of<MeasurementsChanges>(
+      context,
+      listen: false,
+    );
+    Provider.of<UsbProvider>(
+      context,
+      listen: false,
+    ).setMeasurementState(measurementProvider);
     super.initState();
   }
 

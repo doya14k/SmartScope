@@ -237,6 +237,22 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
+
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         _ch1_uVoltageValue = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
           _ch1_uVoltageValue *= 1;
@@ -263,6 +279,21 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         _ch1_uVoltageValue = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
           _ch1_uVoltageValue *= 1;
@@ -294,6 +325,21 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         _ch2_uVoltageValue = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
           _ch2_uVoltageValue *= 1;
@@ -320,6 +366,21 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         _ch2_uVoltageValue = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
           _ch2_uVoltageValue *= 1;
@@ -961,6 +1022,62 @@ class AppState extends ChangeNotifier {
         return;
       }
     }
+  }
+
+  probeSwitch_settingsUpdater_ch1() {
+    if (channel1.ChannelIs1to1) {
+      // switching to 1:1
+      print("CH1 switch to 1:1");
+      ch1_uVoltageLevelOffset = ch1_uVoltageLevelOffset / 10;
+      if (channel1IsTriggered) {
+        triggerVerticalOffset = triggerVerticalOffset / 10;
+      }
+      _ch1_uVoltageValue = _ch1_uVoltageValue / 10;
+    } else {
+      // switching to 1:10
+      print("CH1 switch to 1:10");
+      ch1_uVoltageLevelOffset = ch1_uVoltageLevelOffset * 10;
+      if (channel1IsTriggered) {
+        triggerVerticalOffset = triggerVerticalOffset * 10;
+      }
+      _ch1_uVoltageValue = _ch1_uVoltageValue * 10;
+    }
+    if (_ch1_uVoltageValue > max_uVperDivision) {
+      _ch1_uVoltageValue = max_uVperDivision;
+    } else if (_ch1_uVoltageValue < min_uVperDivision) {
+      _ch1_uVoltageValue = min_uVperDivision;
+    }
+    updateTriggerVerticalOffset(triggerVerticalOffset);
+    updatedCH1_LevelOffset(ch1_uVoltageLevelOffset);
+    notifyListeners();
+  }
+
+  probeSwitch_settingsUpdater_ch2() {
+    if (channel2.ChannelIs1to1) {
+      // switching to 1:1
+      print("CH2 switch to 1:1");
+      ch2_uVoltageLevelOffset = ch2_uVoltageLevelOffset / 10;
+      if (channel2IsTriggered) {
+        triggerVerticalOffset = triggerVerticalOffset / 10;
+      }
+      _ch2_uVoltageValue = _ch2_uVoltageValue / 10;
+    } else {
+      // switching to 1:10
+      print("CH2 switch to 1:10");
+      ch2_uVoltageLevelOffset = ch2_uVoltageLevelOffset * 10;
+      if (channel2IsTriggered) {
+        triggerVerticalOffset = triggerVerticalOffset * 10;
+      }
+      _ch2_uVoltageValue = _ch2_uVoltageValue * 10;
+    }
+    if (_ch2_uVoltageValue > max_uVperDivision) {
+      _ch2_uVoltageValue = max_uVperDivision;
+    } else if (_ch2_uVoltageValue < min_uVperDivision) {
+      _ch2_uVoltageValue = min_uVperDivision;
+    }
+    updateTriggerVerticalOffset(triggerVerticalOffset);
+    updatedCH2_LevelOffset(ch2_uVoltageLevelOffset);
+    notifyListeners();
   }
 }
 

@@ -240,12 +240,24 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           },
                           onSelected: (selectedIndex) {
                             setState(() {
-                              print(selectedIndex);
                               if (selectedIndex == 0) {
-                                channel1.ChannelIs1to1 = true;
+                                if (!channel1.ChannelIs1to1) {
+                                  channel1.ChannelIs1to1 = true;
+                                  Provider.of<AppState>(
+                                    context,
+                                    listen: false,
+                                  ).probeSwitch_settingsUpdater_ch1();
+                                }
                               } else {
-                                channel1.ChannelIs1to1 = false;
+                                if (channel1.ChannelIs1to1) {
+                                  channel1.ChannelIs1to1 = false;
+                                  Provider.of<AppState>(
+                                    context,
+                                    listen: false,
+                                  ).probeSwitch_settingsUpdater_ch1();
+                                }
                               }
+                              print('CH1 1:1: ${channel1.ChannelIs1to1}');
                             });
                           },
                         ),
@@ -296,12 +308,16 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           },
                           onSelected: (selectedIndex) {
                             setState(() {
-                              print(selectedIndex);
                               if (selectedIndex == 0) {
-                                channel1.channelIsDC = true;
+                                if (!channel1.channelIsDC) {
+                                  channel1.channelIsDC = true;
+                                }
                               } else {
-                                channel1.channelIsDC = false;
+                                if (!channel1.channelIsDC) {
+                                  channel1.channelIsDC = false;
+                                }
                               }
+                              print('CH1 DC: ${channel1.channelIsDC}');
                             });
                           },
                         ),
@@ -466,12 +482,24 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           },
                           onSelected: (selectedIndex) {
                             setState(() {
-                              print(selectedIndex);
                               if (selectedIndex == 0) {
-                                channel2.ChannelIs1to1 = true;
+                                if (!channel2.ChannelIs1to1) {
+                                  channel2.ChannelIs1to1 = true;
+                                  Provider.of<AppState>(
+                                    context,
+                                    listen: false,
+                                  ).probeSwitch_settingsUpdater_ch2();
+                                }
                               } else {
-                                channel2.ChannelIs1to1 = false;
+                                if (channel2.ChannelIs1to1) {
+                                  channel2.ChannelIs1to1 = false;
+                                  Provider.of<AppState>(
+                                    context,
+                                    listen: false,
+                                  ).probeSwitch_settingsUpdater_ch2();
+                                }
                               }
+                              print('CH2 1:1: ${channel2.ChannelIs1to1}');
                             });
                           },
                         ),
@@ -524,10 +552,15 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             setState(() {
                               print(selectedIndex);
                               if (selectedIndex == 0) {
-                                channel2.channelIsDC = true;
+                                if (!channel1.channelIsDC) {
+                                  channel1.channelIsDC = true;
+                                }
                               } else {
-                                channel2.channelIsDC = false;
+                                if (!channel1.channelIsDC) {
+                                  channel1.channelIsDC = false;
+                                }
                               }
+                              print('CH1 DC: ${channel1.channelIsDC}');
                             });
                           },
                         ),

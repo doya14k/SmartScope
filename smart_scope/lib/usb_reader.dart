@@ -220,7 +220,6 @@ class UsbProvider extends ChangeNotifier {
                     );
                   }
                 }
-
                 // measurementState.updateCH1Data();
               }
 
