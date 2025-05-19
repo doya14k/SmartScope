@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:smart_scope/usb_reader.dart';
+import 'package:smart_scope/pages/settings_pages/settings_widgets/definitions.dart';
 
 // Channel Parameters
 Color channel1_lightBackgroundColor = Colors.amber.shade200;
@@ -173,6 +174,12 @@ class MeasurementsChanges extends ChangeNotifier {
 
   void setUsbProvider_measurements(UsbProvider newUsbProvider) {
     usbProvider = newUsbProvider;
+  }
+
+  late AppState appStateProvider;
+
+  void setAppState_measurements(AppState new_appStateProvider) {
+    appStateProvider = new_appStateProvider;
   }
 
   // Data Variables Time
@@ -398,7 +405,17 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH1_Vtop_data() {}
   update_measCH1_Vbase_data() {}
-  update_measCH1_Vavg_data() {}
+  update_measCH1_Vavg_data() {
+    List<double> voltageValues = usbProvider.ch1_data.map((p) => p.y).toList();
+    double summe = 0;
+    for (int i = 0; i < voltageValues.length; i++) {
+      summe += voltageValues[i];
+    }
+    ch1_Vavg = (summe / voltageValues.length) / 1000000;
+
+    ch1_Vavg_key.currentState?.updateData(ch1_Vavg);
+  }
+
   update_measCH1_Vrms_data() {}
 
   update_measCH1_Vmax() {
@@ -570,7 +587,20 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH2_Vtop_data() {}
   update_measCH2_Vbase_data() {}
-  update_measCH2_Vavg_data() {}
+  update_measCH2_Vavg_data() {
+    List<double> voltageValues = usbProvider.ch2_data.map((p) => p.y).toList();
+    List<double> timeValues = usbProvider.ch2_data.map((p) => p.x).toList();
+    double summe = 0;
+    for (int i = 0; i < voltageValues.length; i++) {
+      if ((appStateProvider.minGraphTimeValue <= timeValues[i]) &&
+          (appStateProvider.maxGraphTimeValue >= timeValues[i])) {
+        summe += voltageValues[i];
+      }
+    }
+    ch2_Vavg = (summe / voltageValues.length) / 1000000;
+    ch2_Vavg_key.currentState?.updateData(ch2_Vavg);
+  }
+
   update_measCH2_Vrms_data() {}
 
   update_measCH2_Vmax() {

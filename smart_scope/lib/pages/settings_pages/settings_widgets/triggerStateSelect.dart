@@ -67,6 +67,10 @@ class _TriggerStateSelectorState extends State<TriggerStateSelector> {
                       } else if (actualIndex == 0) {
                         // usb.clearPlot();
                         usb.singleTrigger = false;
+                      } else if (actualIndex == 1) {
+                        if (selecetTriggerModeIndex == 3) {
+                          usb.stoppedInRoleMode();
+                        }
                       }
                       print(triggerStates[actualIndex]);
                     });

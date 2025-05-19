@@ -61,6 +61,10 @@ class _MonitoringPageState extends State<MonitoringPage> {
       context,
       listen: false,
     ).setUsbProvider_measurements(usbProvider);
+    Provider.of<MeasurementsChanges>(
+      context,
+      listen: false,
+    ).setAppState_measurements(appState);
     final measurementProvider = Provider.of<MeasurementsChanges>(
       context,
       listen: false,
@@ -420,7 +424,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                               Provider.of<AppState>(
                                                 context,
                                               ).timeValue))
-                                      : -1
+                                      : usb.minStoppedRoleTime
                                   : (Provider.of<AppState>(
                                     context,
                                   ).minGraphTimeValue),
@@ -428,7 +432,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               (selecetTriggerModeIndex == 3)
                                   ? (selecetTriggerStateIndex == 0)
                                       ? usb.currentTime
-                                      : 0
+                                      : usb.maxStoppedRoleTime
                                   : (Provider.of<AppState>(
                                     context,
                                   ).maxGraphTimeValue),
@@ -614,7 +618,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                               Provider.of<AppState>(
                                                 context,
                                               ).timeValue))
-                                      : -1
+                                      : usb.minStoppedRoleTime
                                   : (Provider.of<AppState>(
                                     context,
                                   ).minGraphTimeValue),
@@ -622,7 +626,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               (selecetTriggerModeIndex == 3)
                                   ? (selecetTriggerStateIndex == 0)
                                       ? usb.stopwatch_elapsedMicroseconds
-                                      : 0
+                                      : usb.maxStoppedRoleTime
                                   : (Provider.of<AppState>(
                                     context,
                                   ).maxGraphTimeValue),

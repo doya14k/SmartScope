@@ -33,7 +33,8 @@ class _HorizontalTriggerScalerState extends State<HorizontalTriggerScaler> {
       print('Delta ${delta / 100}');
       print('appState.timeValue ${appState.triggerHorizontalOffset}');
       appState.updateGraphTimeValue(
-        Provider.of<UsbProvider>(context, listen: false).triggeredTime - appState.triggerHorizontalOffset,
+        Provider.of<UsbProvider>(context, listen: false).triggeredTime -
+            appState.triggerHorizontalOffset,
       );
     });
   }

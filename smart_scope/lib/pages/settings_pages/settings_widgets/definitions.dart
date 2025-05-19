@@ -237,7 +237,9 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
-
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
           if ((voltageTextNumbersOnly[i] != '0') &&
               (voltageTextNumbersOnly[i] != '1') &&
@@ -279,6 +281,9 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
           if ((voltageTextNumbersOnly[i] != '0') &&
               (voltageTextNumbersOnly[i] != '1') &&
@@ -325,6 +330,9 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
           if ((voltageTextNumbersOnly[i] != '0') &&
               (voltageTextNumbersOnly[i] != '1') &&
@@ -366,6 +374,9 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
           if ((voltageTextNumbersOnly[i] != '0') &&
               (voltageTextNumbersOnly[i] != '1') &&
@@ -407,6 +418,24 @@ class AppState extends ChangeNotifier {
     for (int i = 0; i < timeText.length; i++) {
       if ((timeText[i] == ' ')) {
         timeTextNumbersOnly = (timeText.replaceRange(i, timeText.length, ''));
+        if (timeTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < timeTextNumbersOnly.length; i++) {
+          if ((timeTextNumbersOnly[i] != '0') &&
+              (timeTextNumbersOnly[i] != '1') &&
+              (timeTextNumbersOnly[i] != '2') &&
+              (timeTextNumbersOnly[i] != '3') &&
+              (timeTextNumbersOnly[i] != '4') &&
+              (timeTextNumbersOnly[i] != '5') &&
+              (timeTextNumbersOnly[i] != '6') &&
+              (timeTextNumbersOnly[i] != '7') &&
+              (timeTextNumbersOnly[i] != '8') &&
+              (timeTextNumbersOnly[i] != '9') &&
+              (timeTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         timeValue = double.parse(timeTextNumbersOnly).abs();
         if (timeText[i + 1] == 'n') {
           timeValue *= 0.001;
@@ -435,6 +464,24 @@ class AppState extends ChangeNotifier {
           (timeText[i] == 'm') ||
           (timeText[i] == 's')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
+        if (timeTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < timeTextNumbersOnly.length; i++) {
+          if ((timeTextNumbersOnly[i] != '0') &&
+              (timeTextNumbersOnly[i] != '1') &&
+              (timeTextNumbersOnly[i] != '2') &&
+              (timeTextNumbersOnly[i] != '3') &&
+              (timeTextNumbersOnly[i] != '4') &&
+              (timeTextNumbersOnly[i] != '5') &&
+              (timeTextNumbersOnly[i] != '6') &&
+              (timeTextNumbersOnly[i] != '7') &&
+              (timeTextNumbersOnly[i] != '8') &&
+              (timeTextNumbersOnly[i] != '9') &&
+              (timeTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         timeValue = double.parse(timeTextNumbersOnly);
         if (timeText[i] == 'n') {
           timeValue *= 0.001;
@@ -671,6 +718,24 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         ch2_uVoltageLevelOffset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i + 1] == 'n') {
           ch2_uVoltageLevelOffset *= 0.001;
@@ -699,6 +764,24 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         ch2_uVoltageLevelOffset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i] == 'n') {
           ch2_uVoltageLevelOffset *= 0.001;
@@ -738,6 +821,24 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         ch1_uVoltageLevelOffset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i + 1] == 'n') {
           ch1_uVoltageLevelOffset *= 0.001;
@@ -766,6 +867,24 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         ch1_uVoltageLevelOffset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i] == 'n') {
           ch1_uVoltageLevelOffset *= 0.001;
@@ -850,6 +969,24 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         triggerHorizontalOffset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i + 1] == 'n') {
           triggerHorizontalOffset *= 0.001;
@@ -880,6 +1017,24 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         triggerHorizontalOffset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i] == 'n') {
           triggerHorizontalOffset *= 0.001;
@@ -975,6 +1130,24 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         triggerVerticalOffset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i + 1] == 'n') {
           triggerVerticalOffset *= 0.001;
@@ -1002,6 +1175,24 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         triggerVerticalOffset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i] == 'n') {
           triggerVerticalOffset *= 0.001;

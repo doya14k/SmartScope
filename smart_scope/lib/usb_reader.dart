@@ -41,6 +41,9 @@ class UsbProvider extends ChangeNotifier {
   double cutoff = 0;
   List<double> voltageValue_uV_fromChannel = [0, 0];
 
+  double minStoppedRoleTime = -1;
+  double maxStoppedRoleTime = 0;
+
   static const double samplesPerDivision = 500;
 
   int selectedMessbereichIndex = 0;
@@ -108,7 +111,8 @@ class UsbProvider extends ChangeNotifier {
     stopwatch.start();
     ch1_data = [FlSpot(0, 0)];
     ch2_data = [FlSpot(0, 0)];
-
+    minStoppedRoleTime = -1;
+    maxStoppedRoleTime = 0;
     measurementState.updateCH1Data();
 
     singleTrigger = false;
@@ -137,6 +141,10 @@ class UsbProvider extends ChangeNotifier {
       stopwatch.reset();
       lastSample[0] = 0;
       lastSample[1] = 0;
+
+      minStoppedRoleTime = -1;
+      maxStoppedRoleTime = 0;
+
       stopwatch.start();
       startReading();
     } else {
@@ -253,6 +261,8 @@ class UsbProvider extends ChangeNotifier {
                 triggeredTime = 0;
                 lastSample[0] = 0;
                 lastSample[1] = 0;
+                minStoppedRoleTime = -1;
+                maxStoppedRoleTime = 0;
               }
             }
 
@@ -315,6 +325,9 @@ class UsbProvider extends ChangeNotifier {
     lastSample[0] = 0;
     lastSample[1] = 0;
 
+    minStoppedRoleTime = -1;
+    maxStoppedRoleTime = 0;
+
     if (readTimer != null) {
       readTimer!.cancel();
       readTimer = null;
@@ -334,5 +347,10 @@ class UsbProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  void stoppedInRoleMode() {
+    minStoppedRoleTime = (currentTime - (NOF_xGrids * appState.timeValue));
+    maxStoppedRoleTime = currentTime;
   }
 }
