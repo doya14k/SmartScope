@@ -149,6 +149,46 @@ class AppState extends ChangeNotifier {
       ((channel2.channelIsActive) && selectedTriggerChannel == channels[1]);
 
   updateTriggeredChannel(var newTriggerChannel) {
+    print("updateTriggeredChannel");
+
+    // Wechsel von CH1 zu CH2
+    if ((selectedTriggerChannel == channels[0]) &&
+        (newTriggerChannel == channels[1])) {
+      print("1-2");
+      // Neuer Trigger Tastkopf vom alten?
+      if (channel1.ChannelIs1to1 == channel2.ChannelIs1to1) {
+      }
+      // Neuer Trigger hat anderen Tastkopf als alter Trigger
+      else {
+        // CH1 war 1:1 CH2 ist neu 1:10
+        if (channel1.ChannelIs1to1 && !channel2.ChannelIs1to1) {
+          triggerVerticalOffset = triggerVerticalOffset * 10;
+        } // CH1 war 1:10 CH2 ist neu 1:1
+        else if (!channel1.ChannelIs1to1 && channel2.ChannelIs1to1) {
+          triggerVerticalOffset = triggerVerticalOffset / 10;
+        }
+      }
+    }
+
+    // Wechsel von CH2 zu CH1
+    if ((selectedTriggerChannel == channels[1]) &&
+        (newTriggerChannel == channels[0])) {
+      print("2-1");
+      // Neuer Trigger Tastkopf vom alten?
+      if (channel2.ChannelIs1to1 == channel1.ChannelIs1to1) {
+      }
+      // Neuer Trigger hat anderen Tastkopf als alter Trigger
+      else {
+        // CH1 war 1:1 CH2 ist neu 1:10
+        if (channel2.ChannelIs1to1 && !channel1.ChannelIs1to1) {
+          triggerVerticalOffset = triggerVerticalOffset * 10;
+        } // CH1 war 1:10 CH2 ist neu 1:1
+        else if (!channel2.ChannelIs1to1 && channel1.ChannelIs1to1) {
+          triggerVerticalOffset = triggerVerticalOffset / 10;
+        }
+      }
+    }
+
     selectedTriggerChannel = newTriggerChannel;
     notifyListeners();
   }

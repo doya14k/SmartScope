@@ -101,7 +101,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                                 text:
                                     Provider.of<AppState>(
                                       context,
-                                      listen: false,
+                                      listen: true,
                                     ).offsetValueTextCH1,
                               ),
                             ),
@@ -236,7 +236,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                                 text:
                                     Provider.of<AppState>(
                                       context,
-                                      listen: false,
+                                      listen: true,
                                     ).offsetValueTextCH2,
                               ),
                             ),
@@ -372,7 +372,7 @@ class _LevelOffsetShifterState extends State<LevelOffsetShifter> {
                                 text:
                                     Provider.of<AppState>(
                                       context,
-                                      listen: false,
+                                      listen: true,
                                     ).triggerVerticalOffsetValue2Text,
                               ),
                             ),

@@ -59,7 +59,6 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   ),
                   onPressed: () {
                     setState(() {
-                      selectedTriggerChannel = channels[0];
                       Provider.of<AppState>(
                         context,
                         listen: false,
@@ -94,7 +93,6 @@ class _TriggerChannelSelectionState extends State<TriggerChannelSelection> {
                   ),
                   onPressed: () {
                     setState(() {
-                      selectedTriggerChannel = channels[1];
                       Provider.of<AppState>(
                         context,
                         listen: false,
