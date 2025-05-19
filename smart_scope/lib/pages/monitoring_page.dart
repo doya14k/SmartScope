@@ -440,6 +440,11 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             LineChartBarData(
                               show: channel1.channelIsActive,
                               spots: usb.ch1_data,
+                              // (channel1.ChannelIs1to1)
+                              //     ? usb.ch1_data
+                              //     : usb.ch1_data
+                              //         .map((p) => FlSpot(p.x, p.y * 10))
+                              //         .toList(),
                               color: channel1.channelColor,
                               barWidth: 3.0,
                               isCurved: false,

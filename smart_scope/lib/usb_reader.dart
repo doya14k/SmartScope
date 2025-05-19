@@ -58,9 +58,12 @@ class UsbProvider extends ChangeNotifier {
             triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
             print("Trigger pos");
             print("TrHor: ${appState.triggerHorizontalOffset}");
+            print("TrVer: ${voltageValue_uV_fromChannel[channel]}");
             appState.updateGraphTimeValue(
               triggeredTime - appState.triggerHorizontalOffset,
             );
+            // Neue Berechnungen der Messdaten
+            measurementState.updateMeasurementData();
             if (selecetTriggerModeIndex == 1) {
               singleTrigger = true;
               print('singleTrigger');
@@ -77,6 +80,8 @@ class UsbProvider extends ChangeNotifier {
             appState.updateGraphTimeValue(
               triggeredTime - appState.triggerHorizontalOffset,
             );
+            // Neue Berechnungen der Messdaten
+            measurementState.updateMeasurementData();
             if (selecetTriggerModeIndex == 1) {
               singleTrigger = true;
               print('singleTrigger');
@@ -88,6 +93,8 @@ class UsbProvider extends ChangeNotifier {
       if (currentTime > appState.maxGraphTimeValue) {
         singleTrigger == false;
         selecetTriggerStateIndex = 1;
+        // Neue Berechnungen der Messdaten
+        measurementState.updateMeasurementData();
       }
     }
   }
@@ -188,10 +195,33 @@ class UsbProvider extends ChangeNotifier {
 
               if (!((selecetTriggerModeIndex == 3) &&
                   (selecetTriggerStateIndex == 1))) {
-                dataChannelLists[channel].add(
-                  FlSpot(currentTime, voltageValue_uV_fromChannel[channel]),
-                );
-                measurementState.updateCH1Data();
+                if (channel == 0) {
+                  if (channel1.ChannelIs1to1) {
+                    dataChannelLists[0].add(
+                      FlSpot(currentTime, voltageValue_uV_fromChannel[0]),
+                    );
+                  } else {
+                    voltageValue_uV_fromChannel[0] =
+                        voltageValue_uV_fromChannel[0] * 10;
+                    dataChannelLists[0].add(
+                      FlSpot(currentTime, (voltageValue_uV_fromChannel[0])),
+                    );
+                  }
+                } else if (channel == 1) {
+                  if (channel2.ChannelIs1to1) {
+                    dataChannelLists[1].add(
+                      FlSpot(currentTime, voltageValue_uV_fromChannel[1]),
+                    );
+                  } else {
+                    voltageValue_uV_fromChannel[1] =
+                        voltageValue_uV_fromChannel[1] * 10;
+                    dataChannelLists[1].add(
+                      FlSpot(currentTime, (voltageValue_uV_fromChannel[1])),
+                    );
+                  }
+                }
+
+                // measurementState.updateCH1Data();
               }
 
               if (selecetTriggerStateIndex == 0) {

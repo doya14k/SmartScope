@@ -457,6 +457,22 @@ class MeasurementsChanges extends ChangeNotifier {
   bool measCH2_DutyPos = false;
   bool measCH2_DutyNeg = false;
 
+  update_measCH2_Period_data() {}
+
+  update_measCH2_Frequency_data() {
+    if (ch2_Period != 0) {
+      ch2_Frequency = 1 / ch2_Period;
+    } else {
+      ch2_Frequency = 0;
+    }
+    ch2_Frequency_key.currentState?.updateData(ch2_Frequency);
+  }
+
+  update_measCH2_widthPos_data() {}
+  update_measCH2_widthNeg_data() {}
+  update_measCH2_dutyPos_data() {}
+  update_measCH2_dutyNeg_data() {}
+
   update_measCH2_Period() {
     measCH2_Period = !measCH2_Period;
     print('CH2 Period: $measCH2_Period');
@@ -518,6 +534,44 @@ class MeasurementsChanges extends ChangeNotifier {
         measCH2_DutyPos ||
         measCH2_DutyNeg);
   }
+
+  update_measCH2_Vmax_data() {
+    List<double> voltageValues = usbProvider.ch2_data.map((p) => p.y).toList();
+    ch2_Vmax = (voltageValues.reduce(max) / 1000000);
+
+    ch2_Vmax_key.currentState?.updateData(ch2_Vmax);
+
+    notifyListeners();
+  }
+
+  update_measCH2_Vmin_data() {
+    List<double> voltageValues = usbProvider.ch2_data.map((p) => p.y).toList();
+    ch2_Vmin = (voltageValues.reduce(min) / 1000000);
+
+    ch2_Vmin_key.currentState?.updateData(ch2_Vmin);
+  }
+
+  update_measCH2_Vpp_data() {
+    List<double> voltageValues = usbProvider.ch2_data.map((p) => p.y).toList();
+    ch2_Vpp = (voltageValues.reduce(max) - voltageValues.reduce(min)) / 1000000;
+
+    ch2_Vpp_key.currentState?.updateData(ch2_Vpp);
+  }
+
+  update_measCH2_Vamp_data() {
+    List<double> voltageValues = usbProvider.ch2_data.map((p) => p.y).toList();
+
+    ch2_Vamp =
+        (voltageValues.reduce(max) -
+            (voltageValues.reduce(max) + voltageValues.reduce(min)) / 2) /
+        1000000;
+    ch2_Vamp_key.currentState?.updateData(ch2_Vamp);
+  }
+
+  update_measCH2_Vtop_data() {}
+  update_measCH2_Vbase_data() {}
+  update_measCH2_Vavg_data() {}
+  update_measCH2_Vrms_data() {}
 
   update_measCH2_Vmax() {
     measCH2_Vmax = !measCH2_Vmax;
@@ -619,5 +673,64 @@ class MeasurementsChanges extends ChangeNotifier {
     if (measCH1_Vrms) {
       update_measCH1_Vrms_data();
     }
+  }
+
+  updateCH2Data() {
+    // Time
+    if (measCH2_Period) {
+      update_measCH2_Period_data();
+    }
+
+    if (measCH2_Frequency) {
+      update_measCH2_Period_data();
+      update_measCH2_Frequency_data();
+    }
+    if (measCH2_widthPos) {
+      update_measCH2_Period_data();
+      update_measCH2_widthPos_data();
+    }
+    if (measCH2_widthNeg) {
+      update_measCH2_Period_data();
+      update_measCH2_widthNeg_data();
+    }
+    if (measCH2_DutyPos) {
+      update_measCH2_Period_data();
+      update_measCH2_dutyPos_data();
+    }
+    if (measCH2_DutyNeg) {
+      update_measCH2_Period_data();
+      update_measCH2_dutyNeg_data();
+    }
+
+    // Voltage
+    if (measCH2_Vmax) {
+      update_measCH2_Vmax_data();
+    }
+    if (measCH2_Vmin) {
+      update_measCH2_Vmin_data();
+    }
+    if (measCH2_Vpp) {
+      update_measCH2_Vpp_data();
+    }
+    if (measCH2_Vamp) {
+      update_measCH2_Vamp_data();
+    }
+    if (measCH2_Vtop) {
+      update_measCH2_Vtop_data();
+    }
+    if (measCH2_Vbase) {
+      update_measCH2_Vbase_data();
+    }
+    if (measCH2_Vavg) {
+      update_measCH2_Vavg_data();
+    }
+    if (measCH2_Vrms) {
+      update_measCH2_Vrms_data();
+    }
+  }
+
+  updateMeasurementData() {
+    updateCH1Data();
+    updateCH2Data();
   }
 }
