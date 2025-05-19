@@ -175,6 +175,24 @@ class CursorChanges extends ChangeNotifier {
     for (int i = 0; i < timeText.length; i++) {
       if ((timeText[i] == ' ')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
+        if (timeTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < timeTextNumbersOnly.length; i++) {
+          if ((timeTextNumbersOnly[i] != '0') &&
+              (timeTextNumbersOnly[i] != '1') &&
+              (timeTextNumbersOnly[i] != '2') &&
+              (timeTextNumbersOnly[i] != '3') &&
+              (timeTextNumbersOnly[i] != '4') &&
+              (timeTextNumbersOnly[i] != '5') &&
+              (timeTextNumbersOnly[i] != '6') &&
+              (timeTextNumbersOnly[i] != '7') &&
+              (timeTextNumbersOnly[i] != '8') &&
+              (timeTextNumbersOnly[i] != '9') &&
+              (timeTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         cursorX1uS_Value = double.parse(timeTextNumbersOnly);
         if (timeText[i + 1] == 'n') {
           cursorX1uS_Value *= 0.001;
@@ -193,6 +211,24 @@ class CursorChanges extends ChangeNotifier {
           (timeText[i] == 'm') ||
           (timeText[i] == 's')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
+        if (timeTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < timeTextNumbersOnly.length; i++) {
+          if ((timeTextNumbersOnly[i] != '0') &&
+              (timeTextNumbersOnly[i] != '1') &&
+              (timeTextNumbersOnly[i] != '2') &&
+              (timeTextNumbersOnly[i] != '3') &&
+              (timeTextNumbersOnly[i] != '4') &&
+              (timeTextNumbersOnly[i] != '5') &&
+              (timeTextNumbersOnly[i] != '6') &&
+              (timeTextNumbersOnly[i] != '7') &&
+              (timeTextNumbersOnly[i] != '8') &&
+              (timeTextNumbersOnly[i] != '9') &&
+              (timeTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         cursorX1uS_Value = double.parse(timeTextNumbersOnly);
         if (timeText[i] == 'n') {
           cursorX1uS_Value *= 0.001;
@@ -216,6 +252,25 @@ class CursorChanges extends ChangeNotifier {
     for (int i = 0; i < timeText.length; i++) {
       if ((timeText[i] == ' ')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
+
+        if (timeTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < timeTextNumbersOnly.length; i++) {
+          if ((timeTextNumbersOnly[i] != '0') &&
+              (timeTextNumbersOnly[i] != '1') &&
+              (timeTextNumbersOnly[i] != '2') &&
+              (timeTextNumbersOnly[i] != '3') &&
+              (timeTextNumbersOnly[i] != '4') &&
+              (timeTextNumbersOnly[i] != '5') &&
+              (timeTextNumbersOnly[i] != '6') &&
+              (timeTextNumbersOnly[i] != '7') &&
+              (timeTextNumbersOnly[i] != '8') &&
+              (timeTextNumbersOnly[i] != '9') &&
+              (timeTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         cursorX2uS_Value = double.parse(timeTextNumbersOnly);
         if (timeText[i + 1] == 'n') {
           cursorX2uS_Value *= 0.001;
@@ -234,6 +289,25 @@ class CursorChanges extends ChangeNotifier {
           (timeText[i] == 'm') ||
           (timeText[i] == 's')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
+
+        if (timeTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < timeTextNumbersOnly.length; i++) {
+          if ((timeTextNumbersOnly[i] != '0') &&
+              (timeTextNumbersOnly[i] != '1') &&
+              (timeTextNumbersOnly[i] != '2') &&
+              (timeTextNumbersOnly[i] != '3') &&
+              (timeTextNumbersOnly[i] != '4') &&
+              (timeTextNumbersOnly[i] != '5') &&
+              (timeTextNumbersOnly[i] != '6') &&
+              (timeTextNumbersOnly[i] != '7') &&
+              (timeTextNumbersOnly[i] != '8') &&
+              (timeTextNumbersOnly[i] != '9') &&
+              (timeTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         cursorX2uS_Value = double.parse(timeTextNumbersOnly);
         if (timeText[i] == 'n') {
           cursorX2uS_Value *= 0.001;
@@ -261,6 +335,25 @@ class CursorChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         cursorY1uV_Value = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
           cursorY1uV_Value *= 1;
@@ -281,6 +374,24 @@ class CursorChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         cursorY1uV_Value = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
           cursorY1uV_Value *= 1;
@@ -306,6 +417,24 @@ class CursorChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         cursorY2uV_Value = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
           cursorY2uV_Value *= 1;
@@ -326,6 +455,24 @@ class CursorChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         cursorY2uV_Value = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
           cursorY2uV_Value *= 1;

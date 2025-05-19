@@ -130,7 +130,7 @@ class ReferenceChanges extends ChangeNotifier {
     notifyListeners();
   }
 
-    void saveReference3Data(
+  void saveReference3Data(
     List<FlSpot> data,
     double offset,
     double uVperDiv,
@@ -205,6 +205,24 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref1Offset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i + 1] == 'n') {
           Ref1Offset *= 0.001;
@@ -233,6 +251,24 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref1Offset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i] == 'n') {
           Ref1Offset *= 0.001;
@@ -303,6 +339,24 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref1uVperDivision = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
           Ref1uVperDivision *= 1;
@@ -329,6 +383,24 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref1uVperDivision = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
           Ref1uVperDivision *= 1;
@@ -404,6 +476,24 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref2Offset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i + 1] == 'n') {
           Ref2Offset *= 0.001;
@@ -432,6 +522,24 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref2Offset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i] == 'n') {
           Ref2Offset *= 0.001;
@@ -502,6 +610,24 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref2uVperDivision = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
           Ref2uVperDivision *= 1;
@@ -530,6 +656,24 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref2uVperDivision = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
           Ref2uVperDivision *= 1;
@@ -606,6 +750,24 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref3Offset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i + 1] == 'n') {
           Ref3Offset *= 0.001;
@@ -634,6 +796,24 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
+        if (offsetTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
+          if ((offsetTextNumbersOnly[i] != '0') &&
+              (offsetTextNumbersOnly[i] != '1') &&
+              (offsetTextNumbersOnly[i] != '2') &&
+              (offsetTextNumbersOnly[i] != '3') &&
+              (offsetTextNumbersOnly[i] != '4') &&
+              (offsetTextNumbersOnly[i] != '5') &&
+              (offsetTextNumbersOnly[i] != '6') &&
+              (offsetTextNumbersOnly[i] != '7') &&
+              (offsetTextNumbersOnly[i] != '8') &&
+              (offsetTextNumbersOnly[i] != '9') &&
+              (offsetTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref3Offset = sign * double.parse(offsetTextNumbersOnly);
         if (offsetText[i] == 'n') {
           Ref3Offset *= 0.001;
@@ -704,6 +884,24 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref3uVperDivision = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i + 1] == 'u') || (voltagText[i + 1] == 'µ')) {
           Ref3uVperDivision *= 1;
@@ -731,6 +929,24 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
+        if (voltageTextNumbersOnly.length == 0) {
+          return;
+        }
+        for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
+          if ((voltageTextNumbersOnly[i] != '0') &&
+              (voltageTextNumbersOnly[i] != '1') &&
+              (voltageTextNumbersOnly[i] != '2') &&
+              (voltageTextNumbersOnly[i] != '3') &&
+              (voltageTextNumbersOnly[i] != '4') &&
+              (voltageTextNumbersOnly[i] != '5') &&
+              (voltageTextNumbersOnly[i] != '6') &&
+              (voltageTextNumbersOnly[i] != '7') &&
+              (voltageTextNumbersOnly[i] != '8') &&
+              (voltageTextNumbersOnly[i] != '9') &&
+              (voltageTextNumbersOnly[i] != '.')) {
+            return;
+          }
+        }
         Ref3uVperDivision = double.parse(voltageTextNumbersOnly);
         if ((voltagText[i] == 'u') || (voltagText[i] == 'µ')) {
           Ref3uVperDivision *= 1;
