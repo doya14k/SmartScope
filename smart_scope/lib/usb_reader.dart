@@ -46,8 +46,8 @@ class UsbProvider extends ChangeNotifier {
 
   static const double samplesPerDivision = 500;
 
-  int selectedMessbereichIndex = 0;
-  final List<int> messbereiche = [50, 25, 10, 5, 1];
+  int selectedMessbereichIndex = 5;
+  final List<int> messbereiche = [50, 25, 10, 5, 1, 3];
   bool singleTrigger = false;
 
   void triggeringSignal(int channel) {
@@ -67,7 +67,7 @@ class UsbProvider extends ChangeNotifier {
             );
 
             // Neue Berechnungen der Messdaten
-            measurementState.updateMeasurementData();
+            // measurementState.updateMeasurementData();
             if (selecetTriggerModeIndex == 1) {
               singleTrigger = true;
               print('singleTrigger');
@@ -85,7 +85,7 @@ class UsbProvider extends ChangeNotifier {
               triggeredTime - appState.triggerHorizontalOffset,
             );
             // Neue Berechnungen der Messdaten
-            measurementState.updateMeasurementData();
+            // measurementState.updateMeasurementData();
             if (selecetTriggerModeIndex == 1) {
               singleTrigger = true;
               print('singleTrigger');
@@ -100,6 +100,11 @@ class UsbProvider extends ChangeNotifier {
         // Neue Berechnungen der Messdaten
         measurementState.updateMeasurementData();
       }
+    }
+    if ((currentTime >= (triggeredTime + (appState.timeValue * 6))) &&
+        (currentTime >= (triggeredTime + (appState.timeValue * 7)))) {
+      // Neue Berechnungen der Messdaten
+      measurementState.updateMeasurementData();
     }
   }
 
@@ -189,18 +194,25 @@ class UsbProvider extends ChangeNotifier {
               lastSample[channel] = currentTime;
 
               // Spannungswert wird hier berechnet
-              voltageValue_uV_fromChannel[channel] =
-                  (adcValue.toDouble() *
-                      2 *
-                      (1.5 * 1000000) /
-                      4096.0); // adcValue * (2 * Messbereich in uV) / 0xFFF
-              // Spannungswert wird hier berechnet
               // voltageValue_uV_fromChannel[channel] =
-              //     ((adcValue.toDouble() *
-              //             2 *
-              //             (messbereiche[selectedMessbereichIndex] * 1000000) /
-              //             4096.0) -
-              //         (messbereiche[selectedMessbereichIndex] * 1000000));
+              //     (adcValue.toDouble() *
+              //         2 *
+              //         (1.5 * 1000000) /
+              //         4096.0); // adcValue * (2 * Messbereich in uV) / 0xFFF
+              if (selectedMessbereichIndex == 5) {
+                voltageValue_uV_fromChannel[channel] =
+                    (adcValue.toDouble() *
+                        (messbereiche[selectedMessbereichIndex] * 1000000) /
+                        4096.0);
+              } else {
+                // Spannungswert wird hier berechnet
+                voltageValue_uV_fromChannel[channel] =
+                    ((adcValue.toDouble() *
+                            2 *
+                            (messbereiche[selectedMessbereichIndex] * 1000000) /
+                            4096.0) -
+                        (messbereiche[selectedMessbereichIndex] * 1000000));
+              }
 
               if (!((selecetTriggerModeIndex == 3) &&
                   (selecetTriggerStateIndex == 1))) {
@@ -229,7 +241,6 @@ class UsbProvider extends ChangeNotifier {
                     );
                   }
                 }
-                // measurementState.updateCH1Data();
               }
 
               if (selecetTriggerStateIndex == 0) {

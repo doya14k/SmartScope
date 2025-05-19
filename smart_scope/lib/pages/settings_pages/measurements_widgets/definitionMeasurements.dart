@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:smart_scope/usb_reader.dart';
 import 'package:smart_scope/pages/settings_pages/settings_widgets/definitions.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 // Channel Parameters
 Color channel1_lightBackgroundColor = Colors.amber.shade200;
@@ -222,76 +223,48 @@ class MeasurementsChanges extends ChangeNotifier {
   bool measCH1_DutyNeg = false;
 
   update_measCH1_Period_data() {
-    List<double> voltageValues = usbProvider.ch1_data.map((p) => p.y).toList();
-    List<double> timeValues = usbProvider.ch1_data.map((p) => p.x).toList();
-
-    double lastVoltageComparingValue = voltageValues[0];
-    bool risingSignal = true;
-
-    // Alle Einträge der List durchgehen
-    for (
-      int comparing_index = 1;
-      comparing_index < voltageValues.length;
-      comparing_index++
-    ) {
-      print('Compare ${timeValues[comparing_index]}');
-
-      if ((voltageValues[comparing_index] - (lastVoltageComparingValue)) >= 0) {
-        risingSignal = false;
-      }
-
-      for (
-        int searching_index = (comparing_index);
-        searching_index < voltageValues.length;
-        searching_index++
-      ) {
-        double lastSearchingVoltage = voltageValues[searching_index - 1];
-        double currentSearchingVoltage = voltageValues[searching_index];
-        print('Search ${lastSearchingVoltage}');
-
-        if (risingSignal) {
-          // the comparing voltage is in between the searching voltage
-
-          if ((currentSearchingVoltage < voltageValues[comparing_index - 1]) &&
-              (lastSearchingVoltage >= voltageValues[comparing_index - 1])) {
-            // oldTime index -> comparing_index - 1
-            // newTime index -> searching_index - 1
-            // delta Time = timeValue[searching] - timeValue[comparing]
-
-            print('Found ${lastSearchingVoltage}');
-
-            ch1_Period =
-                ((timeValues[searching_index - 1] -
-                        timeValues[comparing_index - 1]) /
-                    1000000);
-
-            ch1_Period_key.currentState?.updateData(ch1_Period);
-            return;
-          }
-        } else {
-          if ((currentSearchingVoltage >= voltageValues[comparing_index - 1]) &&
-              (lastSearchingVoltage < voltageValues[comparing_index - 1])) {
-            // oldTime index -> comparing_index - 1
-            // newTime index -> searching_index - 1
-            // delta Time = timeValue[searching] - timeValue[comparing]
-            print('Found ${lastSearchingVoltage}');
-
-            ch1_Period =
-                ((timeValues[searching_index - 1] -
-                        timeValues[comparing_index - 1]) /
-                    1000000);
-
-            ch1_Period_key.currentState?.updateData(ch1_Period);
-            return;
-          }
-        }
-      }
-
-      lastVoltageComparingValue = voltageValues[comparing_index];
+    List<FlSpot> spots = usbProvider.ch1_data;
+    if (spots.length < 3) {
+      print("Nicht genug datenpunkte");
+      return;
     }
 
-    print("no periodic signal found");
-    ch1_Period_key.currentState?.updateData(1);
+    double yTolerance = 0.05;
+    int minOffset = 5;
+
+    for (
+      int startIndex = 1;
+      startIndex < spots.length - minOffset;
+      startIndex++
+    ) {
+      final start = spots[startIndex];
+      final prevStart = spots[startIndex - 1];
+      final startSteigung = start.y - prevStart.y;
+
+      for (
+        int endIndex = startIndex + minOffset;
+        endIndex < spots.length;
+        endIndex++
+      ) {
+        final end = spots[endIndex];
+        final prevEnd = spots[endIndex - 1];
+        final endSteigung = end.y - prevEnd.y;
+
+        bool yIstAehnlich = (end.y - start.y).abs() < yTolerance;
+        bool gleicheRichtung = (startSteigung * endSteigung) > 0;
+
+        if (yIstAehnlich && gleicheRichtung) {
+          double periodeSekunden = (end.x - start.x) / 1000000.0;
+
+          ch1_Period = periodeSekunden;
+          ch1_Period_key.currentState?.updateData(ch1_Period);
+          return;
+        }
+      }
+    }
+
+    print("no period found");
+    ch1_Period_key.currentState?.updateData(0);
   }
 
   update_measCH1_Frequency_data() {
@@ -474,7 +447,50 @@ class MeasurementsChanges extends ChangeNotifier {
   bool measCH2_DutyPos = false;
   bool measCH2_DutyNeg = false;
 
-  update_measCH2_Period_data() {}
+  update_measCH2_Period_data() {
+    List<FlSpot> spots = usbProvider.ch2_data;
+    if (spots.length < 3) {
+      print("Nicht genug datenpunkte");
+      return;
+    }
+
+    double yTolerance = 0.05;
+    int minOffset = 5;
+
+    for (
+      int startIndex = 1;
+      startIndex < spots.length - minOffset;
+      startIndex++
+    ) {
+      final start = spots[startIndex];
+      final prevStart = spots[startIndex - 1];
+      final startSteigung = start.y - prevStart.y;
+
+      for (
+        int endIndex = startIndex + minOffset;
+        endIndex < spots.length;
+        endIndex++
+      ) {
+        final end = spots[endIndex];
+        final prevEnd = spots[endIndex - 1];
+        final endSteigung = end.y - prevEnd.y;
+
+        bool yIstAehnlich = (end.y - start.y).abs() < yTolerance;
+        bool gleicheRichtung = (startSteigung * endSteigung) > 0;
+
+        if (yIstAehnlich && gleicheRichtung) {
+          double periodeSekunden = (end.x - start.x) / 1000000.0;
+
+          ch2_Period = periodeSekunden;
+          ch2_Period_key.currentState?.updateData(ch2_Period);
+          return;
+        }
+      }
+    }
+
+    print("no period found");
+    ch2_Period_key.currentState?.updateData(0);
+  }
 
   update_measCH2_Frequency_data() {
     if (ch2_Period != 0) {
