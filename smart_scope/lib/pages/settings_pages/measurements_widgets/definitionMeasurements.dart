@@ -189,13 +189,13 @@ class MeasurementsChanges extends ChangeNotifier {
   double ch1_widthPos = 0;
   double ch1_widthNeg = 0;
   double ch1_DutyPos = 0;
-  double ch1_DutyhNeg = 0;
+  double ch1_DutyNeg = 0;
   double ch2_Period = 0;
   double ch2_Frequency = 0;
   double ch2_widthPos = 0;
   double ch2_widthNeg = 0;
   double ch2_DutyPos = 0;
-  double ch2_DutyhNeg = 0;
+  double ch2_DutyNeg = 0;
 
   // Data Variables Vertical
   double ch1_Vmax = 0;
@@ -224,12 +224,8 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH1_Period_data() {
     List<FlSpot> spots = usbProvider.ch1_data;
-    if (spots.length < 3) {
-      print("Nicht genug datenpunkte");
-      return;
-    }
 
-    double yTolerance = 0.05;
+    double yTolerance = 0.005;
     int minOffset = 5;
 
     for (
@@ -250,13 +246,13 @@ class MeasurementsChanges extends ChangeNotifier {
         final prevEnd = spots[endIndex - 1];
         final endSteigung = end.y - prevEnd.y;
 
-        bool yIstAehnlich = (end.y - start.y).abs() < yTolerance;
+        bool yIsSimilar = (end.y - start.y).abs() < yTolerance;
         bool gleicheRichtung = (startSteigung * endSteigung) > 0;
 
-        if (yIstAehnlich && gleicheRichtung) {
-          double periodeSekunden = (end.x - start.x) / 1000000.0;
+        if (yIsSimilar && gleicheRichtung) {
+          // Period found !!!
+          ch1_Period = (end.x - start.x) / 1000000;
 
-          ch1_Period = periodeSekunden;
           ch1_Period_key.currentState?.updateData(ch1_Period);
           return;
         }
@@ -276,10 +272,21 @@ class MeasurementsChanges extends ChangeNotifier {
     ch1_Frequency_key.currentState?.updateData(ch1_Frequency);
   }
 
-  update_measCH1_widthPos_data() {}
-  update_measCH1_widthNeg_data() {}
-  update_measCH1_dutyPos_data() {}
-  update_measCH1_dutyNeg_data() {}
+  update_measCH1_widthPos_data() {
+    // Zeit über avg
+  }
+  update_measCH1_widthNeg_data() {
+    // Zeit unter avg
+  }
+  update_measCH1_dutyPos_data() {
+    ch1_DutyPos = ch1_widthPos / ch1_Period;
+    ch1_dutyPos_key.currentState?.updateData(ch1_DutyPos);
+  }
+
+  update_measCH1_dutyNeg_data() {
+    ch1_DutyNeg = ch1_widthNeg / ch1_Period;
+    ch1_dutyNeg_key.currentState?.updateData(ch1_DutyNeg);
+  }
 
   update_measCH1_Period() {
     measCH1_Period = !measCH1_Period;
@@ -379,13 +386,48 @@ class MeasurementsChanges extends ChangeNotifier {
   update_measCH1_Vtop_data() {}
   update_measCH1_Vbase_data() {}
   update_measCH1_Vavg_data() {
-    List<double> voltageValues = usbProvider.ch1_data.map((p) => p.y).toList();
-    double summe = 0;
-    for (int i = 0; i < voltageValues.length; i++) {
-      summe += voltageValues[i];
-    }
-    ch1_Vavg = (summe / voltageValues.length) / 1000000;
+    List<FlSpot> spots = usbProvider.ch1_data;
 
+    double yTolerance = 0.005;
+    int minOffset = 5;
+
+    for (
+      int startIndex = 1;
+      startIndex < spots.length - minOffset;
+      startIndex++
+    ) {
+      final start = spots[startIndex];
+      final prevStart = spots[startIndex - 1];
+      final startSteigung = start.y - prevStart.y;
+
+      for (
+        int endIndex = startIndex + minOffset;
+        endIndex < spots.length;
+        endIndex++
+      ) {
+        final end = spots[endIndex];
+        final prevEnd = spots[endIndex - 1];
+        final endSteigung = end.y - prevEnd.y;
+
+        bool yIsSimilar = (end.y - start.y).abs() < yTolerance;
+        bool gleicheRichtung = (startSteigung * endSteigung) > 0;
+
+        if (yIsSimilar && gleicheRichtung) {
+          // Period found !!!
+          double summe = 0;
+
+          for (int i = startIndex; i < endIndex; i++) {
+            summe += spots[i].y;
+          }
+          ch1_Vavg = (summe / (endIndex - startIndex)) / 1000000;
+
+          ch1_Vavg_key.currentState?.updateData(ch1_Vavg);
+          return;
+        }
+      }
+    }
+    ch1_Vavg = 0;
+    print("no period found for avg");
     ch1_Vavg_key.currentState?.updateData(ch1_Vavg);
   }
 
@@ -449,12 +491,8 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH2_Period_data() {
     List<FlSpot> spots = usbProvider.ch2_data;
-    if (spots.length < 3) {
-      print("Nicht genug datenpunkte");
-      return;
-    }
 
-    double yTolerance = 0.05;
+    double yTolerance = 0.005;
     int minOffset = 5;
 
     for (
@@ -475,13 +513,13 @@ class MeasurementsChanges extends ChangeNotifier {
         final prevEnd = spots[endIndex - 1];
         final endSteigung = end.y - prevEnd.y;
 
-        bool yIstAehnlich = (end.y - start.y).abs() < yTolerance;
+        bool yIsSimilar = (end.y - start.y).abs() < yTolerance;
         bool gleicheRichtung = (startSteigung * endSteigung) > 0;
 
-        if (yIstAehnlich && gleicheRichtung) {
-          double periodeSekunden = (end.x - start.x) / 1000000.0;
+        if (yIsSimilar && gleicheRichtung) {
+          // Period found !!!
+          ch2_Period = (end.x - start.x) / 1000000;
 
-          ch2_Period = periodeSekunden;
           ch2_Period_key.currentState?.updateData(ch2_Period);
           return;
         }
@@ -503,8 +541,16 @@ class MeasurementsChanges extends ChangeNotifier {
 
   update_measCH2_widthPos_data() {}
   update_measCH2_widthNeg_data() {}
-  update_measCH2_dutyPos_data() {}
-  update_measCH2_dutyNeg_data() {}
+
+  update_measCH2_dutyPos_data() {
+    ch2_DutyPos = ch2_widthPos / ch2_Period;
+    ch2_dutyPos_key.currentState?.updateData(ch2_DutyPos);
+  }
+
+  update_measCH2_dutyNeg_data() {
+    ch2_DutyNeg = ch2_widthNeg / ch2_Period;
+    ch2_dutyNeg_key.currentState?.updateData(ch2_DutyNeg);
+  }
 
   update_measCH2_Period() {
     measCH2_Period = !measCH2_Period;
@@ -604,16 +650,48 @@ class MeasurementsChanges extends ChangeNotifier {
   update_measCH2_Vtop_data() {}
   update_measCH2_Vbase_data() {}
   update_measCH2_Vavg_data() {
-    List<double> voltageValues = usbProvider.ch2_data.map((p) => p.y).toList();
-    List<double> timeValues = usbProvider.ch2_data.map((p) => p.x).toList();
-    double summe = 0;
-    for (int i = 0; i < voltageValues.length; i++) {
-      if ((appStateProvider.minGraphTimeValue <= timeValues[i]) &&
-          (appStateProvider.maxGraphTimeValue >= timeValues[i])) {
-        summe += voltageValues[i];
+    List<FlSpot> spots = usbProvider.ch2_data;
+
+    double yTolerance = 0.005;
+    int minOffset = 5;
+
+    for (
+      int startIndex = 1;
+      startIndex < spots.length - minOffset;
+      startIndex++
+    ) {
+      final start = spots[startIndex];
+      final prevStart = spots[startIndex - 1];
+      final startSteigung = start.y - prevStart.y;
+
+      for (
+        int endIndex = startIndex + minOffset;
+        endIndex < spots.length;
+        endIndex++
+      ) {
+        final end = spots[endIndex];
+        final prevEnd = spots[endIndex - 1];
+        final endSteigung = end.y - prevEnd.y;
+
+        bool yIsSimilar = (end.y - start.y).abs() < yTolerance;
+        bool gleicheRichtung = (startSteigung * endSteigung) > 0;
+
+        if (yIsSimilar && gleicheRichtung) {
+          // Period found !!!
+          double summe = 0;
+
+          for (int i = startIndex; i < endIndex; i++) {
+            summe += spots[i].y;
+          }
+          ch2_Vavg = (summe / (endIndex - startIndex)) / 1000000;
+
+          ch2_Vavg_key.currentState?.updateData(ch2_Vavg);
+          return;
+        }
       }
     }
-    ch2_Vavg = (summe / voltageValues.length) / 1000000;
+    ch2_Vavg = 0;
+    print("no period found for avg");
     ch2_Vavg_key.currentState?.updateData(ch2_Vavg);
   }
 
