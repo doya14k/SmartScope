@@ -50,6 +50,8 @@ class UsbProvider extends ChangeNotifier {
   final List<int> messbereiche = [50, 25, 10, 5, 1, 3];
   bool singleTrigger = false;
 
+  bool initiateMeasurement = true;
+
   void triggeringSignal(int channel) {
     if (singleTrigger == false) {
       if (channels[channel] == selectedTriggerChannel) {
@@ -60,6 +62,7 @@ class UsbProvider extends ChangeNotifier {
                   voltageValue_uV_fromChannel[channel])) {
             triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
             print("Trigger pos");
+            initiateMeasurement = true;
             // print("TrHor: ${appState.triggerHorizontalOffset}");
             // print("TrVer: ${voltageValue_uV_fromChannel[channel]}");
             appState.updateGraphTimeValue(
@@ -70,6 +73,7 @@ class UsbProvider extends ChangeNotifier {
             // measurementState.updateMeasurementData();
             if (selecetTriggerModeIndex == 1) {
               singleTrigger = true;
+              initiateMeasurement = true;
               print('singleTrigger');
             }
           }
@@ -80,7 +84,8 @@ class UsbProvider extends ChangeNotifier {
                   voltageValue_uV_fromChannel[channel])) {
             triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
             print("Trigger neg");
-            print("TrHor: ${appState.triggerHorizontalOffset}");
+            initiateMeasurement = true;
+            // print("TrHor: ${appState.triggerHorizontalOffset}");
             appState.updateGraphTimeValue(
               triggeredTime - appState.triggerHorizontalOffset,
             );
@@ -103,14 +108,19 @@ class UsbProvider extends ChangeNotifier {
       }
     }
     if ((currentTime >=
-            ((triggeredTime - appState.triggerHorizontalOffset) +
-                (appState.timeValue * 6))) &&
-        (currentTime <
-            ((triggeredTime - appState.triggerHorizontalOffset) +
-                (appState.timeValue * 6.1)))) {
-      // Neue Berechnungen der Messdaten
-      print("updateMeasurementData_normal");
-      measurementState.updateMeasurementData();
+        ((triggeredTime - appState.triggerHorizontalOffset) +
+            (appState.timeValue * 6)))
+    //         &&
+    // (currentTime <
+    //     ((triggeredTime - appState.triggerHorizontalOffset) +
+    //         (appState.timeValue * 6.1)))
+    ) {
+      if (initiateMeasurement) {
+        // Neue Berechnungen der Messdaten
+        print("updateMeasurementData_normal");
+        measurementState.updateMeasurementData();
+        initiateMeasurement = false;
+      }
     }
   }
 
