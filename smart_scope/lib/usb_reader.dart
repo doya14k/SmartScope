@@ -102,10 +102,14 @@ class UsbProvider extends ChangeNotifier {
         measurementState.updateMeasurementData();
       }
     }
-    if ((currentTime >= ((triggeredTime - appState.triggerHorizontalOffset) + (appState.timeValue * 6))) &&
-        (currentTime >= ((triggeredTime - appState.triggerHorizontalOffset) + (appState.timeValue * 7)))) {
+    if ((currentTime >=
+            ((triggeredTime - appState.triggerHorizontalOffset) +
+                (appState.timeValue * 6))) &&
+        (currentTime <
+            ((triggeredTime - appState.triggerHorizontalOffset) +
+                (appState.timeValue * 6.1)))) {
       // Neue Berechnungen der Messdaten
-        print("updateMeasurementData_normal");
+      print("updateMeasurementData_normal");
       measurementState.updateMeasurementData();
     }
   }

@@ -222,26 +222,35 @@ class MeasurementsChanges extends ChangeNotifier {
   bool measCH1_DutyPos = false;
   bool measCH1_DutyNeg = false;
 
+  List<FlSpot> ch1_spots = [];
+  double minY = 0;
+  double maxY = 0;
+
+  List<double> risingCrossings = [];
+  List<double> fallingCrossings = [];
+
+  List<FlSpot> periodData = [];
+  double midLevel = 0;
+
   update_measCH1_Period_data() {
-    List<FlSpot> spots = usbProvider.ch1_data;
+    ch1_spots = usbProvider.ch1_data;
+    if (ch1_spots.length < 2) return;
 
-    if (spots.length < 2) return;
-
-    double minY = spots.first.y;
-    double maxY = spots.first.y;
-    for (var spot in spots) {
+    minY = ch1_spots.first.y;
+    maxY = ch1_spots.first.y;
+    for (var spot in ch1_spots) {
       if (spot.y < minY) minY = spot.y;
       if (spot.y > maxY) maxY = spot.y;
     }
 
-    double midLevel = (minY + maxY) / 2;
+    midLevel = (minY + maxY) / 2;
 
-    List<double> risingCrossings = [];
-    List<double> fallingCrossings = [];
+    risingCrossings = [];
+    fallingCrossings = [];
 
-    for (int i = 1; i < spots.length; i++) {
-      final prev = spots[i - 1];
-      final current = spots[i];
+    for (int i = 1; i < ch1_spots.length; i++) {
+      final prev = ch1_spots[i - 1];
+      final current = ch1_spots[i];
 
       bool crossesUp = prev.y < midLevel && current.y >= midLevel;
       bool crossesDown = prev.y > midLevel && current.y <= midLevel;
@@ -259,64 +268,6 @@ class MeasurementsChanges extends ChangeNotifier {
       }
     }
 
-    if (risingCrossings.length >= 2) {
-      ch1_Period = (risingCrossings[1] - risingCrossings[0]) / 1000000.0;
-      ch1_Period_key.currentState?.updateData(ch1_Period);
-      print("Periode_rising $ch1_Period");
-    } else if (fallingCrossings.length >= 2) {
-      ch1_Period = (fallingCrossings[1] - fallingCrossings[0]) / 1000000.0;
-      ch1_Period_key.currentState?.updateData(ch1_Period);
-      print("Periode_falling $ch1_Period");
-    } else {
-      print("Keine Periode gefunden");
-    }
-  }
-
-  update_measCH1_Frequency_data() {
-    if (ch1_Period != 0) {
-      ch1_Frequency = 1 / ch1_Period;
-    } else {
-      ch1_Frequency = 0;
-    }
-    ch1_Frequency_key.currentState?.updateData(ch1_Frequency);
-  }
-
-  update_measCH1_widthPos_data() {
-    List<FlSpot> spots = usbProvider.ch1_data;
-
-    if (spots.length < 2) return;
-
-    double minY = spots.first.y;
-    double maxY = spots.first.y;
-    for (var spot in spots) {
-      if (spot.y < minY) minY = spot.y;
-      if (spot.y > maxY) maxY = spot.y;
-    }
-
-    double midLevel = (minY + maxY) / 2;
-
-    List<double> risingCrossings = [];
-    List<double> fallingCrossings = [];
-
-    for (int i = 1; i < spots.length; i++) {
-      final prev = spots[i - 1];
-      final current = spots[i];
-
-      bool crossesUp = prev.y < midLevel && current.y >= midLevel;
-      bool crossesDown = prev.y > midLevel && current.y <= midLevel;
-
-      if (crossesUp || crossesDown) {
-        double crossTime =
-            prev.x +
-            (current.x - prev.x) * ((midLevel - prev.y) / (current.y - prev.y));
-
-        if (crossesUp) {
-          risingCrossings.add(crossTime);
-        } else {
-          fallingCrossings.add(crossTime);
-        }
-      }
-    }
     double periodStart = 0;
     double periodEnd = 0;
 
@@ -336,17 +287,20 @@ class MeasurementsChanges extends ChangeNotifier {
       print("no period found");
     }
 
-    List<FlSpot> periodData =
-        spots.where((e) => e.x >= periodStart && e.x <= periodEnd).toList();
-    double summe = 0;
+    periodData =
+        ch1_spots.where((e) => e.x >= periodStart && e.x <= periodEnd).toList();
+  }
 
-    for (var spot in periodData) {
-      summe += spot.y;
+  update_measCH1_Frequency_data() {
+    if (ch1_Period != 0) {
+      ch1_Frequency = 1 / ch1_Period;
+    } else {
+      ch1_Frequency = 0;
     }
+    ch1_Frequency_key.currentState?.updateData(ch1_Frequency);
+  }
 
-    ch1_Vavg = summe / (1000000 * periodData.length);
-    ch1_Vavg_key.currentState?.updateData(ch1_Vavg);
-
+  update_measCH1_widthPos_data() {
     double widthPosTime = 0;
 
     for (int i = 1; i < periodData.length; i++) {
@@ -583,15 +537,19 @@ class MeasurementsChanges extends ChangeNotifier {
   }
 
   update_measCH1_Vtop_data() {
-    List<FlSpot> spots = usbProvider.ch1_data;
-    if (spots.isEmpty) return;
+    ch1_spots = usbProvider.ch1_data;
+    if (ch1_spots.isEmpty) return;
 
-    double minY = spots.first.y;
-    double maxY = spots.first.y;
+    double minY = ch1_spots.first.y;
+    double maxY = ch1_spots.first.y;
 
-    for (var spot in spots) {
-      if (spot.y < minY) minY = spot.y;
-      if (spot.y > maxY) maxY = spot.y;
+    for (var spot in ch1_spots) {
+      if (spot.y < minY) {
+        minY = spot.y;
+      }
+      if (spot.y > maxY) {
+        maxY = spot.y;
+      }
     }
 
     double vpp = maxY - minY;
@@ -599,7 +557,7 @@ class MeasurementsChanges extends ChangeNotifier {
 
     List<double> topYs = [];
 
-    for (var spot in spots) {
+    for (var spot in ch1_spots) {
       if (spot.y >= vupper) {
         topYs.add(spot.y);
       }
@@ -615,22 +573,26 @@ class MeasurementsChanges extends ChangeNotifier {
   }
 
   update_measCH1_Vbase_data() {
-    List<FlSpot> spots = usbProvider.ch1_data;
-    if (spots.isEmpty) return;
+    ch1_spots = usbProvider.ch1_data;
+    if (ch1_spots.isEmpty) return;
 
-    double minY = spots.first.y;
-    double maxY = spots.first.y;
+    double minY = ch1_spots.first.y;
+    double maxY = ch1_spots.first.y;
 
-    for (var spot in spots) {
-      if (spot.y < minY) minY = spot.y;
-      if (spot.y > maxY) maxY = spot.y;
+    for (var spot in ch1_spots) {
+      if (spot.y < minY) {
+        minY = spot.y;
+      }
+      if (spot.y > maxY) {
+        maxY = spot.y;
+      }
     }
 
     double vpp = maxY - minY;
     double vlower = minY + 0.1 * vpp;
     List<double> baseYs = [];
 
-    for (var spot in spots) {
+    for (var spot in ch1_spots) {
       if (spot.y <= vlower) {
         baseYs.add(spot.y);
       }
@@ -645,62 +607,6 @@ class MeasurementsChanges extends ChangeNotifier {
   }
 
   update_measCH1_Vavg_data() {
-    List<FlSpot> spots = usbProvider.ch1_data;
-
-    if (spots.length < 2) return;
-
-    double minY = spots.first.y;
-    double maxY = spots.first.y;
-    for (var spot in spots) {
-      if (spot.y < minY) minY = spot.y;
-      if (spot.y > maxY) maxY = spot.y;
-    }
-
-    double midLevel = (minY + maxY) / 2;
-
-    List<double> risingCrossings = [];
-    List<double> fallingCrossings = [];
-
-    for (int i = 1; i < spots.length; i++) {
-      final prev = spots[i - 1];
-      final current = spots[i];
-
-      bool crossesUp = prev.y < midLevel && current.y >= midLevel;
-      bool crossesDown = prev.y > midLevel && current.y <= midLevel;
-
-      if (crossesUp || crossesDown) {
-        double crossTime =
-            prev.x +
-            (current.x - prev.x) * ((midLevel - prev.y) / (current.y - prev.y));
-
-        if (crossesUp) {
-          risingCrossings.add(crossTime);
-        } else {
-          fallingCrossings.add(crossTime);
-        }
-      }
-    }
-    double periodStart = 0;
-    double periodEnd = 0;
-
-    if (risingCrossings.length >= 2) {
-      ch1_Period = (risingCrossings[1] - risingCrossings[0]) / 1000000.0;
-      periodStart = risingCrossings[0];
-      periodEnd = risingCrossings[1];
-      ch1_Period_key.currentState?.updateData(ch1_Period);
-      print("Periode_rising $ch1_Period");
-    } else if (fallingCrossings.length >= 2) {
-      ch1_Period = (fallingCrossings[1] - fallingCrossings[0]) / 1000000.0;
-      periodStart = fallingCrossings[0];
-      periodEnd = fallingCrossings[1];
-      ch1_Period_key.currentState?.updateData(ch1_Period);
-      print("Periode_falling $ch1_Period");
-    } else {
-      print("no period found");
-    }
-
-    List<FlSpot> periodData =
-        spots.where((e) => e.x >= periodStart && e.x <= periodEnd).toList();
     double summe = 0;
 
     for (var spot in periodData) {
@@ -712,63 +618,6 @@ class MeasurementsChanges extends ChangeNotifier {
   }
 
   update_measCH1_Vrms_data() {
-    List<FlSpot> spots = usbProvider.ch1_data;
-
-    if (spots.length < 2) return;
-
-    double minY = spots.first.y;
-    double maxY = spots.first.y;
-    for (var spot in spots) {
-      if (spot.y < minY) minY = spot.y;
-      if (spot.y > maxY) maxY = spot.y;
-    }
-
-    double midLevel = (minY + maxY) / 2;
-
-    List<double> risingCrossings = [];
-    List<double> fallingCrossings = [];
-
-    for (int i = 1; i < spots.length; i++) {
-      final prev = spots[i - 1];
-      final current = spots[i];
-
-      bool crossesUp = prev.y < midLevel && current.y >= midLevel;
-      bool crossesDown = prev.y > midLevel && current.y <= midLevel;
-
-      if (crossesUp || crossesDown) {
-        double crossTime =
-            prev.x +
-            (current.x - prev.x) * ((midLevel - prev.y) / (current.y - prev.y));
-
-        if (crossesUp) {
-          risingCrossings.add(crossTime);
-        } else {
-          fallingCrossings.add(crossTime);
-        }
-      }
-    }
-    double periodStart = 0;
-    double periodEnd = 0;
-
-    if (risingCrossings.length >= 2) {
-      ch1_Period = (risingCrossings[1] - risingCrossings[0]) / 1000000.0;
-      periodStart = risingCrossings[0];
-      periodEnd = risingCrossings[1];
-      ch1_Period_key.currentState?.updateData(ch1_Period);
-      print("Periode_rising $ch1_Period");
-    } else if (fallingCrossings.length >= 2) {
-      ch1_Period = (fallingCrossings[1] - fallingCrossings[0]) / 1000000.0;
-      periodStart = fallingCrossings[0];
-      periodEnd = fallingCrossings[1];
-      ch1_Period_key.currentState?.updateData(ch1_Period);
-      print("Periode_falling $ch1_Period");
-    } else {
-      print("no period found");
-    }
-
-    List<FlSpot> periodData =
-        spots.where((e) => e.x >= periodStart && e.x <= periodEnd).toList();
-
     double sumWeightedSquares = 0.0;
     double totalTime = periodData.last.x - periodData.first.x;
 
@@ -1097,26 +946,32 @@ class MeasurementsChanges extends ChangeNotifier {
         measCH1_widthPos ||
         measCH1_widthNeg ||
         measCH1_DutyPos ||
-        measCH1_DutyNeg) {
+        measCH1_DutyNeg ||
+        measCH1_Vavg ||
+        measCH1_Vrms) {
       update_measCH1_Period_data();
+    }
+    if (measCH1_Vavg ||
+        measCH1_widthPos ||
+        measCH1_widthNeg ||
+        measCH1_DutyPos ||
+        measCH1_DutyNeg) {
+      update_measCH1_Vavg_data();
     }
 
     if (measCH1_Frequency) {
       update_measCH1_Frequency_data();
     }
     if (measCH1_widthPos) {
-      update_measCH1_Period_data();
       update_measCH1_widthPos_data();
     }
     if (measCH1_widthNeg) {
-      update_measCH1_Period_data();
       update_measCH1_widthNeg_data();
     }
     if (measCH1_DutyPos) {
       update_measCH1_dutyPos_data();
     }
     if (measCH1_DutyNeg) {
-      update_measCH1_Period_data();
       update_measCH1_dutyNeg_data();
     }
 
@@ -1138,9 +993,6 @@ class MeasurementsChanges extends ChangeNotifier {
     }
     if (measCH1_Vbase) {
       update_measCH1_Vbase_data();
-    }
-    if (measCH1_Vavg) {
-      update_measCH1_Vavg_data();
     }
     if (measCH1_Vrms) {
       update_measCH1_Vrms_data();
