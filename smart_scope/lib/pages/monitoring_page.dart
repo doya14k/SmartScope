@@ -1477,8 +1477,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                                           ch1_WindowDataColor,
                                                       title: "Duty-Cycle +",
                                                       initialData: 0,
-                                                      decimalDigits: 2,
-                                                      unit: "s",
+                                                      decimalDigits: 1,
+                                                      unit: "%",
                                                     ),
 
                                                   if (Provider.of<
@@ -1493,8 +1493,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                                           ch1_WindowDataColor,
                                                       title: "Duty-Cycle -",
                                                       initialData: 0,
-                                                      decimalDigits: 2,
-                                                      unit: "s",
+                                                      decimalDigits: 1,
+                                                      unit: "%",
                                                     ),
 
                                                   if (Provider.of<
@@ -1764,8 +1764,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                                           ch2_WindowDataColor,
                                                       title: "Duty-Cycle +",
                                                       initialData: 0,
-                                                      decimalDigits: 2,
-                                                      unit: "s",
+                                                      decimalDigits: 1,
+                                                      unit: "%",
                                                     ),
 
                                                   if (Provider.of<
@@ -1780,8 +1780,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                                           ch2_WindowDataColor,
                                                       title: "Duty-Cycle -",
                                                       initialData: 0,
-                                                      decimalDigits: 2,
-                                                      unit: "s",
+                                                      decimalDigits: 1,
+                                                      unit: "%",
                                                     ),
 
                                                   if (Provider.of<

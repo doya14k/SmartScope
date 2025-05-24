@@ -98,12 +98,14 @@ class UsbProvider extends ChangeNotifier {
         singleTrigger == false;
         selecetTriggerStateIndex = 1;
         // Neue Berechnungen der Messdaten
+        print("updateMeasurementData_single");
         measurementState.updateMeasurementData();
       }
     }
-    if ((currentTime >= (triggeredTime + (appState.timeValue * 6))) &&
-        (currentTime >= (triggeredTime + (appState.timeValue * 7)))) {
+    if ((currentTime >= ((triggeredTime - appState.triggerHorizontalOffset) + (appState.timeValue * 6))) &&
+        (currentTime >= ((triggeredTime - appState.triggerHorizontalOffset) + (appState.timeValue * 7)))) {
       // Neue Berechnungen der Messdaten
+        print("updateMeasurementData_normal");
       measurementState.updateMeasurementData();
     }
   }
