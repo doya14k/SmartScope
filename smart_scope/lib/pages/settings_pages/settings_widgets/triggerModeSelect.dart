@@ -61,6 +61,9 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                     setState(() {
                       selecetTriggerModeIndex = actualIndex;
                       print(triggerMode[actualIndex]);
+                      if (selecetTriggerModeIndex == 0) {
+                        usbProvider.restartAutoTrigger();
+                      }
                     });
                   },
                 );
@@ -103,9 +106,6 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                       selecetTriggerModeIndex = actualIndex;
                       print(triggerMode[actualIndex]);
                     });
-                    if (selecetTriggerModeIndex == 0) {
-                      usbProvider.restartAutoTrigger();
-                    }
                   },
                 );
               }),

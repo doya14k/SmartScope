@@ -365,20 +365,19 @@ class UsbProvider extends ChangeNotifier {
                           if ((currentTime - triggeredTime) >
                               (appState.timeValue * 13)) {
                             triggeredTime = currentTime;
-                            initiateMeasurement = true;
                             appState.updateGraphTimeValue(
                               triggeredTime - appState.triggerHorizontalOffset,
                             );
                             print("Auto-Trigger ausgelöst");
-                            // autoTriggerAnalyzed[channel]++;
+                            autoTriggerAnalyzed[channel]++;
                           }
                         }
                         if (!autoTriggerRangeGenerator[channel]) {
-                          // first autoTrigger
+                          // second autoTrigger
                           if (autoTriggerAnalyzed[channel] == 2) {
                             LastTriggerTime[channel] = triggeredTime;
                           }
-                          // second autoTrigger
+                          // third autoTrigger
                           else if (autoTriggerAnalyzed[channel] >= 3) {
                             if (dataChannelLists[channel].isNotEmpty) {
                               double minY1 = dataChannelLists[0]
