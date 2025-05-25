@@ -54,6 +54,17 @@ class UsbProvider extends ChangeNotifier {
   List<double> averageVoltage = [0, 0];
   List<bool> initiateOffsetCalculation = [false, false];
 
+  List<int> autoTriggerAnalyzed = [0, 0];
+  List<double> LastTriggerTime = [0, 0];
+  List<bool> autoTriggerRangeGenerator = [false, false];
+
+  restartAutoTrigger() {
+    autoTriggerRangeGenerator[0] = false;
+    autoTriggerRangeGenerator[1] = false;
+    autoTriggerAnalyzed[0] = 0;
+    autoTriggerAnalyzed[1] = 0;
+  }
+
   set_DC_offset(int channel, double dcoffsetUv) {
     if (channels[channel] == selectedTriggerChannel) {
       if (!channels[channel].channelIsDC) {
@@ -318,6 +329,101 @@ class UsbProvider extends ChangeNotifier {
                     triggeringSignal(channel);
                   } else if (selecetTriggerModeIndex == 0) {
                     // Auto Trigger
+                    bool triggerDetected = false;
+                    if (channels[channel] == selectedTriggerChannel) {
+                      if (channels[channel] == selectedTriggerChannel) {
+                        if (risingTriggerSelected) {
+                          if ((last_dataFromChannel[channel] <=
+                                  appState.triggerVerticalOffset) &&
+                              (appState.triggerVerticalOffset <
+                                  voltageValue_uV_fromChannel[channel])) {
+                            print("autoTriggerd_rising");
+                            triggerDetected = true;
+                          }
+                        } else {
+                          if ((last_dataFromChannel[channel] >
+                                  appState.triggerVerticalOffset) &&
+                              (appState.triggerVerticalOffset >=
+                                  voltageValue_uV_fromChannel[channel])) {
+                            print("autoTriggerd_falling");
+                            triggerDetected = true;
+                          }
+                        }
+
+                        if (triggerDetected) {
+                          triggeredTime =
+                              (currentTime + last_timeFromChannel[channel]) / 2;
+                          initiateMeasurement = true;
+                          appState.updateGraphTimeValue(
+                            triggeredTime - appState.triggerHorizontalOffset,
+                          );
+                          if (autoTriggerAnalyzed[channel] < 3) {
+                            print("trigger++");
+                            autoTriggerAnalyzed[channel]++;
+                          }
+                        } else {
+                          if ((currentTime - triggeredTime) >
+                              (appState.timeValue * 13)) {
+                            triggeredTime = currentTime;
+                            initiateMeasurement = true;
+                            appState.updateGraphTimeValue(
+                              triggeredTime - appState.triggerHorizontalOffset,
+                            );
+                            print("Auto-Trigger ausgelöst");
+                            // autoTriggerAnalyzed[channel]++;
+                          }
+                        }
+                        if (!autoTriggerRangeGenerator[channel]) {
+                          // first autoTrigger
+                          if (autoTriggerAnalyzed[channel] == 2) {
+                            LastTriggerTime[channel] = triggeredTime;
+                          }
+                          // second autoTrigger
+                          else if (autoTriggerAnalyzed[channel] >= 3) {
+                            if (dataChannelLists[channel].isNotEmpty) {
+                              double minY1 = dataChannelLists[0]
+                                  .map((p) => p.y)
+                                  .reduce((a, b) => a < b ? a : b);
+                              double maxY1 = dataChannelLists[0]
+                                  .map((p) => p.y)
+                                  .reduce((a, b) => a > b ? a : b);
+
+                              double minY2 = dataChannelLists[1]
+                                  .map((p) => p.y)
+                                  .reduce((a, b) => a < b ? a : b);
+                              double maxY2 = dataChannelLists[1]
+                                  .map((p) => p.y)
+                                  .reduce((a, b) => a > b ? a : b);
+
+                              print("Kanal 1 - MinY: $minY1, MaxY: $maxY1");
+                              print("Kanal 2 - MinY: $minY2, MaxY: $maxY2");
+                              print(
+                                'time/div ${(triggeredTime - LastTriggerTime[channel]) / 5}',
+                              );
+
+                              appState.updateSliderValue_ch1(
+                                (maxY1 - minY1) / 6,
+                              );
+                              appState.updateSliderValue_ch2(
+                                (maxY2 - minY2) / 6,
+                              );
+                              appState.updatedCH1_LevelOffset(
+                                -(((maxY1 - minY1) / 2) + minY1),
+                              );
+                              appState.updatedCH2_LevelOffset(
+                                -(((maxY2 - minY2) / 2) + minY2),
+                              );
+
+                              appState.updateTimeValue(
+                                (triggeredTime - LastTriggerTime[channel]) / 5,
+                              );
+
+                              autoTriggerRangeGenerator[channel] = true;
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               } else if (selecetTriggerStateIndex == 2) {
@@ -392,6 +498,13 @@ class UsbProvider extends ChangeNotifier {
 
     minStoppedRoleTime = -1;
     maxStoppedRoleTime = 0;
+
+    autoTriggerAnalyzed[0] = 0;
+    autoTriggerAnalyzed[1] = 0;
+    LastTriggerTime[0] = 0;
+    LastTriggerTime[1] = 0;
+    autoTriggerRangeGenerator[0] = false;
+    autoTriggerRangeGenerator[1] = false;
 
     if (readTimer != null) {
       readTimer!.cancel();

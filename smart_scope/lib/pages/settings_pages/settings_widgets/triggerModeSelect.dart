@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_scope/usb_reader.dart';
 import 'definitions.dart';
+import 'package:provider/provider.dart';
 
 class TriggerModeSelector extends StatefulWidget {
   const TriggerModeSelector({super.key});
@@ -13,6 +15,8 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final usbProvider = Provider.of<UsbProvider>(context, listen: false);
+
     return SizedBox(
       width: screenWidth * 0.1042,
       height: screenHeight * 0.143,
@@ -99,6 +103,9 @@ class _TriggerModeSelectorState extends State<TriggerModeSelector> {
                       selecetTriggerModeIndex = actualIndex;
                       print(triggerMode[actualIndex]);
                     });
+                    if (selecetTriggerModeIndex == 0) {
+                      usbProvider.restartAutoTrigger();
+                    }
                   },
                 );
               }),
