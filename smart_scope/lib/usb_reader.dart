@@ -49,8 +49,25 @@ class UsbProvider extends ChangeNotifier {
   int selectedMessbereichIndex = 5;
   final List<int> messbereiche = [50, 25, 10, 5, 1, 3];
   bool singleTrigger = false;
-
   bool initiateMeasurement = true;
+
+  List<double> averageVoltage = [0, 0];
+  List<bool> initiateOffsetCalculation = [false, false];
+
+  set_DC_offset(int channel, double dcoffsetUv) {
+    if (channels[channel] == selectedTriggerChannel) {
+      if (!channels[channel].channelIsDC) {
+        appState.updateTriggerVerticalOffset(
+          appState.triggerVerticalOffset - dcoffsetUv,
+        );
+      } else {
+        appState.updateTriggerVerticalOffset(
+          appState.triggerVerticalOffset + averageVoltage[channel],
+        );
+      }
+    }
+    averageVoltage[channel] = dcoffsetUv;
+  }
 
   void triggeringSignal(int channel) {
     if (singleTrigger == false) {
@@ -109,15 +126,12 @@ class UsbProvider extends ChangeNotifier {
     }
     if ((currentTime >=
         ((triggeredTime - appState.triggerHorizontalOffset) +
-            (appState.timeValue * 6)))
-    //         &&
-    // (currentTime <
-    //     ((triggeredTime - appState.triggerHorizontalOffset) +
-    //         (appState.timeValue * 6.1)))
-    ) {
+            (appState.timeValue * 6)))) {
       if (initiateMeasurement) {
         // Neue Berechnungen der Messdaten
-        print("updateMeasurementData_normal");
+        // print("updateMeasurementData_normal");
+        measurementState.update_measCH1_offset();
+        measurementState.update_measCH2_offset();
         measurementState.updateMeasurementData();
         initiateMeasurement = false;
       }
@@ -216,18 +230,41 @@ class UsbProvider extends ChangeNotifier {
               //         (1.5 * 1000000) /
               //         4096.0); // adcValue * (2 * Messbereich in uV) / 0xFFF
               if (selectedMessbereichIndex == 5) {
-                voltageValue_uV_fromChannel[channel] =
-                    (adcValue.toDouble() *
-                        (messbereiche[selectedMessbereichIndex] * 1000000) /
-                        4096.0);
+                if (channels[channel].channelIsDC) {
+                  voltageValue_uV_fromChannel[channel] =
+                      (adcValue.toDouble() *
+                          (messbereiche[selectedMessbereichIndex] * 1000000) /
+                          4096.0);
+                } else {
+                  print("ac_only");
+                  voltageValue_uV_fromChannel[channel] =
+                      ((adcValue.toDouble() *
+                              (messbereiche[selectedMessbereichIndex] *
+                                  1000000) /
+                              4096.0) -
+                          (averageVoltage[channel]));
+                }
               } else {
                 // Spannungswert wird hier berechnet
-                voltageValue_uV_fromChannel[channel] =
-                    ((adcValue.toDouble() *
-                            2 *
-                            (messbereiche[selectedMessbereichIndex] * 1000000) /
-                            4096.0) -
-                        (messbereiche[selectedMessbereichIndex] * 1000000));
+                if (channels[channel].channelIsDC) {
+                  voltageValue_uV_fromChannel[channel] =
+                      ((adcValue.toDouble() *
+                              2 *
+                              (messbereiche[selectedMessbereichIndex] *
+                                  1000000) /
+                              4096.0) -
+                          (messbereiche[selectedMessbereichIndex] * 1000000));
+                } else {
+                  voltageValue_uV_fromChannel[channel] =
+                      (((adcValue.toDouble() *
+                                  2 *
+                                  (messbereiche[selectedMessbereichIndex] *
+                                      1000000) /
+                                  4096.0) -
+                              (messbereiche[selectedMessbereichIndex] *
+                                  1000000)) -
+                          (averageVoltage[channel]));
+                }
               }
 
               if (!((selecetTriggerModeIndex == 3) &&

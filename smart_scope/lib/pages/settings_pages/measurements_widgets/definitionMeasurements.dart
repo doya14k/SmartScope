@@ -179,8 +179,8 @@ class MeasurementsChanges extends ChangeNotifier {
 
   late AppState appStateProvider;
 
-  void setAppState_measurements(AppState new_appStateProvider) {
-    appStateProvider = new_appStateProvider;
+  void setAppState_measurements(AppState newAppstateprovider) {
+    appStateProvider = newAppstateprovider;
   }
 
   // Data Variables Time
@@ -277,13 +277,13 @@ class MeasurementsChanges extends ChangeNotifier {
       periodStart = risingCrossings1[0];
       periodEnd = risingCrossings1[1];
       ch1_Period_key.currentState?.updateData(ch1_Period);
-      print("Periode_rising $ch1_Period");
+      // print("Periode_rising $ch1_Period");
     } else if (fallingCrossings1.length >= 2) {
       ch1_Period = (fallingCrossings1[1] - fallingCrossings1[0]) / 1000000.0;
       periodStart = fallingCrossings1[0];
       periodEnd = fallingCrossings1[1];
       ch1_Period_key.currentState?.updateData(ch1_Period);
-      print("Periode_falling $ch1_Period");
+      // print("Periode_falling $ch1_Period");
     } else {
       print("no period found");
     }
@@ -501,12 +501,12 @@ class MeasurementsChanges extends ChangeNotifier {
       }
     }
 
-    double ch1_Vtop =
+    ch1_Vtop =
         topYs.isNotEmpty
             ? topYs.reduce((a, b) => a + b) / (topYs.length * 1000000)
-            : (maxY * 1000000);
+            : (maxY / 1000000);
 
-    print("Vtop: $ch1_Vtop");
+    print("Vtop1: $ch1_Vtop");
     ch1_Vtop_key.currentState?.updateData(ch1_Vtop);
   }
 
@@ -535,12 +535,11 @@ class MeasurementsChanges extends ChangeNotifier {
         baseYs.add(spot.y);
       }
     }
-    double ch1_Vbase =
+    ch1_Vbase =
         baseYs.isNotEmpty
             ? baseYs.reduce((a, b) => a + b) / (baseYs.length * 1000000)
-            : (minY * 1000000);
-    print("Vbase: $ch1_Vbase");
-
+            : (minY / 1000000);
+    print("Vbase1: $ch1_Vbase");
     ch1_Vbase_key.currentState?.updateData(ch1_Vbase);
   }
 
@@ -680,13 +679,13 @@ class MeasurementsChanges extends ChangeNotifier {
       periodStart = risingCrossings2[0];
       periodEnd = risingCrossings2[1];
       ch2_Period_key.currentState?.updateData(ch2_Period);
-      print("Periode_rising $ch2_Period");
+      // print("Periode_rising $ch2_Period");
     } else if (fallingCrossings2.length >= 2) {
       ch2_Period = (fallingCrossings2[1] - fallingCrossings2[0]) / 1000000.0;
       periodStart = fallingCrossings2[0];
       periodEnd = fallingCrossings2[1];
       ch2_Period_key.currentState?.updateData(ch2_Period);
-      print("Periode_falling $ch2_Period");
+      // print("Periode_falling $ch2_Period");
     } else {
       print("no period found");
     }
@@ -847,8 +846,6 @@ class MeasurementsChanges extends ChangeNotifier {
     ch2_Vmax = (voltageValues.reduce(max) / 1000000);
 
     ch2_Vmax_key.currentState?.updateData(ch2_Vmax);
-
-    notifyListeners();
   }
 
   update_measCH2_Vmin_data() {
@@ -902,12 +899,12 @@ class MeasurementsChanges extends ChangeNotifier {
       }
     }
 
-    double ch2_Vtop =
+    ch2_Vtop =
         topYs.isNotEmpty
             ? topYs.reduce((a, b) => a + b) / (topYs.length * 1000000)
-            : (maxY * 1000000);
+            : (maxY / 1000000);
 
-    print("Vtop: $ch2_Vtop");
+    // print("Vtop: $ch2_Vtop");
     ch2_Vtop_key.currentState?.updateData(ch2_Vtop);
   }
 
@@ -936,12 +933,11 @@ class MeasurementsChanges extends ChangeNotifier {
         baseYs.add(spot.y);
       }
     }
-    double ch2_Vbase =
+    ch2_Vbase =
         baseYs.isNotEmpty
             ? baseYs.reduce((a, b) => a + b) / (baseYs.length * 1000000)
-            : (minY * 1000000);
-    print("Vbase: $ch2_Vbase");
-
+            : (minY / 1000000);
+    // print("Vbase: $ch2_Vbase");
     ch2_Vbase_key.currentState?.updateData(ch2_Vbase);
   }
 
@@ -1018,18 +1014,32 @@ class MeasurementsChanges extends ChangeNotifier {
     notifyListeners();
   }
 
+  update_measCH1_offset() {
+    update_measCH1_Period_data();
+    update_measCH1_widthPos_data();
+    update_measCH1_Vtop_data();
+    update_measCH1_Vbase_data();
+  }
+
+  update_measCH2_offset() {
+    update_measCH2_Period_data();
+    update_measCH2_widthPos_data();
+    update_measCH2_Vtop_data();
+    update_measCH2_Vbase_data();
+  }
+
   updateCH1Data() {
     // Time
-    if (measCH1_Period ||
-        measCH1_Frequency ||
-        measCH1_widthPos ||
-        measCH1_widthNeg ||
-        measCH1_DutyPos ||
-        measCH1_DutyNeg ||
-        measCH1_Vavg ||
-        measCH1_Vrms) {
-      update_measCH1_Period_data();
-    }
+    // if (measCH1_Period ||
+    //     measCH1_Frequency ||
+    //     measCH1_widthPos ||
+    //     measCH1_widthNeg ||
+    //     measCH1_DutyPos ||
+    //     measCH1_DutyNeg ||
+    //     measCH1_Vavg ||
+    //     measCH1_Vrms) {
+    //   update_measCH1_Period_data();
+    // }
     if (measCH1_Vavg ||
         measCH1_widthPos ||
         measCH1_widthNeg ||
@@ -1041,9 +1051,9 @@ class MeasurementsChanges extends ChangeNotifier {
     if (measCH1_Frequency) {
       update_measCH1_Frequency_data();
     }
-    if (measCH1_widthPos) {
-      update_measCH1_widthPos_data();
-    }
+    // if (measCH1_widthPos) {
+    //   update_measCH1_widthPos_data();
+    // }
     if (measCH1_widthNeg) {
       update_measCH1_widthNeg_data();
     }
@@ -1067,12 +1077,12 @@ class MeasurementsChanges extends ChangeNotifier {
     if (measCH1_Vamp) {
       update_measCH1_Vamp_data();
     }
-    if (measCH1_Vtop) {
-      update_measCH1_Vtop_data();
-    }
-    if (measCH1_Vbase) {
-      update_measCH1_Vbase_data();
-    }
+    // if (measCH1_Vtop) {
+    //   update_measCH1_Vtop_data();
+    // }
+    // if (measCH1_Vbase) {
+    //   update_measCH1_Vbase_data();
+    // }
     if (measCH1_Vrms) {
       update_measCH1_Vrms_data();
     }
@@ -1080,16 +1090,16 @@ class MeasurementsChanges extends ChangeNotifier {
 
   updateCH2Data() {
     // Time
-    if (measCH2_Period ||
-        measCH2_Frequency ||
-        measCH2_widthPos ||
-        measCH2_widthNeg ||
-        measCH2_DutyPos ||
-        measCH2_DutyNeg ||
-        measCH2_Vavg ||
-        measCH2_Vrms) {
-      update_measCH2_Period_data();
-    }
+    // if (measCH2_Period ||
+    //     measCH2_Frequency ||
+    //     measCH2_widthPos ||
+    //     measCH2_widthNeg ||
+    //     measCH2_DutyPos ||
+    //     measCH2_DutyNeg ||
+    //     measCH2_Vavg ||
+    //     measCH2_Vrms) {
+    //   update_measCH2_Period_data();
+    // }
     if (measCH2_Vavg ||
         measCH2_widthPos ||
         measCH2_widthNeg ||
@@ -1101,9 +1111,9 @@ class MeasurementsChanges extends ChangeNotifier {
     if (measCH2_Frequency) {
       update_measCH2_Frequency_data();
     }
-    if (measCH2_widthPos) {
-      update_measCH2_widthPos_data();
-    }
+    // if (measCH2_widthPos) {
+    //   update_measCH2_widthPos_data();
+    // }
     if (measCH2_widthNeg) {
       update_measCH2_widthNeg_data();
     }
@@ -1127,12 +1137,12 @@ class MeasurementsChanges extends ChangeNotifier {
     if (measCH2_Vamp) {
       update_measCH2_Vamp_data();
     }
-    if (measCH2_Vtop) {
-      update_measCH2_Vtop_data();
-    }
-    if (measCH2_Vbase) {
-      update_measCH2_Vbase_data();
-    }
+    // if (measCH2_Vtop) {
+    //   update_measCH2_Vtop_data();
+    // }
+    // if (measCH2_Vbase) {
+    //   update_measCH2_Vbase_data();
+    // }
     if (measCH2_Vrms) {
       update_measCH2_Vrms_data();
     }

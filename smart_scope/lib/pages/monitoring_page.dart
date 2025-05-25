@@ -257,7 +257,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 ),
                                 AutoSizeText(
                                   maxLines: 1,
-                                  '${Provider.of<AppState>(context, listen: true).triggerHorizontalOffsetValue2Text}',
+                                  Provider.of<AppState>(context, listen: true).triggerHorizontalOffsetValue2Text,
                                   minFontSize: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -298,7 +298,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                                 ),
                                 AutoSizeText(
                                   maxLines: 1,
-                                  '${Provider.of<AppState>(context, listen: true).triggerVerticalOffsetValue2Text}',
+                                  Provider.of<AppState>(context, listen: true).triggerVerticalOffsetValue2Text,
                                   minFontSize: 1,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(

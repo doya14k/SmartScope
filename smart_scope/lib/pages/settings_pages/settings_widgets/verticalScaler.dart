@@ -1,9 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_scope/pages/settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'definitions.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
+import 'package:smart_scope/usb_reader.dart';
 
 class VerticalScaler extends StatefulWidget {
   const VerticalScaler({super.key});
@@ -56,6 +58,13 @@ class _VerticalScalerState extends State<VerticalScaler> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
+    final usbProvider = Provider.of<UsbProvider>(context, listen: false);
+    final measurementProvider = Provider.of<MeasurementsChanges>(
+      context,
+      listen: true,
+    );
+
     return SizedBox(
       height: screenHeight * 0.4045,
       width: screenWidth * 0.1172,
@@ -311,10 +320,28 @@ class _VerticalScalerState extends State<VerticalScaler> {
                               if (selectedIndex == 0) {
                                 if (!channel1.channelIsDC) {
                                   channel1.channelIsDC = true;
+                                  usbProvider.set_DC_offset(0, 0);
                                 }
                               } else {
-                                if (!channel1.channelIsDC) {
+                                if (channel1.channelIsDC) {
                                   channel1.channelIsDC = false;
+                                  print(
+                                    'Delta 1 ${(measurementProvider.ch1_Vtop * measurementProvider.ch1_widthPos / measurementProvider.ch1_Period + measurementProvider.ch1_Vbase * (1 - measurementProvider.ch1_widthPos / measurementProvider.ch1_Period)) * 2000000}',
+                                  );
+                                  usbProvider.set_DC_offset(
+                                    0,
+                                    (measurementProvider.ch1_Vtop *
+                                                measurementProvider
+                                                    .ch1_widthPos /
+                                                measurementProvider.ch1_Period +
+                                            measurementProvider.ch1_Vbase *
+                                                (1 -
+                                                    measurementProvider
+                                                            .ch1_widthPos /
+                                                        measurementProvider
+                                                            .ch1_Period)) *
+                                        2000000,
+                                  );
                                 }
                               }
                               print('CH1 DC: ${channel1.channelIsDC}');
@@ -552,15 +579,33 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             setState(() {
                               print(selectedIndex);
                               if (selectedIndex == 0) {
-                                if (!channel1.channelIsDC) {
-                                  channel1.channelIsDC = true;
+                                if (!channel2.channelIsDC) {
+                                  channel2.channelIsDC = true;
+                                  usbProvider.set_DC_offset(1, 0);
                                 }
                               } else {
-                                if (!channel1.channelIsDC) {
-                                  channel1.channelIsDC = false;
+                                if (channel2.channelIsDC) {
+                                  channel2.channelIsDC = false;
+                                  print(
+                                    'Delta ${(measurementProvider.ch2_Vtop * measurementProvider.ch2_widthPos / measurementProvider.ch2_Period + measurementProvider.ch2_Vbase * (1 - measurementProvider.ch2_widthPos / measurementProvider.ch2_Period)) * 2000000}',
+                                  );
+                                  usbProvider.set_DC_offset(
+                                    1,
+                                    (measurementProvider.ch2_Vtop *
+                                                measurementProvider
+                                                    .ch2_widthPos /
+                                                measurementProvider.ch2_Period +
+                                            measurementProvider.ch2_Vbase *
+                                                (1 -
+                                                    measurementProvider
+                                                            .ch2_widthPos /
+                                                        measurementProvider
+                                                            .ch2_Period)) *
+                                        2000000,
+                                  );
                                 }
                               }
-                              print('CH1 DC: ${channel1.channelIsDC}');
+                              print('CH1 DC: ${channel2.channelIsDC}');
                             });
                           },
                         ),

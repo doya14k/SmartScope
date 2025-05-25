@@ -154,18 +154,18 @@ class CursorChanges extends ChangeNotifier {
       return 'false input';
     }
 
-    double frequency_Hz = 1 / deltaX;
+    double frequencyHz = 1 / deltaX;
 
-    if (frequency_Hz < 1) {
-      return '${(frequency_Hz * 1000).toStringAsFixed(2)} mHz';
-    } else if ((frequency_Hz <= 1) && (frequency_Hz < 1000)) {
-      return '${(frequency_Hz * 1).toStringAsFixed(2)} Hz';
-    } else if ((frequency_Hz <= 1000) && (frequency_Hz < 1000000)) {
-      return '${(frequency_Hz / 1000).toStringAsFixed(2)} kHz';
-    } else if ((frequency_Hz <= 1000000) && (frequency_Hz < 1000000000)) {
-      return '${(frequency_Hz / 1000000).toStringAsFixed(2)} MHz';
+    if (frequencyHz < 1) {
+      return '${(frequencyHz * 1000).toStringAsFixed(2)} mHz';
+    } else if ((frequencyHz <= 1) && (frequencyHz < 1000)) {
+      return '${(frequencyHz * 1).toStringAsFixed(2)} Hz';
+    } else if ((frequencyHz <= 1000) && (frequencyHz < 1000000)) {
+      return '${(frequencyHz / 1000).toStringAsFixed(2)} kHz';
+    } else if ((frequencyHz <= 1000000) && (frequencyHz < 1000000000)) {
+      return '${(frequencyHz / 1000000).toStringAsFixed(2)} MHz';
     } else {
-      return '${(frequency_Hz / 1000000000).toStringAsFixed(2)} GHz';
+      return '${(frequencyHz / 1000000000).toStringAsFixed(2)} GHz';
     }
   }
 
@@ -175,7 +175,7 @@ class CursorChanges extends ChangeNotifier {
     for (int i = 0; i < timeText.length; i++) {
       if ((timeText[i] == ' ')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
-        if (timeTextNumbersOnly.length == 0) {
+        if (timeTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < timeTextNumbersOnly.length; i++) {
@@ -211,7 +211,7 @@ class CursorChanges extends ChangeNotifier {
           (timeText[i] == 'm') ||
           (timeText[i] == 's')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
-        if (timeTextNumbersOnly.length == 0) {
+        if (timeTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < timeTextNumbersOnly.length; i++) {
@@ -253,7 +253,7 @@ class CursorChanges extends ChangeNotifier {
       if ((timeText[i] == ' ')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
 
-        if (timeTextNumbersOnly.length == 0) {
+        if (timeTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < timeTextNumbersOnly.length; i++) {
@@ -290,7 +290,7 @@ class CursorChanges extends ChangeNotifier {
           (timeText[i] == 's')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
 
-        if (timeTextNumbersOnly.length == 0) {
+        if (timeTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < timeTextNumbersOnly.length; i++) {
@@ -336,7 +336,7 @@ class CursorChanges extends ChangeNotifier {
           '',
         );
 
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -374,7 +374,7 @@ class CursorChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -417,7 +417,7 @@ class CursorChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -455,7 +455,7 @@ class CursorChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {

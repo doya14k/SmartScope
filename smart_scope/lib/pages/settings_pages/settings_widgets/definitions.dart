@@ -277,7 +277,7 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -321,7 +321,7 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -370,7 +370,7 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -414,7 +414,7 @@ class AppState extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -458,7 +458,7 @@ class AppState extends ChangeNotifier {
     for (int i = 0; i < timeText.length; i++) {
       if ((timeText[i] == ' ')) {
         timeTextNumbersOnly = (timeText.replaceRange(i, timeText.length, ''));
-        if (timeTextNumbersOnly.length == 0) {
+        if (timeTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < timeTextNumbersOnly.length; i++) {
@@ -504,7 +504,7 @@ class AppState extends ChangeNotifier {
           (timeText[i] == 'm') ||
           (timeText[i] == 's')) {
         timeTextNumbersOnly = timeText.replaceRange(i, timeText.length, '');
-        if (timeTextNumbersOnly.length == 0) {
+        if (timeTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < timeTextNumbersOnly.length; i++) {
@@ -758,7 +758,7 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -804,7 +804,7 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -861,7 +861,7 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -907,7 +907,7 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -1009,7 +1009,7 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -1057,7 +1057,7 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -1170,7 +1170,7 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -1215,7 +1215,7 @@ class AppState extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
