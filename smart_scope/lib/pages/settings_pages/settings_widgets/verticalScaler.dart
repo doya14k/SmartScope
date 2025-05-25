@@ -340,7 +340,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                                                             .ch1_widthPos /
                                                         measurementProvider
                                                             .ch1_Period)) *
-                                        2000000,
+                                        1000000,
                                   );
                                 }
                               }
@@ -601,7 +601,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                                                             .ch2_widthPos /
                                                         measurementProvider
                                                             .ch2_Period)) *
-                                        2000000,
+                                        1000000,
                                   );
                                 }
                               }
