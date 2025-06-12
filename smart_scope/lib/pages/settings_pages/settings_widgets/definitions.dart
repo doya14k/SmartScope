@@ -129,10 +129,10 @@ class AppState extends ChangeNotifier {
   double timeValue = 200000.0;
 
   double triggerHorizontalOffset = 0.0;
-  double triggerVerticalOffset = 1500000.0;
+  double triggerVerticalOffset = 0.0;
 
-  double ch1_uVoltageLevelOffset = -1500000.0;
-  double ch2_uVoltageLevelOffset = -1500000.0;
+  double ch1_uVoltageLevelOffset = 0.0;
+  double ch2_uVoltageLevelOffset = 0.0;
 
   double maxGraphTimeValue = 200000.0 * (NOF_xGrids / 2); // timeValue
   double minGraphTimeValue = -200000.0 * (NOF_xGrids / 2); // timeValue

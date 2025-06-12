@@ -119,72 +119,72 @@ class _MonitoringPageState extends State<MonitoringPage> {
                         tooltip: 'Return to Port-Select',
                       ),
                       Spacer(),
-                      AutoSizeText(
-                        'Messbereich:',
-                        maxLines: 1,
-                        style: TextStyle(
-                          fontFamily: 'PrimaryFont',
-                          fontWeight: FontWeight.normal,
-                          fontSize: screenHeight * 0.021687,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: PopupMenuButton(
-                          tooltip: 'Messbereich',
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
-                              child: SizedBox(
-                                height: screenHeight * 0.02638,
-                                width: screenWidth * 0.0260,
-                                child: Center(
-                                  child: AutoSizeText(
-                                    '±${usb.messbereiche[usb.selectedMessbereichIndex]} V',
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      fontFamily: 'PrimaryFont',
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 25,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          itemBuilder: (context) {
-                            return List.generate(usb.messbereiche.length, (
-                              index,
-                            ) {
-                              return PopupMenuItem(
-                                value: index,
-                                child: Text(
-                                  '±${usb.messbereiche[index]} V',
-                                  style: TextStyle(
-                                    fontFamily: 'PrimaryFont',
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 20,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              );
-                            });
-                          },
-                          onSelected: (selectedIndex) {
-                            setState(() {
-                              usb.selectedMessbereichIndex = selectedIndex;
-                              print(
-                                '${usb.messbereiche[usb.selectedMessbereichIndex]}',
-                              );
-                            });
-                          },
-                        ),
-                      ),
+                      // AutoSizeText(
+                      //   'Messbereich:',
+                      //   maxLines: 1,
+                      //   style: TextStyle(
+                      //     fontFamily: 'PrimaryFont',
+                      //     fontWeight: FontWeight.normal,
+                      //     fontSize: screenHeight * 0.021687,
+                      //     color: Colors.black,
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(5),
+                      //   child: PopupMenuButton(
+                      //     tooltip: 'Messbereich',
+                      //     child: Container(
+                      //       decoration: BoxDecoration(
+                      //         border: Border.all(color: Colors.black),
+                      //       ),
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.fromLTRB(10, 1, 10, 1),
+                      //         child: SizedBox(
+                      //           height: screenHeight * 0.02638,
+                      //           width: screenWidth * 0.0260,
+                      //           child: Center(
+                      //             child: AutoSizeText(
+                      //               '±${usb.messbereiche[usb.selectedMessbereichIndex]} V',
+                      //               maxLines: 1,
+                      //               style: TextStyle(
+                      //                 fontFamily: 'PrimaryFont',
+                      //                 fontWeight: FontWeight.normal,
+                      //                 fontSize: 25,
+                      //                 color: Colors.black,
+                      //               ),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     itemBuilder: (context) {
+                      //       return List.generate(usb.messbereiche.length, (
+                      //         index,
+                      //       ) {
+                      //         return PopupMenuItem(
+                      //           value: index,
+                      //           child: Text(
+                      //             '±${usb.messbereiche[index]} V',
+                      //             style: TextStyle(
+                      //               fontFamily: 'PrimaryFont',
+                      //               fontWeight: FontWeight.normal,
+                      //               fontSize: 20,
+                      //               color: Colors.black,
+                      //             ),
+                      //           ),
+                      //         );
+                      //       });
+                      //     },
+                      //     onSelected: (selectedIndex) {
+                      //       setState(() {
+                      //         usb.selectedMessbereichIndex = selectedIndex;
+                      //         print(
+                      //           '${usb.messbereiche[usb.selectedMessbereichIndex]}',
+                      //         );
+                      //       });
+                      //     },
+                      //   ),
+                      // ),
                     ],
                   ),
                   Row(

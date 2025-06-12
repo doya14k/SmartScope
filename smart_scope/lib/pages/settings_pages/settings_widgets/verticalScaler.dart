@@ -204,7 +204,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           ),
                         ),
                         PopupMenuButton(
-                          tooltip: 'Tastkopf',
+                          tooltip: 'Messbereich',
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.black),
@@ -216,9 +216,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                                 width: screenWidth * 0.0208,
                                 child: Center(
                                   child: AutoSizeText(
-                                    (channel1.ChannelIs1to1 == true)
-                                        ? tastkopfModes[0]
-                                        : tastkopfModes[1],
+                                    '±${usbProvider.messbereiche[usbProvider.selectedMessbereichIndex[0]]}V',
                                     maxLines: 1,
                                     style: TextStyle(
                                       fontFamily: 'PrimaryFont',
@@ -232,41 +230,31 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             ),
                           ),
                           itemBuilder: (context) {
-                            return List.generate(tastkopfModes.length, (index) {
-                              return PopupMenuItem(
-                                value: index,
-                                child: Text(
-                                  tastkopfModes[index],
-                                  style: TextStyle(
-                                    fontFamily: 'PrimaryFont',
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 20,
-                                    color: Colors.black,
+                            return List.generate(
+                              usbProvider.messbereiche.length,
+                              (index) {
+                                return PopupMenuItem(
+                                  value: index,
+                                  child: Text(
+                                    '±${usbProvider.messbereiche[index]}V',
+                                    style: TextStyle(
+                                      fontFamily: 'PrimaryFont',
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                              );
-                            });
+                                );
+                              },
+                            );
                           },
                           onSelected: (selectedIndex) {
                             setState(() {
-                              if (selectedIndex == 0) {
-                                if (!channel1.ChannelIs1to1) {
-                                  channel1.ChannelIs1to1 = true;
-                                  Provider.of<AppState>(
-                                    context,
-                                    listen: false,
-                                  ).probeSwitch_settingsUpdater_ch1();
-                                }
-                              } else {
-                                if (channel1.ChannelIs1to1) {
-                                  channel1.ChannelIs1to1 = false;
-                                  Provider.of<AppState>(
-                                    context,
-                                    listen: false,
-                                  ).probeSwitch_settingsUpdater_ch1();
-                                }
-                              }
-                              print('CH1 1:1: ${channel1.ChannelIs1to1}');
+                              usbProvider.selectedMessbereichIndex[0] =
+                                  selectedIndex;
+                              print(
+                                'CH1 ±${usbProvider.messbereiche[usbProvider.selectedMessbereichIndex[0]]}V',
+                              );
                             });
                           },
                         ),
@@ -464,7 +452,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                           ),
                         ),
                         PopupMenuButton(
-                          tooltip: 'Tastkopf',
+                          tooltip: 'Messbereich',
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.black),
@@ -476,9 +464,7 @@ class _VerticalScalerState extends State<VerticalScaler> {
                                 width: screenWidth * 0.02083,
                                 child: Center(
                                   child: AutoSizeText(
-                                    (channel2.ChannelIs1to1 == true)
-                                        ? tastkopfModes[0]
-                                        : tastkopfModes[1],
+                                    '±${usbProvider.messbereiche[usbProvider.selectedMessbereichIndex[1]]}V',
                                     maxLines: 1,
                                     style: TextStyle(
                                       fontFamily: 'PrimaryFont',
@@ -492,41 +478,31 @@ class _VerticalScalerState extends State<VerticalScaler> {
                             ),
                           ),
                           itemBuilder: (context) {
-                            return List.generate(tastkopfModes.length, (index) {
-                              return PopupMenuItem(
-                                value: index,
-                                child: Text(
-                                  tastkopfModes[index],
-                                  style: TextStyle(
-                                    fontFamily: 'PrimaryFont',
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 20,
-                                    color: Colors.black,
+                            return List.generate(
+                              usbProvider.messbereiche.length,
+                              (index) {
+                                return PopupMenuItem(
+                                  value: index,
+                                  child: Text(
+                                    '±${usbProvider.messbereiche[index]}V',
+                                    style: TextStyle(
+                                      fontFamily: 'PrimaryFont',
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    ),
                                   ),
-                                ),
-                              );
-                            });
+                                );
+                              },
+                            );
                           },
                           onSelected: (selectedIndex) {
                             setState(() {
-                              if (selectedIndex == 0) {
-                                if (!channel2.ChannelIs1to1) {
-                                  channel2.ChannelIs1to1 = true;
-                                  Provider.of<AppState>(
-                                    context,
-                                    listen: false,
-                                  ).probeSwitch_settingsUpdater_ch2();
-                                }
-                              } else {
-                                if (channel2.ChannelIs1to1) {
-                                  channel2.ChannelIs1to1 = false;
-                                  Provider.of<AppState>(
-                                    context,
-                                    listen: false,
-                                  ).probeSwitch_settingsUpdater_ch2();
-                                }
-                              }
-                              print('CH2 1:1: ${channel2.ChannelIs1to1}');
+                              usbProvider.selectedMessbereichIndex[1] =
+                                  selectedIndex;
+                              print(
+                                'CH1 ±${usbProvider.messbereiche[usbProvider.selectedMessbereichIndex[1]]}V',
+                              );
                             });
                           },
                         ),

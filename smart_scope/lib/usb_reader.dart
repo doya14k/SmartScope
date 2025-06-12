@@ -46,8 +46,8 @@ class UsbProvider extends ChangeNotifier {
 
   static const double samplesPerDivision = 500;
 
-  int selectedMessbereichIndex = 5;
-  final List<int> messbereiche = [50, 25, 10, 5, 1, 3];
+  List<int> selectedMessbereichIndex = [0,0];
+  final List<int> messbereiche = [50, 25, 10, 5, 1];
   bool singleTrigger = false;
   bool initiateMeasurement = true;
 
@@ -240,17 +240,17 @@ class UsbProvider extends ChangeNotifier {
               //         2 *
               //         (1.5 * 1000000) /
               //         4096.0); // adcValue * (2 * Messbereich in uV) / 0xFFF
-              if (selectedMessbereichIndex == 5) {
+              if (selectedMessbereichIndex[channel] == 5) {
                 if (channels[channel].channelIsDC) {
                   voltageValue_uV_fromChannel[channel] =
                       (adcValue.toDouble() *
-                          (messbereiche[selectedMessbereichIndex] * 1000000) /
+                          (messbereiche[selectedMessbereichIndex[channel]] * 1000000) /
                           4096.0);
                 } else {
                   print("ac_only");
                   voltageValue_uV_fromChannel[channel] =
                       ((adcValue.toDouble() *
-                              (messbereiche[selectedMessbereichIndex] *
+                              (messbereiche[selectedMessbereichIndex[channel]] *
                                   1000000) /
                               4096.0) -
                           (averageVoltage[channel]));
@@ -261,18 +261,18 @@ class UsbProvider extends ChangeNotifier {
                   voltageValue_uV_fromChannel[channel] =
                       ((adcValue.toDouble() *
                               2 *
-                              (messbereiche[selectedMessbereichIndex] *
+                              (messbereiche[selectedMessbereichIndex[channel]] *
                                   1000000) /
                               4096.0) -
-                          (messbereiche[selectedMessbereichIndex] * 1000000));
+                          (messbereiche[selectedMessbereichIndex[channel]] * 1000000));
                 } else {
                   voltageValue_uV_fromChannel[channel] =
                       (((adcValue.toDouble() *
                                   2 *
-                                  (messbereiche[selectedMessbereichIndex] *
+                                  (messbereiche[selectedMessbereichIndex[channel]] *
                                       1000000) /
                                   4096.0) -
-                              (messbereiche[selectedMessbereichIndex] *
+                              (messbereiche[selectedMessbereichIndex[channel]] *
                                   1000000)) -
                           (averageVoltage[channel]));
                 }
