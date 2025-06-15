@@ -18,7 +18,7 @@ int selectedReference3Graph = 0;
 double max_uV_RefLevelOffset = 100000000;
 double min_uV_RefLevelOffset = -max_uV_RefLevelOffset;
 
-double min_uV_RefperDivision = 1.0;
+double min_uV_RefperDivision = 100.0;
 double max_uV_RefperDivision = 100000000.0;
 
 class ReferenceChanges extends ChangeNotifier {

@@ -55,7 +55,7 @@ Channel channel1 = Channel(
   color: Colors.amber,
   index: 1,
   name: 'CH1',
-  uVperDiv: 500000,
+  uVperDiv: 1000000,
   data: [],
   is1to1: true,
   isDC: true,
@@ -66,7 +66,7 @@ Channel channel2 = Channel(
   color: Colors.blue.shade300,
   index: 2,
   name: 'CH2',
-  uVperDiv: 500000,
+  uVperDiv: 1000000,
   data: [],
   is1to1: true,
   isDC: true,
@@ -101,10 +101,10 @@ Color GridLineColor = Color.fromRGBO(255, 255, 255, 0.35);
 double min_uVperDivision = 1.0;
 double max_uVperDivision = 100000000.0;
 
-double min_uSperDivision = 0.001;
+double min_uSperDivision = 100;
 double max_uSperDivision = 10000000.0; // 1000 uS * 1000 mS * 10s
 
-double increment_uSperDivision = 1.0;
+double increment_uSperDivision = 100.0;
 
 double max_uVLevelOffset = max_uVperDivision * NOF_yGrids / 2;
 double min_uVLevelOffset = -max_uVLevelOffset;
