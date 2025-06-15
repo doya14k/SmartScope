@@ -205,7 +205,7 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -251,7 +251,7 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -339,7 +339,7 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -383,7 +383,7 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -476,7 +476,7 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -522,7 +522,7 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -610,7 +610,7 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -656,7 +656,7 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -750,7 +750,7 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -796,7 +796,7 @@ class ReferenceChanges extends ChangeNotifier {
           offsetText.length,
           '',
         );
-        if (offsetTextNumbersOnly.length == 0) {
+        if (offsetTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < offsetTextNumbersOnly.length; i++) {
@@ -884,7 +884,7 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {
@@ -929,7 +929,7 @@ class ReferenceChanges extends ChangeNotifier {
           voltagText.length,
           '',
         );
-        if (voltageTextNumbersOnly.length == 0) {
+        if (voltageTextNumbersOnly.isEmpty) {
           return;
         }
         for (int i = 0; i < voltageTextNumbersOnly.length; i++) {

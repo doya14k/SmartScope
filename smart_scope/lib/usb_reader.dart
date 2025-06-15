@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:serial_port_win32/serial_port_win32.dart';
 import 'pages/settings_pages/settings_widgets/definitions.dart';
-import 'package:provider/provider.dart';
 import 'pages/settings_pages/measurements_widgets/definitionMeasurements.dart';
 
 class UsbProvider extends ChangeNotifier {
@@ -44,9 +43,9 @@ class UsbProvider extends ChangeNotifier {
   double minStoppedRoleTime = -1;
   double maxStoppedRoleTime = 0;
 
-  static const double samplesPerDivision = 500;
+  static const double samplesPerDivision = 100;
 
-  List<int> selectedMessbereichIndex = [0,0];
+  List<int> selectedMessbereichIndex = [0, 0];
   final List<int> messbereiche = [50, 25, 10, 5, 1];
   bool singleTrigger = false;
   bool initiateMeasurement = true;
@@ -90,6 +89,14 @@ class UsbProvider extends ChangeNotifier {
                   voltageValue_uV_fromChannel[channel])) {
             triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
             print("Trigger pos");
+            if (initiateMeasurement) {
+              // Neue Berechnungen der Messdaten
+              // print("updateMeasurementData_normal");
+              measurementState.update_measCH1_offset();
+              measurementState.update_measCH2_offset();
+              measurementState.updateMeasurementData();
+              initiateMeasurement = false;
+            }
             initiateMeasurement = true;
             // print("TrHor: ${appState.triggerHorizontalOffset}");
             // print("TrVer: ${voltageValue_uV_fromChannel[channel]}");
@@ -101,6 +108,14 @@ class UsbProvider extends ChangeNotifier {
             // measurementState.updateMeasurementData();
             if (selecetTriggerModeIndex == 1) {
               singleTrigger = true;
+              if (initiateMeasurement) {
+                // Neue Berechnungen der Messdaten
+                // print("updateMeasurementData_normal");
+                measurementState.update_measCH1_offset();
+                measurementState.update_measCH2_offset();
+                measurementState.updateMeasurementData();
+                initiateMeasurement = false;
+              }
               initiateMeasurement = true;
               print('singleTrigger');
             }
@@ -112,6 +127,14 @@ class UsbProvider extends ChangeNotifier {
                   voltageValue_uV_fromChannel[channel])) {
             triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
             print("Trigger neg");
+            if (initiateMeasurement) {
+              // Neue Berechnungen der Messdaten
+              // print("updateMeasurementData_normal");
+              measurementState.update_measCH1_offset();
+              measurementState.update_measCH2_offset();
+              measurementState.updateMeasurementData();
+              initiateMeasurement = false;
+            }
             initiateMeasurement = true;
             // print("TrHor: ${appState.triggerHorizontalOffset}");
             appState.updateGraphTimeValue(
@@ -244,7 +267,8 @@ class UsbProvider extends ChangeNotifier {
                 if (channels[channel].channelIsDC) {
                   voltageValue_uV_fromChannel[channel] =
                       (adcValue.toDouble() *
-                          (messbereiche[selectedMessbereichIndex[channel]] * 1000000) /
+                          (messbereiche[selectedMessbereichIndex[channel]] *
+                              1000000) /
                           4096.0);
                 } else {
                   print("ac_only");
@@ -264,7 +288,8 @@ class UsbProvider extends ChangeNotifier {
                               (messbereiche[selectedMessbereichIndex[channel]] *
                                   1000000) /
                               4096.0) -
-                          (messbereiche[selectedMessbereichIndex[channel]] * 1000000));
+                          (messbereiche[selectedMessbereichIndex[channel]] *
+                              1000000));
                 } else {
                   voltageValue_uV_fromChannel[channel] =
                       (((adcValue.toDouble() *

@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:smart_scope/usb_reader.dart';
 import 'settings_pages/measurements_widgets/definitionMeasurements.dart';
 import 'settings_pages/reference_widgets/defintionenReference.dart';
-import 'package:smart_scope/usb_reader.dart';
 
 List<FlSpot> generateSineWave({
   double numPoints = 300,
@@ -593,6 +592,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             ],
                           ),
                         ),
+                        duration: Duration(milliseconds: 0),
+                        transformationConfig: FlTransformationConfig(),
                       ),
                       // CH2
                       LineChart(
@@ -788,7 +789,9 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               ),
                             ],
                           ),
-                        ),
+                        ),                        
+                        duration: Duration(milliseconds: 0),
+                        transformationConfig: FlTransformationConfig(),
                       ),
                       // Ref1
                       LineChart(

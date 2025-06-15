@@ -203,10 +203,10 @@ class _Reference1State extends State<Reference1> {
                           context,
                           listen: false,
                         ).updateRef1IsAcitve(false);
-                        List<FlSpot> empty_dummy = [FlSpot(0, 0)];
+                        List<FlSpot> emptyDummy = [FlSpot(0, 0)];
 
                         ref.saveReference1Data(
-                          empty_dummy,
+                          emptyDummy,
                           ref.Ref1Offset,
                           ref.Ref1uVperDivision,
                           0,

@@ -209,10 +209,10 @@ class _Reference3State extends State<Reference3> {
                             listen: false,
                           ).Ref3IsActive,
                         );
-                        List<FlSpot> empty_dummy = [FlSpot(0, 0)];
+                        List<FlSpot> emptyDummy = [FlSpot(0, 0)];
 
                         ref.saveReference3Data(
-                          empty_dummy,
+                          emptyDummy,
                           ref.Ref3Offset,
                           ref.Ref3uVperDivision,
                           0,

@@ -211,10 +211,10 @@ class _Reference2State extends State<Reference2> {
                           ).Ref2IsActive,
                         );
 
-                        List<FlSpot> empty_dummy = [FlSpot(0, 0)];
+                        List<FlSpot> emptyDummy = [FlSpot(0, 0)];
 
                         ref.saveReference2Data(
-                          empty_dummy,
+                          emptyDummy,
                           ref.Ref2Offset,
                           ref.Ref2uVperDivision,
                           0,

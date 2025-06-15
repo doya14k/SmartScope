@@ -83,7 +83,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
       appBar: AppBar(
         backgroundColor: AppBarBackroundColor,
         title: Text(
-          "${pages_name[selectedIndex]}",
+          pages_name[selectedIndex],
           style: TextStyle(
             fontFamily: 'PrimaryFont',
             fontSize: screenHeight * 0.04,
