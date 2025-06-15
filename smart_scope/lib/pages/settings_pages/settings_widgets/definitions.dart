@@ -101,7 +101,7 @@ Color GridLineColor = Color.fromRGBO(255, 255, 255, 0.35);
 double min_uVperDivision = 1.0;
 double max_uVperDivision = 100000000.0;
 
-double min_uSperDivision = 10000;
+double min_uSperDivision = 100;
 double max_uSperDivision = 10000000.0; // 1000 uS * 1000 mS * 10s
 
 double increment_uSperDivision = 1.0;

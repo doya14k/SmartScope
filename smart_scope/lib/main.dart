@@ -16,11 +16,25 @@ void main() async {
   WindowOptions windowOptions = WindowOptions(
     // fullScreen: true,
     //   titleBarStyle: TitleBarStyle.normal,
+    size: Size(
+      800,
+      600,
+    ), 
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.normal,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
     await windowManager.show();
-    await windowManager.maximize();
+    // await Future.delayed(const Duration(milliseconds: 100));
+
+    // await windowManager.maximize();
+    Future.delayed(const Duration(milliseconds: 100), () async {
+      await windowManager.maximize();
+    });
     await windowManager.setTitleBarStyle(TitleBarStyle.normal);
+    await windowManager.focus();
     await windowManager.setMinimumSize(const Size(1503, 845));
     await windowManager.setAspectRatio(16 / 9);
   });

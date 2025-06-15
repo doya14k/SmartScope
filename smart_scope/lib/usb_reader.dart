@@ -44,7 +44,7 @@ class UsbProvider extends ChangeNotifier {
   double minStoppedRoleTime = -1;
   double maxStoppedRoleTime = 0;
 
-  static const double samplesPerDivision = 500;
+  static const double samplesPerDivision = 200;
 
   List<int> selectedMessbereichIndex = [0,0];
   final List<int> messbereiche = [50, 25, 10, 5, 1];
