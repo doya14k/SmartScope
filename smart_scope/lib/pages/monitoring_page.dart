@@ -592,7 +592,8 @@ class _MonitoringPageState extends State<MonitoringPage> {
                               ),
                             ],
                           ),
-                        ),
+                        ),                      
+                        transformationConfig: FlTransformationConfig(),
                       ),
                       // CH2
                       LineChart(
@@ -789,6 +790,7 @@ class _MonitoringPageState extends State<MonitoringPage> {
                             ],
                           ),
                         ),
+                        transformationConfig: FlTransformationConfig(),
                       ),
                       // Ref1
                       LineChart(

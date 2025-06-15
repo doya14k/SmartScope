@@ -89,7 +89,14 @@ class UsbProvider extends ChangeNotifier {
               (appState.triggerVerticalOffset <
                   voltageValue_uV_fromChannel[channel])) {
             triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
-            print("Trigger pos");
+            print("Trigger pos");if (initiateMeasurement) {
+        // Neue Berechnungen der Messdaten
+        // print("updateMeasurementData_normal");
+        measurementState.update_measCH1_offset();
+        measurementState.update_measCH2_offset();
+        measurementState.updateMeasurementData();
+        initiateMeasurement = false;
+      }
             initiateMeasurement = true;
             // print("TrHor: ${appState.triggerHorizontalOffset}");
             // print("TrVer: ${voltageValue_uV_fromChannel[channel]}");
@@ -100,7 +107,14 @@ class UsbProvider extends ChangeNotifier {
             // Neue Berechnungen der Messdaten
             // measurementState.updateMeasurementData();
             if (selecetTriggerModeIndex == 1) {
-              singleTrigger = true;
+              singleTrigger = true;if (initiateMeasurement) {
+        // Neue Berechnungen der Messdaten
+        // print("updateMeasurementData_normal");
+        measurementState.update_measCH1_offset();
+        measurementState.update_measCH2_offset();
+        measurementState.updateMeasurementData();
+        initiateMeasurement = false;
+      }
               initiateMeasurement = true;
               print('singleTrigger');
             }
@@ -111,7 +125,14 @@ class UsbProvider extends ChangeNotifier {
               (appState.triggerVerticalOffset >=
                   voltageValue_uV_fromChannel[channel])) {
             triggeredTime = (currentTime + last_timeFromChannel[channel]) / 2;
-            print("Trigger neg");
+            print("Trigger neg");if (initiateMeasurement) {
+        // Neue Berechnungen der Messdaten
+        // print("updateMeasurementData_normal");
+        measurementState.update_measCH1_offset();
+        measurementState.update_measCH2_offset();
+        measurementState.updateMeasurementData();
+        initiateMeasurement = false;
+      }
             initiateMeasurement = true;
             // print("TrHor: ${appState.triggerHorizontalOffset}");
             appState.updateGraphTimeValue(

@@ -18,10 +18,10 @@ void main() async {
     //   titleBarStyle: TitleBarStyle.normal,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
-    //   await windowManager.show();
-    // await windowManager.maximize();
-    //   await windowManager.setTitleBarStyle(TitleBarStyle.normal);
-    // await windowManager.setMinimumSize(const Size(1503, 845));
+    await windowManager.show();
+    await windowManager.maximize();
+    await windowManager.setTitleBarStyle(TitleBarStyle.normal);
+    await windowManager.setMinimumSize(const Size(1503, 845));
     await windowManager.setAspectRatio(16 / 9);
   });
   runApp(
